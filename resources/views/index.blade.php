@@ -1,11 +1,12 @@
 @extends('layout')
 
-@section('title', 'Tareas')
-
 @section('content')
-    <ol>
+
+    <ul>
+    {{-- @if($employees[0]->count()) --}}
     @foreach ($employees as $item)
-    <li>{{ $item->name }}</li>
+    <li>{{ $item }}</li>
     @endforeach
-    </ol>
+    </ul>
+    {{-- @endif --}}
 @endsection

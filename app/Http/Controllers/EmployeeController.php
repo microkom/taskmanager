@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class EmployeeController extends Controller
 {
     
-    public function index()
+    public function employee()
     {
         $employees = Absence::where('start_date_time','not like', '2019-05-26%')->get();
         //$employees = Carbon::today()-Carbon::yesterday();
@@ -28,7 +28,7 @@ class EmployeeController extends Controller
         return view('home', array('ultimosProductos' => $ultimosProductos, 'productosCategoria' => $productosCategoria, 'categorias' => $categorias));
         */
         return (array('employees' => $employees));
-        return view('index', array('employees' => $employees));
+        return view('employee', array('employees' => $employees));
     }
 /*     public function busqueda(Request $request)
     {

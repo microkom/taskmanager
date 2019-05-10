@@ -13,7 +13,7 @@ class IndexController extends Controller
     public function index($date=0, $rank=0) //revise
     {   
         $date = '2019-05-28 00:00:00';                                                          //date received by parameter
-        $rank = 2;                                                                              //rank received by parameter
+        $rank = 1;                                                                              //rank received by parameter
         $dateOrig = $date;                                                                      //keep original date
         $year = substr ($date, 0, 4);                                                           //filter the year 
         
@@ -23,12 +23,15 @@ class IndexController extends Controller
         
         $absentees = Absence::where('start_date_time','like', $year.'%')->get();                //filter absentees per year [attempt to optimize machine processing]
         
+       
         $absentees = $this->absences($date);                                                    //get all absentees based on received date
-
-        foreach ($absentees as $key => $absent) {
-            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('rank_id', $rank)->sortBy($absent->scale_number);    //filter employees 
-        }
         
+        foreach ($absentees as $key => $absent) {
+            $employee[] = Employee::all()->sortBy($absent->scale_number)->where('id','<>',($absent->employee_id))->where('rank_id', $rank);    //filter employees 
+        }
+
+        
+        return $employee;
         return view('index', array('employees' => $employee), array('date' => $dateShow));
     }
 
@@ -40,5 +43,11 @@ class IndexController extends Controller
         $carbonDate = new Carbon($date);  //convert received date to Carbon format
 
         return Absence::where('start_date_time', '<=',$carbonDate)->where('end_date_time', '>=', $carbonDate)->get();    
+    }
+
+    public function topTurnPerTaskAndRank()
+    {
+
+        return 33;
     }
 }

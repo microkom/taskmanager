@@ -11,7 +11,7 @@ class AbsenceTableSeeder extends Seeder
      */
        private $arrayAbsences = [
         ["id" => 1, "employee_id" => 1, "start_date_time" => "2019/5/26 00:00:00", "end_date_time" => "2019/5/27 23:59:59"],
-        ["id" => 2, "employee_id" => 2, "start_date_time" => "2019/5/27 00:00:00", "end_date_time" => "2019/5/27 23:59:59" ],
+        ["id" => 2, "employee_id" => 2, "start_date_time" => "2019/5/27 00:00:00", "end_date_time" => "2019/5/30 23:59:59" ],
         ["id" => 3, "employee_id" => 4, "start_date_time" => "2019/5/27 00:00:00", "end_date_time" => "2019/5/27 23:59:59" ],
         ["id" => 4, "employee_id" => 6, "start_date_time" => "2019/5/27 00:00:00", "end_date_time" => "2019/5/27 23:59:59" ]
         

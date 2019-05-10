@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::get('/calendar', function () {
     return view('calendar');
 });
+Route::get('/turn', 'indexController@topTurnPerTaskAndRank');
 
 Route::get('/employees', 'EmployeeController@employee');
 

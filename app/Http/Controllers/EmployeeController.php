@@ -39,5 +39,6 @@ class EmployeeController extends Controller
                                 ->orWhere('model', 'like', '%'.$request->busqueda.'%')
                                 ->get();
         return view('search', array('arrayProductos' => $arrayProductos));
+        //$employees = Employee::all()->where('id','like',$employee_ids[0]);
     } */
 }

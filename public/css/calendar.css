@@ -65,10 +65,10 @@ nav {
     grid-gap: 10px;
     justify-items: center;
 }
-#abr {
-    /*display: none;
-    background: #ff3333;*/
-}
+/* #abr {
+    display: none;
+    background: #ff3333;
+} */
 main {
     display: grid;
     grid-template-columns: repeat(7, 1fr);

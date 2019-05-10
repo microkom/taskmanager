@@ -13,6 +13,7 @@
 
     <link href="css/style.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
+    <!-- <link href="css/calendar.css" rel="stylesheet"> -->
 
     <title>@yield('title')</title>
     <script src="js/calendar.js"></script>
@@ -52,16 +53,16 @@
 
       <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-          <a class="nav-link {{-- active --}}" href="#">Active</a>
+          <a class="nav-link {{-- active --}}" href="#">Gestion Empleados</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="#">Calendario</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="#">Tareas</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
+          <a class="nav-link disabled" href="#">Configuración</a>
         </li>
       </ul>
       <hr class="d-sm">

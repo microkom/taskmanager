@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    public function employees()
+     public function turns()
     {
-        //return $this->hasMany(Employee::class);
+        return $this->hasMany(Turn::class);
     }
 }

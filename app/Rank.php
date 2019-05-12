@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rank extends Model
 {
-    public function employee()
+    public function employees()
     {
         return $this->hasMany(Employee::class);
     }

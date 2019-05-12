@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Absence extends Model
 {
-    /* public function employees()
+    public function employee()
     {
-        return $this->belongsTo(Employee::class);
-    } */
+        return $this->belongsTo('App\Employee', 'employee_id');
+    }
 }

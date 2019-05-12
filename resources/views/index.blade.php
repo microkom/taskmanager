@@ -9,7 +9,7 @@
     <ul>
     {{-- @if($employees[0]->count()) --}}
     @foreach ($employees as $key => $value)
-        <li>{{ $value->name }}, {{ $value->scale_number}}, {{ $value->rank_id}}</li>
+        <li>{{ $value->id }},{{ $value->name }}, {{ $value->scale_number}}, {{ $value->rank_id}}</li>
     @endforeach
     </ul>
     {{-- @endif --}}

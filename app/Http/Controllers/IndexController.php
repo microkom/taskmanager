@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Absence;
 use App\Employee;
 use App\Turn;
+use App\Task;
 
 use Carbon\Carbon;
 
@@ -22,10 +23,10 @@ class IndexController extends Controller
         $dateShow = $dateShow->locale('es')->isoFormat('dddd, D MMMM YYYY');        //format date to Spanish locale
         
         //filter absentees per year [attempt to optimize machine processing]
-        $absentees = Absence::where('start_date_time','like', $year.'%')->get();    
+        //$absentees = Absence::where('start_date_time','like', $year.'%')->get();    
         
         //get all employees that will be absent on $date given
-        $absentees = $this->absences($date);
+        $absentees = $this->whoIsAbsent($date);
         
         //filter employees who WILL BE PRESENT base on the those who will be absent
         foreach ($absentees as $key => $absent) {
@@ -47,31 +48,50 @@ class IndexController extends Controller
     /**
     * select all absentees based on received date
     */
-    protected function absences($date)
-    {   
-        $carbonDate = new Carbon($date);  //convert received date to Carbon format
-        
-        return Absence::where('start_date_time', '<=',$carbonDate)->where('end_date_time', '>=', $carbonDate)->get();    
-    }
+
     
     public function topTurnPerTaskAndRank($task_id=0, $rank_id=0)
     {
         $rank_id = 1;   //simulated rank_id received by parameter
         $task_id = 1;   //simulated task_id received by parameter
-        $min_turn = Turn::all()->where('task_id', $task_id)->min('turn'); //get lowest turn done
-        $max_turn = Turn::all()->where('task_id', $task_id)->max('turn'); //get highest turn done
         
-        $turns = Turn::where('task_id', $task_id)->where('turn', '<=', $min_turn)->get();
+        //check if task exists
+        if(!Task::find($task_id)) return [-1, 'No task found'];
         
-        //return $turns; //12 20 30
-        foreach ($turns as  $value) {
-            $employee[] = Employee::find($value->employee_id)->where('rank_id', '=', $rank_id) ;
+        //check if the table turns contains any data
+        if(Turn::where('task_id', $task_id)->get()->count())
+        {
+            $min_turn = Turn::all()->where('task_id', $task_id)->min('turn'); //get lowest turn done
+            $turns = Turn::where('task_id', $task_id)->where('turn', '<=', $min_turn)->get();
+            
+            //find info about the employees in the turns table
+            foreach ($turns as  $key => $value) {
+                //get only ids
+                $ids[] = $value->employee_id;
+            }
+            //return $ids;
+//get employees info who are present in the turns table
+                $employeeData  = Employee::find($ids)->sortBy('scale_number')->where('rank_id', '=', $rank_id);
+                return /* response()->json */$employeeData;
+                if(isset($employee))
+            {
+                $employee = collect($employee);
+                
+                $employee = $employee->sortBy('scale_number');
+                $employee = $employee->values()->all();
+                //$employee = $this->sortMultidimensionalArray($employee, 'scale_number');
+                return $employee;
+                
+                //$employee = $employee->take(1);
+                return /* $min_turn, $max_turn,  */$employee;
+            }else{
+                return 0;
+            }
+            
+        }else{
+            $min_turn = 0;
+            return 0;
         }
-        return $employee;
-        $employee = $this->sortMultidimensionalArray($employee, 'scale_number');
-        $employee = collect($employee);
-        //$employee = $employee->take(1);
-        return /* $min_turn, $max_turn,  */$employee;
     }
     
     /**

@@ -22,3 +22,5 @@ Route::get('/turn', 'indexController@topTurnPerTaskAndRank');
 Route::get('/employees', 'EmployeeController@employee');
 
 Route::get('/', 'indexController@index');
+
+Route::get('/addtask/{date}', 'AddTaskController@whoIsAbsent');

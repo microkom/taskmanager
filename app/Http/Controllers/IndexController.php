@@ -12,10 +12,10 @@ use Carbon\Carbon;
 
 class IndexController extends Controller
 {
-    public function index($date=0, $rank=0) //revise
+    public function index($date=0, $position=0) //revise
     {   
         $date = '2019-05-28 00:00:00';                           //simulated date received by parameter
-        $rank = 1;                                               //simulated rank received by parameter
+        $position = 1;                                               //simulated position received by parameter
         $dateOrig = $date;                                       //keep original date
         $year = substr ($date, 0, 4);                            //filter the year 
         $dateShow = substr($date, 0, 10);                        //get only the date 2000-02-02
@@ -23,14 +23,14 @@ class IndexController extends Controller
         $dateShow = $dateShow->locale('es')->isoFormat('dddd, D MMMM YYYY');        //format date to Spanish locale
         
         //filter absentees per year [attempt to optimize machine processing]
-        //$absentees = Absence::where('start_date_time','like', $year.'%')->get();    
+        $absentees = Absence::where('start_date_time','like', $year.'%')->get();    
         
         //get all employees that will be absent on $date given
         $absentees = $this->whoIsAbsent($date);
         
         //filter employees who WILL BE PRESENT base on the those who will be absent
         foreach ($absentees as $key => $absent) {
-            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('rank_id', $rank);   
+            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('position_id', $position);   
         }
         //convert the array to collection for easier handling        
         $employee = collect($employee[0]);
@@ -48,11 +48,16 @@ class IndexController extends Controller
     /**
     * select all absentees based on received date
     */
-
+    protected function whoIsAbsent($date)
+    {   
+        $carbonDate = new Carbon($date);  //convert received date to Carbon format
+        
+        return Absence::where('start_date_time', '<=',$carbonDate)->where('end_date_time', '>=', $carbonDate)->get();    
+    }
     
-    public function topTurnPerTaskAndRank($task_id=0, $rank_id=0)
+    public function topTurnPerTaskAndPosition($task_id=0, $position_id=0)
     {
-        $rank_id = 1;   //simulated rank_id received by parameter
+        $position_id = 1;   //simulated position_id received by parameter
         $task_id = 1;   //simulated task_id received by parameter
         
         //check if task exists
@@ -71,7 +76,7 @@ class IndexController extends Controller
             }
             //return $ids;
 //get employees info who are present in the turns table
-                $employeeData  = Employee::find($ids)->sortBy('scale_number')->where('rank_id', '=', $rank_id);
+                $employeeData  = Employee::find($ids)->sortBy('scale_number')->where('position_id', '=', $position_id);
                 return /* response()->json */$employeeData;
                 if(isset($employee))
             {

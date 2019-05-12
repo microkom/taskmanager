@@ -23,4 +23,14 @@ Route::get('/employees', 'EmployeeController@employee');
 
 Route::get('/', 'indexController@index');
 
-Route::get('/addtask/{date}', 'AddTaskController@whoIsAbsent');
+Route::get('/assigntask', 'TaskController@landing');                //landing page
+
+
+Route::post('/positions_ajax', 'TaskController@positions_ajax');    //Internal url
+
+/* Route::get('/assigntask', function(){
+    return view('assignTask');
+});
+ */
+
+ Route::get('/present', 'AddTaskController@whoIsPresent');

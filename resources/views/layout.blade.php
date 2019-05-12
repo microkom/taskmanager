@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -56,13 +57,13 @@
           <a class="nav-link {{-- active --}}" href="#">Gestion Empleados</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Calendario</a>
+          <a class="nav-link" href="/calendar">Calendario</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Tareas</a>
+          <a class="nav-link" href="/assigntask">Asignar Tarea</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Configuración</a>
+          <a class="nav-link " href="#">Configuración</a>
         </li>
       </ul>
       <hr class="d-sm">

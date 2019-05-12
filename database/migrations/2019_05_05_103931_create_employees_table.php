@@ -15,7 +15,7 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('rank_id')->index();
+            $table->unsignedBigInteger('position_id')->index();
             $table->unsignedBigInteger('scale_number')->nullable();
             $table->string('dni')->nullable();
             $table->string('name');

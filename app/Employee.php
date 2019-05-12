@@ -15,8 +15,8 @@ class Employee extends Model
     {
         return $this->hasMany(Turn::class);
     }
-    public function rank()
+    public function position()
     {
-        return $this->belongsTo(Rank::class);
+        return $this->belongsTo(Position::class);
     }
 }

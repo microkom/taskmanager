@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-/* 
+/*
 Route::get('/', function () {
     return view('welcome');
 }); */
@@ -24,7 +24,7 @@ Route::get('/employees', 'EmployeeController@employee');
 Route::get('/', 'indexController@index');
 
 Route::get('/assigntask', 'TaskController@landing');                //landing page
-
+Route::post( '/addtask', 'TaskController@addtask');
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');    //Internal url
 

@@ -18,6 +18,7 @@ class CreateEmployeeTasksTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('task_id')->index();
             $table->unsignedBigInteger('employee_id')->index();
+            $table->unsignedBigInteger('position_id')->index();
             $table->dateTime('date_time');
             $table->unsignedInteger('record_counter');
             $table->timestamps();

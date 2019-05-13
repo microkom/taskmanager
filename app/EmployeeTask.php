@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmployeeTask extends Model
 {
-    public function tasks()
+    public function task()
     {
-        return $this->hasMany(Task::class);
+        return $this-> belongsTo(Task::class);
     }
-    
-    public function employees()
+
+    public function employee()
     {
-        return $this->hasMany(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 }

@@ -13,11 +13,10 @@ class PositionTableSeeder extends Seeder
 
     private $arrayPositions = [
         ["id" => 1, "name" => "Soldado" ],
-        ["id" => 2, "name" => "Soldado de 1ª" ],
-        ["id" => 3, "name" => "Cabo" ],
-        ["id" => 4, "name" => "Cabo 1º" ],
-        ["id" => 5, "name" => "Cabo Mayor" ],
-        ["id" => 6, "name" => "Sargento" ],
+        ["id" => 2, "name" => "Cabo" ],
+        ["id" => 3, "name" => "Cabo 1º" ],
+        ["id" => 4, "name" => "Cabo Mayor" ],
+        ["id" => 5, "name" => "Sargento" ],
     ];
     public function run()
 	{

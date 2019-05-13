@@ -14,7 +14,7 @@
         @csrf
 
         {{-- Task option selectors --}}
-        <input type="date" name="date" id="date">
+        <input type="date" name="date" id="date" required="required">
         <select id="task" name="task">
             <option value="0">- Tarea -</option>
 

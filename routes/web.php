@@ -24,7 +24,7 @@ Route::get('/employees', 'EmployeeController@employee');
 Route::get('/', 'indexController@index');
 
 Route::get('/assigntask', 'TaskController@landing');                //landing page
-Route::post( '/addtask', 'TaskController@addtask');
+Route::post( '/assigntask', 'TaskController@addtask');
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');    //Internal url
 

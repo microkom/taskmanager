@@ -12,12 +12,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
     <!-- <link href="css/calendar.css" rel="stylesheet"> -->
 
     <title>@yield('title')</title>
-    <script src="js/calendar.js"></script>
+    <script src="/js/calendar.js"></script>
 </head>
 <body @yield('onload')>
     

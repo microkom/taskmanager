@@ -8,14 +8,15 @@
 <div class="container mx-auto">
 
     {{-- Form to asign a task --}}
-    <form action="/addtask" method="post">
+    <form action="/assigntask" method="post">
 
         {{-- laravel security measure --}}
         @csrf
 
+        <div class="form-row">
         {{-- Task option selectors --}}
-        <input type="date" name="date" id="date" required="required">
-        <select id="task" name="task">
+        <input class="form-control col-md-3  col-sm-6 col-xs-12" type="date" name="date" id="date" required="required">
+        <select class="form-control col-md-4 col-sm-6 col-xs-12" id="task" name="task">
             <option value="0">- Tarea -</option>
 
             {{-- [landing] Task list extracted from the database --}}
@@ -26,12 +27,12 @@
         </select>
 
         {{-- Position list based on task selected previously  [upon request][task_position.js] --}}
-        <select id="position" name="position">
+        <select class="form-control col-md-2 col-sm-6 col-xs-12" id="position" name="position">
             <option value="0">- Empleo -</option>
         </select>
 
         {{-- how many people will do the task --}}
-        <select name="quantity" id="quantity">
+        <select class="form-control col-md-1 col-sm-6 col-xs-12" name="quantity" id="quantity">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="2">2</option>
@@ -41,7 +42,8 @@
         </select>
 
         {{-- submit button --}}
-        <input class="btn btn-info" type="submit" name="enviar" value="Asignar">
+        <input class="btn btn-info col-md-2" type="submit" name="enviar" value="Asignar">
+        </div>
     </form>
 
     <script type="text/javascript" src="js/task_position.js"></script>

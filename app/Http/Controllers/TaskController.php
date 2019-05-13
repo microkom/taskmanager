@@ -70,11 +70,15 @@ class TaskController extends Controller
      */
     protected function orderAccordingToTask($data)
     {
-        if ($data['task'] == GUARDIA_DIA || $data['task'] == GUARDIA_FEST )
-            $employees = $data['employee']->sortByDesc('scale_number');
-        else
-            $employees = $data['employee']->sortBy('scale_number');
-
+        switch ( $data['task']) {
+            case '1':
+            case '2':
+                $employees = $data['employee']->sortByDesc('scale_number');
+                break;
+            default:
+                $employees = $data['employee']->sortBy('scale_number');
+                break;
+        }
         return $employees;
     }
 

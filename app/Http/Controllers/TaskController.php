@@ -30,8 +30,10 @@ class TaskController extends Controller
         $position_id = $request->position;
 
         $employee = $this-> whoIsPresent($date, $position_id, $task_id);
-        return $employee;
+
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
+
+        return  $employee;
 
         $count = EmployeeTask::where('task_id', $task_id)->get();
         return $count;
@@ -70,7 +72,10 @@ class TaskController extends Controller
     */
     protected function orderAccordingToTask($data)
     {
-        $employee = collect($data['employee']);
+        $employee = Employee::find($data['employee']);
+    /*     dump('employee');
+        dump( $employee);
+     */
         switch ( $data['task']) {
             case '1':
             case '2':
@@ -102,38 +107,53 @@ class TaskController extends Controller
 
 
     /*********************************************************
-    *
-    */
+     * Employees available for task
+     * @param $date
+     * @param $position_id
+     * @param $task_id
+     * @return $id  List of IDs of employees present
+     */
     protected function whoIsPresent($date, $position_id, $task_id)
     {
         $idAbsentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
+/*         dump('idabsentees');
+        dump( $idAbsentees); */
+        //get all employees in database filtering $position_id
+        $allEmployees = Employee::all()->where('position_id', $position_id);
 
-        //return ids of employees, there are no absentees
+/*         dump( 'allEmployees');
+        dump( $allEmployees); */
+        //return ids of employees. There are no absentees
         if (!isset($idAbsentees)){
-            $employees= Employee::where('position_id', $position_id)->get();
 
             //extract employee ids
-            foreach ( $employees as $itemId) {
+            foreach ( $allEmployees as $itemId) {
                 $id[] = $itemId->id;
             }
             return $id;
         }else{
-
-            $allEmployees = Employee::all();
-
-            foreach ($idAbsentees as $idAbsent) {
-                foreach ( $allEmployees as $key => $employee) {
-                    if($idAbsent === $employee->id){
-                        $employee->delete();
-                    }else{
-                        $id[] = $employee->id;
-                    }
-                }
+            //extract ids
+            foreach ($allEmployees as $employee) {
+                $idEMployees[] = $employee->id;
             }
-            $uniqueIds = array_unique($id);
-            $uniqueIds = array_values($uniqueIds);
 
-            return $uniqueIds;
+            //idAbseentees is interpreted as object, it needs to be converted to array
+            foreach ( $idAbsentees as $objectID) {
+                $idAbsent[] = $objectID;
+            }
+
+
+/*             dump('idEMployees');
+            dump($idEMployees);
+
+            dump( 'idAbsent');
+            dump( $idAbsent); */
+
+            $id = array_diff($idEMployees, $idAbsent);
+/*             dump( 'result');
+            dump($result); */
+
+            return array_values($id);
         }
     }
 
@@ -161,7 +181,6 @@ class TaskController extends Controller
             $id[] = $itemId->employee_id;
         }
 
-
         //filter employees doing a task on $date
         $onduty = EmployeeTask::
         where('date_time', '=', $carbonDate)->
@@ -171,7 +190,6 @@ class TaskController extends Controller
         foreach ( $onduty as $itemId) {
             $id[] = $itemId->employee_id;
         }
-
 
         //filter employees who have a day off after task
         $beforeDutyDate = $carbonDate->subDay();
@@ -190,11 +208,7 @@ class TaskController extends Controller
 
         //no value to send
         if (!isset($id)){
-            return [
-                'error'     => true,
-                'message'   =>'no one unavailable',
-                'origin'    => 'TaskController@_whoIsUnavailable($date, $position_id, $task_id)'
-            ];
+            return [];
         }else{
             $uniqueIds = array_unique($id);
             $uniqueIds = array_values($uniqueIds);

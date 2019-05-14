@@ -33,15 +33,10 @@ class TaskController extends Controller
 
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
 
-       //return  $employee;
-
-        /* $count = EmployeeTask::where('task_id', $task_id)->where()->get()->count();
-        return $count; */
-        //return $employee->first()->id;
         $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee->first()->id);
         //return $min_record;
 
-        if($min_record>  0){
+        if($min_record ==  0){
             $data = new EmployeeTask();
             $data->task_id = $task_id;
             $data->employee_id = $employee->first()->id;
@@ -75,9 +70,7 @@ class TaskController extends Controller
     protected function orderAccordingToTask($data)
     {
         $employee = Employee::find($data['employee']);
-    /*     dump('employee');
-        dump( $employee);
-     */
+
         switch ( $data['task']) {
             case '1':
             case '2':
@@ -98,8 +91,9 @@ class TaskController extends Controller
     */
     public function lowestRecordedTaskTurn($task_id, $position_id, $employee_id)
     {
-        //return $employee_id;
-        if(EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->where('record_counter')->exists()){
+    //      EmployeeTask::where('task_id', 1)->where('employee_id', 28)->where('record_counter', '>', 0)->exists()
+
+        if(EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->where('record_counter','>', 0)->exists()){
             $min_record = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->min('record_counter')->get(); //get lowest record done
         }else{
             $min_record = 0;
@@ -120,6 +114,7 @@ class TaskController extends Controller
         $idAbsentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
         dump('idabsentees');
         dump( $idAbsentees);
+
         //get all employees in database filtering $position_id
         $allEmployees = Employee::all()->where('position_id', $position_id);
 

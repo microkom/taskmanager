@@ -33,11 +33,13 @@ class TaskController extends Controller
 
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
 
-        return  $employee;
+       //return  $employee;
 
-        $count = EmployeeTask::where('task_id', $task_id)->get();
-        return $count;
+        /* $count = EmployeeTask::where('task_id', $task_id)->where()->get()->count();
+        return $count; */
+        //return $employee->first()->id;
         $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee->first()->id);
+        //return $min_record;
 
         if($min_record>  0){
             $data = new EmployeeTask();
@@ -116,13 +118,13 @@ class TaskController extends Controller
     protected function whoIsPresent($date, $position_id, $task_id)
     {
         $idAbsentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
-/*         dump('idabsentees');
-        dump( $idAbsentees); */
+        dump('idabsentees');
+        dump( $idAbsentees);
         //get all employees in database filtering $position_id
         $allEmployees = Employee::all()->where('position_id', $position_id);
 
-/*         dump( 'allEmployees');
-        dump( $allEmployees); */
+        dump( 'allEmployees');
+        dump( $allEmployees);//exit();
         //return ids of employees. There are no absentees
         if (!isset($idAbsentees)){
 
@@ -208,7 +210,7 @@ class TaskController extends Controller
 
         //no value to send
         if (!isset($id)){
-            return [];
+            return ;
         }else{
             $uniqueIds = array_unique($id);
             $uniqueIds = array_values($uniqueIds);

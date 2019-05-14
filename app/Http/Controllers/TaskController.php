@@ -30,11 +30,13 @@ class TaskController extends Controller
         $position_id = $request->position;
 
         $employee = $this-> whoIsPresent($date, $position_id, $task_id);
-
-        $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
+        
+        dump('employee at whoIsPresent()');
+        dump($employee);
 
         //antes de mandar el primero de la lista hay que saber a quién es el que le corresponde hacer el servicio por turno y antiguedad
-        $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee->first()->id);
+        $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee);
+        
         dump('min_record');
         dump($min_record);
         return $min_record;
@@ -67,8 +69,8 @@ class TaskController extends Controller
 
     /*********************************************************
     * Order collection according to task
-    * @param $data array containing the array to be ordered and task
-    * @return $employees array ordered
+    * @param $data array containing [array of id of employees, task_id]
+    * @return $employees collection of employees ordered
     */
     protected function orderAccordingToTask($data)
     {
@@ -92,12 +94,36 @@ class TaskController extends Controller
     * @param $position_id Position for that specific task
     * @return $min_turn
     */
-    public function lowestRecordedTaskTurn($task_id, $position_id, $employee_id)
+    public function lowestRecordedTaskTurn($task_id, $position_id, $employee)
     {
+        $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
+        
+        dump('employee at orderAccordingToTask()');
+        dump($employee);
+
     //      EmployeeTask::where('task_id', 1)->where('employee_id', 28)->where('record_counter', '>', 0)->exists()
             //EmployeeTask::where('employee_id',1)->where('task_id', 1)->where('record_counter', '>', 0)->exists() ha hecho algún servicio alguna vez?
 
-        if(EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->where('record_counter','>', 0)->exists()){
+                                                                    //Count tasks done in that position
+        $taskCounterPerPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
+        dump('taskCounterPerPosition');
+        dump($taskCounterPerPosition);
+        //exit();
+
+                                                        //Count employees who have zero record on a task
+        foreach ($employee as $key => $objectEmployee) {
+            if(EmployeeTask::where('employee_id',$objectEmployee->id)->where('task_id', $task_id)->where('position_id',$position_id)->exists()){
+                $employeesWithZeroRecordOnTasks[] = $objectEmployee->id; //employee no concuerda porque no existen los ausentes y no coincidiran con objectEmployee
+            }
+        }                                                    
+         dump('employeesWithZeroRecordOnTasks');
+        dump($employeesWithZeroRecordOnTasks);
+        exit();
+
+          
+
+
+        if(EmployeeTask::where('task_id', $task_id)->where('position_id', $position_id)->min('record_counter')->exists()){
             $min_record = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->min('record_counter')->get(); //get lowest record done
         }else{
             $min_record = 0;

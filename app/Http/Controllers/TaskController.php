@@ -33,8 +33,11 @@ class TaskController extends Controller
 
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
 
+        //antes de mandar el primero de la lista hay que saber a quién es el que le corresponde hacer el servicio por turno y antiguedad
         $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee->first()->id);
-        //return $min_record;
+        dump('min_record');
+        dump($min_record);
+        return $min_record;
 
         if($min_record ==  0){
             $data = new EmployeeTask();
@@ -92,6 +95,7 @@ class TaskController extends Controller
     public function lowestRecordedTaskTurn($task_id, $position_id, $employee_id)
     {
     //      EmployeeTask::where('task_id', 1)->where('employee_id', 28)->where('record_counter', '>', 0)->exists()
+            //EmployeeTask::where('employee_id',1)->where('task_id', 1)->where('record_counter', '>', 0)->exists() ha hecho algún servicio alguna vez?
 
         if(EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->where('record_counter','>', 0)->exists()){
             $min_record = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->min('record_counter')->get(); //get lowest record done
@@ -119,7 +123,8 @@ class TaskController extends Controller
         $allEmployees = Employee::all()->where('position_id', $position_id);
 
         dump( 'allEmployees');
-        dump( $allEmployees);//exit();
+        dump( $allEmployees);
+        //exit();
         //return ids of employees. There are no absentees
         if (!isset($idAbsentees)){
 

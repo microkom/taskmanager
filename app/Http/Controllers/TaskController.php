@@ -29,7 +29,7 @@ class TaskController extends Controller
         $quantity = $request->quantity;
         $position_id = $request->position;
 
-        $employee = $this-> _whoIsUnavailable($date, $position_id, $task_id);
+        $employee = $this-> whoIsPresent($date, $position_id, $task_id);
         return $employee;
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
 
@@ -106,23 +106,34 @@ class TaskController extends Controller
     */
     protected function whoIsPresent($date, $position_id, $task_id)
     {
-        $absentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
+        $idAbsentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
 
-        if (!isset($absentees)){
-            $employees= Employee::all()->where('position_id', $position_id);
-            return ($employees);
-        }else{
-            //filter employees who WILL BE PRESENT base on the those who will be absent
-            foreach ($absentees as $absent) {
-                var_dump($absent);
-                $employees[] = DB::table('employees')->where('id','<>', $absent->employee_id)->where('position_id', $position_id);
+        //return ids of employees, there are no absentees
+        if (!isset($idAbsentees)){
+            $employees= Employee::where('position_id', $position_id)->get();
 
-                //$employees[] = Employee::all()->where('id','<>', $absent->employee_id)->where('position_id', $position_id);
+            //extract employee ids
+            foreach ( $employees as $itemId) {
+                $id[] = $itemId->id;
             }
-            /*  foreach ($employeesData as $employee) {
-                $employees [] = Employee::all()->where('position_id', $position_id);
-            } */
-            return ($employees);
+            return $id;
+        }else{
+
+            $allEmployees = Employee::all();
+
+            foreach ($idAbsentees as $idAbsent) {
+                foreach ( $allEmployees as $key => $employee) {
+                    if($idAbsent === $employee->id){
+                        $employee->delete();
+                    }else{
+                        $id[] = $employee->id;
+                    }
+                }
+            }
+            $uniqueIds = array_unique($id);
+            $uniqueIds = array_values($uniqueIds);
+
+            return $uniqueIds;
         }
     }
 
@@ -130,6 +141,8 @@ class TaskController extends Controller
     /*********************************************************
     * Returns the absent people on that specific date
     * @param $date Absence date
+    * @param $position_id
+    * @param task_id
     * @return Collection of employees
     */
     protected function _whoIsUnavailable($date, $position_id, $task_id)

@@ -28,16 +28,16 @@ class TaskController extends Controller
         $task_id = $request->task;
         $quantity = $request->quantity;
         $position_id = $request->position;
-        
-        $employee = $this-> whoIsPresent($date, $position_id, $task_id);
-        
+
+        $employee = $this-> _whoIsUnavailable($date, $position_id, $task_id);
+        return $employee;
         $employee = $this-> orderAccordingToTask(["employee" => $employee, "task" => $task_id]);
-        
+
         $count = EmployeeTask::where('task_id', $task_id)->get();
         return $count;
         $min_record = $this-> lowestRecordedTaskTurn($task_id, $position_id, $employee->first()->id);
-        
-          if($min_record>  0){
+
+        if($min_record>  0){
             $data = new EmployeeTask();
             $data->task_id = $task_id;
             $data->employee_id = $employee->first()->id;
@@ -45,10 +45,10 @@ class TaskController extends Controller
             $data->date_time = new Carbon($date);
             $data->record_counter = 1;
             $data->save();
-            
-          }else{
-            
-            
+
+        }else{
+
+
             $data = new EmployeeTask();
             $data->task_id = $task_id;
             $data->employee_id = $employee->first()->id;
@@ -56,13 +56,13 @@ class TaskController extends Controller
             $data->date_time = new Carbon($date);
             $data->record_counter =  3;//DB::table('employee_tasks')->where('employee_id', $employee->first()->id)->get();
             $data->save();
-            
-            
+
+
         }    $task = Task::all();
-            return view('assignTask', ['tasks' => $task]); 
-        
+        return view('assignTask', ['tasks' => $task]);
+
     }
-    
+
     /*********************************************************
     * Order collection according to task
     * @param $data array containing the array to be ordered and task
@@ -82,7 +82,7 @@ class TaskController extends Controller
         }
         return ($employees);
     }
-    
+
     /*********************************************************
     *  Lowest record of a task
     * @param $task_id Id of the task
@@ -96,18 +96,18 @@ class TaskController extends Controller
             $min_record = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee_id)->min('record_counter')->get(); //get lowest record done
         }else{
             $min_record = 0;
-        }        
+        }
         return $min_record;
     }
-    
-    
+
+
     /*********************************************************
     *
     */
     protected function whoIsPresent($date, $position_id, $task_id)
     {
         $absentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
-        
+
         if (!isset($absentees)){
             $employees= Employee::all()->where('position_id', $position_id);
             return ($employees);
@@ -116,7 +116,7 @@ class TaskController extends Controller
             foreach ($absentees as $absent) {
                 var_dump($absent);
                 $employees[] = DB::table('employees')->where('id','<>', $absent->employee_id)->where('position_id', $position_id);
-                
+
                 //$employees[] = Employee::all()->where('id','<>', $absent->employee_id)->where('position_id', $position_id);
             }
             /*  foreach ($employeesData as $employee) {
@@ -125,8 +125,8 @@ class TaskController extends Controller
             return ($employees);
         }
     }
-    
-    
+
+
     /*********************************************************
     * Returns the absent people on that specific date
     * @param $date Absence date
@@ -136,18 +136,30 @@ class TaskController extends Controller
     {
         //convert received date to Carbon format
         $carbonDate = new Carbon($date);
-        
+
         //filter absentees
         $absences = Absence::
         where('start_date_time', '<=', $carbonDate)->
         where('end_date_time',   '>=', $carbonDate)->
         get();
-        
+
+        //extract employee ids
+        foreach ($absences as $itemId) {
+            $id[] = $itemId->employee_id;
+        }
+
+
         //filter employees doing a task on $date
         $onduty = EmployeeTask::
         where('date_time', '=', $carbonDate)->
         get();
-        
+
+        //extract employee ids
+        foreach ( $onduty as $itemId) {
+            $id[] = $itemId->employee_id;
+        }
+
+
         //filter employees who have a day off after task
         $beforeDutyDate = $carbonDate->subDay();
         $afterDuty = DB::table('employee_tasks')
@@ -157,32 +169,58 @@ class TaskController extends Controller
             ->orWhere( 'task_id', '=', 2);
         })
         ->get();
-        
+
+        //extract employee ids
+        foreach ( $afterDuty as $itemId) {
+            $id[] = $itemId->employee_id;
+        }
+
+        //no value to send
+        if (!isset($id)){
+            return [
+                'error'     => true,
+                'message'   =>'no one unavailable',
+                'origin'    => 'TaskController@_whoIsUnavailable($date, $position_id, $task_id)'
+            ];
+        }else{
+            $uniqueIds = array_unique($id);
+            $uniqueIds = array_values($uniqueIds);
+            return $uniqueIds;
+        }
+
+
+        /**borrar */
         //merging the 2 lists of employees unavailable
-        $absences = collect( $absences);
+        /* $absences = collect( $absences);
         $absences = $absences->merge($onduty);
-        $absences = $absences->merge( $afterDuty);
-        
-        if($absences->isEmpty()){
+        $absences = $absences->merge( $afterDuty); */
+        ////////////////////////////////////////////////
+
+
+        //borrar
+        /* else if(!isset($absences)){
             return ($absences);
         }else {
-            
+
             //use id of absentees to get all info of employee
             foreach ($absences as $absence) {
-                $employees[] = Employee::find($absence->employee_id);   //previous merge prevents from using $absence->employee
+                $employees[] = Employee::findOrFail($absence->employee_id);   //previous merge prevents from using $absence->employee
+
             }
-            
+
             //filter by position_id
             foreach ( $employees as $employee) {
-                if( $employee->position_id == $position_id)
-                $absentees[] = $employee;
+                if( $employee->position_id == $position_id){
+                    $absentees[] = $employee;
+
+                }
             }
-            return ($absentees);    
-        }
-        
+            return $absentees;
+        } */
+
     }
-    
-    
+
+
     /*********************************************************
     * Query database Positions for each Task through ajax
     * @param $request Info received through post
@@ -191,14 +229,14 @@ class TaskController extends Controller
     public function positions_ajax(Request $request)
     {
         $positions = TaskPosition::all()->where('task_id', $request->task_id);
-        
+
         foreach ($positions as $key => $position) {
-            
-            $data[] = ['id' => $position->position_id, 'name' => Position::find($position->position_id)->name];
+
+            $data[] = ['id' => $position->position_id, 'name' => Position::findOrFail($position->position_id)->name];
         }
         return response()->json($data);
     }
-    
+
     /*********************************************************
     * Query database task
     * @return tasks[] array of all the tasks in the database
@@ -208,5 +246,5 @@ class TaskController extends Controller
         $task = Task::all();
         return view('assignTask', ['tasks' => $task]);
     }
-    
+
 }

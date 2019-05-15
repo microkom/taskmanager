@@ -35,10 +35,11 @@
         <select class="form-control col-md-1 col-sm-6 col-xs-12" name="quantity" id="quantity" required>
             <option value="1">1</option>
             <option value="2">2</option>
-            <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
         </select>
 
         {{-- submit button --}}

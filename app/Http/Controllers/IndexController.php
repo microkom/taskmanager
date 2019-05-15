@@ -13,92 +13,42 @@ use Carbon\Carbon;
 class IndexController extends Controller
 {
     public function index($date=0, $position=0) //revise
-    {   
+    {
         $date = '2019-05-28 00:00:00';                           //simulated date received by parameter
         $position = 1;                                               //simulated position received by parameter
         $dateOrig = $date;                                       //keep original date
-        $year = substr ($date, 0, 4);                            //filter the year 
+        $year = substr ($date, 0, 4);                            //filter the year
         $dateShow = substr($date, 0, 10);                        //get only the date 2000-02-02
         $dateShow = new Carbon($dateShow);                       //convert date to Carbon format
         $dateShow = $dateShow->locale('es')->isoFormat('dddd, D MMMM YYYY');        //format date to Spanish locale
-        
-        //filter absentees per year [attempt to optimize machine processing]
-        $absentees = Absence::where('start_date_time','like', $year.'%')->get();    
-        
+
+/*         //filter absentees per year [attempt to optimize machine processing]
+        $absentees = Absence::where('start_date_time','like', $year.'%')->get();
+
         //get all employees that will be absent on $date given
         $absentees = $this->whoIsAbsent($date);
-        
+
         //filter employees who WILL BE PRESENT base on the those who will be absent
         foreach ($absentees as $key => $absent) {
-            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('position_id', $position);   
+            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('position_id', $position);
         }
-        //convert the array to collection for easier handling        
-        $employee = collect($employee[0]);
-        
-        //Order by scale_number ascending
-        $employee = $employee->sortByDesc('scale_number');
-        /*  
+        //convert the array to collection for easier handling
+        if(isset($employee)){
+            $employee = collect($employee[0]);
+            //Order by scale_number ascending
+            $employee = $employee->sortByDesc('scale_number');
+        }else{
+            $employee[] = Employee::all()->where('position_id', $position);
+        } */
+        $employee = Employee::all()->where('position_id', $position);
+        /*
         //number of employees in the list
         $employee = $employee->take(3);
-        */      
+        */
         return view('index', array('employees' => $employee), array('date' => $dateShow));
     }
-    
-    
-    /**
-    * select all absentees based on received date
-    */
-    protected function whoIsAbsent($date)
-    {   
-        $carbonDate = new Carbon($date);  //convert received date to Carbon format
-        
-        return Absence::where('start_date_time', '<=',$carbonDate)->where('end_date_time', '>=', $carbonDate)->get();    
-    }
-    
-    public function topTurnPerTaskAndPosition($task_id=0, $position_id=0)
-    {
-        $position_id = 1;   //simulated position_id received by parameter
-        $task_id = 1;   //simulated task_id received by parameter
-        
-        //check if task exists
-        if(!Task::find($task_id)) return [-1, 'No task found'];
-        
-        //check if the table turns contains any data
-        if(Turn::where('task_id', $task_id)->get()->count())
-        {
-            $min_turn = Turn::all()->where('task_id', $task_id)->min('turn'); //get lowest turn done
-            $turns = Turn::where('task_id', $task_id)->where('turn', '<=', $min_turn)->get();
-            
-            //find info about the employees in the turns table
-            foreach ($turns as  $key => $value) {
-                //get only ids
-                $ids[] = $value->employee_id;
-            }
-            //return $ids;
-//get employees info who are present in the turns table
-                $employeeData  = Employee::find($ids)->sortBy('scale_number')->where('position_id', '=', $position_id);
-                return /* response()->json */$employeeData;
-                if(isset($employee))
-            {
-                $employee = collect($employee);
-                
-                $employee = $employee->sortBy('scale_number');
-                $employee = $employee->values()->all();
-                //$employee = $this->sortMultidimensionalArray($employee, 'scale_number');
-                return $employee;
-                
-                //$employee = $employee->take(1);
-                return /* $min_turn, $max_turn,  */$employee;
-            }else{
-                return 0;
-            }
-            
-        }else{
-            $min_turn = 0;
-            return 0;
-        }
-    }
-    
+
+
     /**
     * Sort multidimensional array in ascending order
     */
@@ -113,7 +63,7 @@ class IndexController extends Controller
         }
         return $c;
     }
-    
+
     /**
     * Sort multidimensional array in descending order
     */
@@ -128,6 +78,6 @@ class IndexController extends Controller
         }
         return $c;
     }
-    
-    
+
+
 }

@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+
     public function absences()
     {
         return $this->hasMany(Absence::class);
-    } 
-    public function turns()
+    }
+    public function employeeTasks()
     {
-        return $this->hasMany(Turn::class);
+        return $this->hasMany(EmployeeTask::class);
     }
     public function position()
     {

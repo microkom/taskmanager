@@ -47,12 +47,16 @@
         </div>
     </form>
 
-    <script type="text/javascript" src="js/task_position.js"></script>
+    <script type="text/javascript" src="/js/task_position.js"></script>
     <!-- JQuery must be loaded before bootstrap -->
 
 </div>
 
 
 </div>
-
+<script>
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
 @endsection

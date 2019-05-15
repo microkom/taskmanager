@@ -14,11 +14,13 @@ class EmployeeTableSeeder extends Seeder
 
 
     public function run()
-    {
-        Schema::disableForeignKeyConstraints();
-        factory(App\Employee::class, 50)->create();
+    {   
+        $limit = 7;
 
-        for ($i = 50; $i >= 1; $i--) {
+        Schema::disableForeignKeyConstraints();
+        factory(App\Employee::class, $limit )->create();
+
+        for ($i = $limit; $i >= 1; $i--) {
             if ($i <= 50) $pos = 4;
             if ($i < 38) $pos = 3;
             if ($i < 28) $pos = 2;

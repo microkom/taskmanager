@@ -1,0 +1,59 @@
+<script>
+        $(document).ready(function(){
+            $(this).on("click", '#asignar', function(e){
+                e.preventDefault();
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                
+                today = yyyy + '-' + mm + '-' + dd + ' 00:00:00';
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    
+                    url: '/show_today_tasks_ajax',
+                    type: 'post',
+                    data: { today : today },
+                    dataType: 'json',
+                    
+                    success:function(response){
+                        $("#tabla_hoy").empty();
+                        
+                        var valuesArray=[];
+                        for( var i = 0; i< response.length; i++){
+                            
+                            //temporal object 
+                            var values = { 
+                                id : response[i]['id'], 
+                                name : response[i]['employee'],
+                                task : response[i]['task'],
+                                position : response[i]['position'],
+                                date : response[i]['date']
+                            };
+                            
+                            //store object in array
+                            valuesArray.push(values);
+                            
+                            //$("#tabla_hoy").append("<option value='"+id+"'>"+name+"</option>");
+                        }
+                        console.log(valuesArray);
+                        
+                        var table = $('<table>')
+                            for(i=0; i< valuesArray.length; i++){
+                                var row = '<tr><td>'+ valuesArray.id + '</td></tr>'
+                                table.append(row);
+                            }
+                            
+                            $('#tabla_hoy').append(table);
+                        }
+                    });
+                });
+            });
+            
+            
+            
+        </script>

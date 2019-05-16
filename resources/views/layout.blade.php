@@ -10,10 +10,12 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script type="text/javascript" charset="utf8" src="/js/datatables.js"></script>
+
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/css/datatables.css">
  
- <script type="text/javascript" charset="utf8" src="/js/datatables.js"></script>
  <link href="/css/style.css" rel="stylesheet">
  <link href="/css/datatables.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">

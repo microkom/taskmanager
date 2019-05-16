@@ -27,6 +27,7 @@ class TaskController extends Controller
     public function addTask(Request $request)
     {
         
+        
         if(! $request-> position >0 ){
             dump('value');
             $task = Task::all();
@@ -40,6 +41,7 @@ class TaskController extends Controller
         $task_id = $request->task;
         $quantity = $request->quantity;
         $position_id = $request->position;
+        
         
         
         
@@ -106,8 +108,11 @@ class TaskController extends Controller
         }
         
         $task = Task::all();
+        $today_tasks = $this->show_today_tasks_ajax();
+        $today_tasks = collect($today_tasks);
+        //dump($today_tasks);exit();
         
-        return view('assignTask', ['tasks' => $task, 'counter' => $counter]);
+        return view('assignTask', ['tasks' => $task, 'counter' => $counter, 'today_tasks' => $today_tasks]);
         
     }
     
@@ -244,8 +249,8 @@ class TaskController extends Controller
     protected function whoIsPresent($date, $position_id, $task_id)
     {
         /**
-         * Get ids of all employees who are not available for the task
-         */
+        * Get ids of all employees who are not available for the task
+        */
         $id_absentees_obj = $this->_whoIsUnavailable( $date,$position_id, $task_id);
         
         /**
@@ -379,15 +384,15 @@ class TaskController extends Controller
     
     
     /*********************************************************
-    * Query database Positions for each Task through ajax
+    * Query database task_positions for each Task through ajax
     * @param $request Info received through post
     * @return $data JSON file containing the positions specific to a task
     */
     public function positions_ajax(Request $request)
     {
-        $positions = TaskPosition::all()->where('task_id', $request->task_id);
+        $task_positions = TaskPosition::all()->where('task_id', $request->task_id);
         
-        foreach ($positions as $position) {
+        foreach ($task_positions as $position) {
             
             $data[] = ['id' => $position->position_id, 'name' => Position::findOrFail($position->position_id)->name];
         }
@@ -395,13 +400,46 @@ class TaskController extends Controller
     }
     
     
+    
+    /*********************************************************
+    * Query database today's Tasks through ajax
+    * @param $request Info received through post
+    * @return $data JSON file containing today's task
+    */
+    protected function show_today_tasks_ajax()
+    {
+        $tdate = new Carbon(date("Y-m-d"));
+        
+        $today_tasks = DB::table('employee_tasks')->where('date_time','>=',$tdate)->get();
+        
+        
+        foreach ($today_tasks as $task) {
+            
+            $data[] = [
+                'id' => $task->id, 
+                'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
+                'task' =>       Task::      findOrFail    ($task->task_id)->name, 
+                'position' =>   Position::  findOrFail    ($task->position_id)->name,
+                'date' => date("d M Y")
+            ];
+        }
+        /* if(!isset($data)){ 
+            dump($data);exit();
+        }return ; */
+        return $data;
+    }
+
+    
+    
     /*********************************************************
     * Get all tasks from the database
     * @return tasks[] array of all the tasks in the database
     */
+    
     public function landing()
     {
         $task = Task::all();
+        
         
         return view('assignTask', ['tasks' => $task]);
         

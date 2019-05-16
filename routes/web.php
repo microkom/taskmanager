@@ -33,7 +33,7 @@ Route::post( '/assigntask', 'TaskController@addtask');
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
 
-Route::post('/show_today_tasks_ajax', 'TaskController@show_today_tasks_ajax');      //Internal, ajax url
+//Route::post('/show_today_tasks_ajax', 'TaskController@show_today_tasks_ajax');      //Internal, ajax url
 
 /* Route::get('/assigntask', function(){
     return view('assignTask');

@@ -1,0 +1,7 @@
+CONDICIONES PARA FILTROS A la hora de asignar tareas
+
+El empleado:
+
+Tareas de 24 horas continuas
+ - Cuando termina una tarea no trabajará el día el resto del día en el que finaliza la tarea.
+ - No realizará más tareas aparte de la asignada.

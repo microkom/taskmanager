@@ -8,7 +8,7 @@
 <div class="container mx-auto">
 
     @if(isset($error))
-        <div class="text-center alert alert-warning">
+        <div class="text-center alert alert-danger">
             <h5>{{$error}}</h5>
         </div>
 

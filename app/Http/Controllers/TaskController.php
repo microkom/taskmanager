@@ -26,10 +26,24 @@ class TaskController extends Controller
     */
     public function addTask(Request $request)
     {
+
+        if(! $request-> position >0 ){
+            dump('value');
+            $task = Task::all();
+
+            return view('assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
+
+        }exit();
+
+
         $date = $request->date;
         $task_id = $request->task;
         $quantity = $request->quantity;
         $position_id = $request->position;
+
+
+
+
         $counter = 0;
 
         \Session::put('counter', $counter);

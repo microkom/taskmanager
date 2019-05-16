@@ -24,6 +24,11 @@ Route::get('/employees', 'EmployeeController@employee');
 Route::get('/', 'indexController@index');
 
 Route::get('/assigntask', 'TaskController@landing');                //landing page
+
+/* Route::get('/assigntask/error', function(){
+    return redirect('assigntask')->with('error', 'There are no employees available on that date');
+}); */
+
 Route::post( '/assigntask', 'TaskController@addtask');
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');    //Internal url
@@ -32,5 +37,6 @@ Route::post('/positions_ajax', 'TaskController@positions_ajax');    //Internal u
     return view('assignTask');
 });
  */
+
 
  Route::get('/present', 'AddTaskController@whoIsPresent');

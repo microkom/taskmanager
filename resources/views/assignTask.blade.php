@@ -7,6 +7,14 @@
 
 <div class="container mx-auto">
 
+    @if(isset($error))
+        <div class="alert alert-danger">
+            <h4 >{{$error}}</h4>
+        </div>
+
+    @endif
+
+
     {{-- Form to asign a task --}}
     <form action="/assigntask" method="post">
 
@@ -14,36 +22,36 @@
         @csrf
 
         <div class="form-row">
-        {{-- Task option selectors --}}
-        <input class="form-control col-md-3  col-sm-6 col-xs-12" type="date" name="date" id="date" required="required">
-        <select class="form-control col-md-4 col-sm-6 col-xs-12" id="task" name="task" required>
-            <option value="0">- Tarea -</option>
+            {{-- Task option selectors --}}
+            <input class="form-control col-md-3  col-sm-6 col-xs-12" type="date" name="date" id="date" required="required">
+            <select class="form-control col-md-4 col-sm-6 col-xs-12" id="task" name="task" required>
+                <option value="0">- Tarea -</option>
 
-            {{-- [landing] Task list extracted from the database --}}
-            @foreach ($tasks as $key => $task)
-            <option value="{{ $task->id }}">{{ $task->name }} </option>
-            @endforeach
+                {{-- [landing] Task list extracted from the database --}}
+                @foreach ($tasks as $key => $task)
+                <option value="{{ $task->id }}">{{ $task->name }} </option>
+                @endforeach
 
-        </select>
+            </select>
 
-        {{-- Position list based on task selected previously  [upon request][task_position.js] --}}
-        <select class="form-control col-md-2 col-sm-6 col-xs-12" id="position" name="position" required>
-            <option value="0">- Empleo -</option>
-        </select>
+            {{-- Position list based on task selected previously  [upon request][task_position.js] --}}
+            <select class="form-control col-md-2 col-sm-6 col-xs-12" id="position" name="position" required>
+                <option value="0">- Empleo -</option>
+            </select>
 
-        {{-- how many people will do the task --}}
-        <select class="form-control col-md-1 col-sm-6 col-xs-12" name="quantity" id="quantity" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-        </select>
+            {{-- how many people will do the task --}}
+            <select class="form-control col-md-1 col-sm-6 col-xs-12" name="quantity" id="quantity" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+            </select>
 
-        {{-- submit button --}}
-        <input class="btn btn-info col-md-2" type="submit" name="enviar" value="Asignar">
+            {{-- submit button --}}
+            <input class="btn btn-info col-md-2" type="submit" name="enviar" value="Asignar">
         </div>
     </form>
 
@@ -55,8 +63,8 @@
 
 </div>
 <script>
-$(document).ready( function () {
-    $('#table_id').DataTable();
-} );
+    $(document).ready( function () {
+        $('#table_id').DataTable();
+    } );
 </script>
 @endsection

@@ -30,14 +30,21 @@ class TaskController extends Controller
         $task_id = $request->task;
         $quantity = $request->quantity;
         $position_id = $request->position;
+        $counter = 0;
+
+        \Session::put('counter', $counter);
 
         for ($i=0; $i < $quantity; $i++) {
 
+            \Session::put('counter', $counter); //count tasks added
+
             $employee_ids = $this-> whoIsPresent($date, $position_id, $task_id);
 
-            //If no one is available for the date this kicks in.
-
-            if (empty( $employee_ids)) {
+            /**
+            * Error control for employees present.
+            * If no one is available for the date requested this kicks in.
+            */
+            if (empty($employee_ids)) {
 
                 $task = Task::all();
 
@@ -52,13 +59,15 @@ class TaskController extends Controller
                 $data->employee_id = $employee_record[ 'employee_id'];
                 $data->position_id = $position_id;
                 $data->date_time = new Carbon($date);
-                $data->record_counter =  $employee_record['min_record'];
+                $data->record_counter =  $employee_record['next_record'];
                 $data->save();
+
+                $counter++;
             }
         }
 
         $task = Task::all();
-        return view('assignTask', ['tasks' => $task]);
+        return view('assignTask', ['tasks' => $task, 'counter' => $counter]);
 
     }
 
@@ -101,19 +110,19 @@ class TaskController extends Controller
     * @param $employee
     * @return $min_turn array returning [id, min_turn]
     */
-    public function getRecords($task_id, $position_id, $employee)
+    public function getRecords($task_id, $position_id, $employee_ids)
     {
 
-        $employee = $this-> orderAccordingToTask( $employee,  $task_id);
+        $employee = $this-> orderAccordingToTask( $employee_ids,  $task_id);
         $employee = collect( $employee);
         //dump('employee at orderAccordingToTask()');
         //dump($employee );
 
-        //Count tasks done in that position -> it means the table has no record of the task being ever done.
-        $taskCounterPerPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
-        //dump('taskCounterPerPosition');
-        if( $taskCounterPerPosition ){
-            //dump($taskCounterPerPosition);
+        //Count tasks done in that position -> it means the table may have no record of the task being ever done.
+        $isThereATaskDoneInThisPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
+        //dump('isThereATaskDoneInThisPosition');
+        if( $isThereATaskDoneInThisPosition ){
+            //dump($isThereATaskDoneInThisPosition);
 
             //Count employees who have zero record on a task -> checking those who are available for the task
             foreach ($employee as $key => $objectEmployee) {
@@ -121,15 +130,15 @@ class TaskController extends Controller
                     $employeesWithRecordOnTask[] = $objectEmployee->id;
 
                     /**
-                    * Get highest record of task / employee
-                    * since the task has been done at least once, it is needed to capture the
-                    * highest task count record for each employee in order to add 1 later
-                    *
-                    * 1- list of all the employees based on rank for the task who are available
-                    * 2- get the highest record of each employee
-                    * 3- get a list the all the lowest
-                    * 4- take the first one and add +1 to their  record
-                    */
+                     * Get highest record of task / employee
+                     * since the task has been done at least once, it is needed to capture the
+                     * highest task count record for each employee in order to add 1 later
+                     *
+                     * 1- list of all the employees who are available based on position for the task
+                     * 2- get the highest record of each employee
+                     * 3- get a list of all the lowest
+                     * 4- take the first one and add +1 to their  record
+                     */
 
                     //foreach ($employeesWithRecordOnTask as $idEmployee) {
                         $max_record_counter = DB::table('employee_tasks')->where('task_id', $task_id)->where('employee_id', $objectEmployee->id)->max('record_counter');
@@ -158,7 +167,7 @@ class TaskController extends Controller
 
                     $first_employee_id = collect($employeesWithZeroRecordOnTask)->first();
 
-                    $min_record = [ 'employee_id' => $first_employee_id, 'min_record'=> 1];
+                    $next_record = [ 'employee_id' => $first_employee_id, 'next_record'=> 1];
 
                 } else {
 
@@ -173,33 +182,14 @@ class TaskController extends Controller
                             $tmp_record = $max_record;
                         }
                     }
-                    //dump('min record');
-                    //dump($tmp_record);
-                    //dump($employee_for_task_max_record);
-                    //dump($employee_for_task_id);
-                    // exit();
 
-                    /* $min_record_among_employees_task = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employeesWithRecordOnTask[0])->min('record_counter');
-                    $employee_task_min_record = EmployeeTask::where('task_id', $task_id)->where('employee_id', $employeesWithRecordOnTask[0])->min('record_counter');
-
-                    //dump('$min_record_in_task_position');
-                    //dump($min_record_in_task_position);
-
-                    //get employee with that same $min_record_in_task_position
-                    foreach ( $employeesWithRecordOnTask as  $employee) {
-                        if( EmployeeTask::where('task_id', $task_id)->where('employee_id', $employee)->max('record_counter') == $min_record_in_task_position){
-                            $id_min_record[] = $employee;
-                        }
-                    }
-                    //dump('employees with the same $min_record, get the first ');// if there are not enough employees error on dev, control it
-                    //dump( $id_min_record); */
-                    $min_record = [ 'employee_id' => $employee_for_task_id, 'min_record' => $employee_for_task_max_record + 1 ];
+                    $next_record = [ 'employee_id' => $employee_for_task_id, 'next_record' => $employee_for_task_max_record + 1 ];
                 }
             }else{
-                $min_record = [ 'employee_id' => $employee->first()->id, 'min_record' => 1];
+                $next_record = [ 'employee_id' => $employee->first()->id, 'next_record' => 1];
             }
-            //exit();
-            return $min_record;
+
+            return $next_record;
         }
 
 
@@ -269,10 +259,9 @@ class TaskController extends Controller
             get();
 
             //extract employee ids
+
             foreach ($absences as $itemId) {
                 $id[] = $itemId->employee_id;
-                $employee = ['id' => $itemId->employee_id, 'absent' => true];
-                $data[] = ['employee' =>$employee];
             }
 
 

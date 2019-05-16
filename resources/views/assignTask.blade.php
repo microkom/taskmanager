@@ -8,12 +8,17 @@
 <div class="container mx-auto">
 
     @if(isset($error))
-        <div class="alert alert-danger">
-            <h4 >{{$error}}</h4>
+        <div class="text-center alert alert-warning">
+            <h5>{{$error}}</h5>
         </div>
 
     @endif
+ @if(isset($counter))
+        <div class="text-center alert alert-success">
+            <h5>You've added {{ $counter}} tasks</h5>
+        </div>
 
+    @endif
 
     {{-- Form to asign a task --}}
     <form action="/assigntask" method="post">

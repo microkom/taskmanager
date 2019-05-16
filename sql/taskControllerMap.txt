@@ -1,0 +1,49 @@
+
+
+	addTask(Request $request)
+		
+		//Employees present on that date
+		$employee_ids = $this-> whoIsPresent($date, $position_id, $task_id);
+			
+			//Absent employees on that date
+			$idAbsentees = $this->_whoIsUnavailable( $date,$position_id, $task_id);
+				
+				//filter absentees
+				$absences = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time','>=', $carbonDate)->get();
+				
+				
+				//filter employees doing a task on $date
+				$onduty = EmployeeTask::where('date_time', '=', $carbonDate)->get();
+				
+				//filter employees who have a day off after task
+				$beforeDutyDate = $carbonDate->subDay();
+				$afterDuty = DB::table('employee_tasks')->where( 'date_time', '=', $beforeDutyDate)
+					->where(function ($query) {
+						$query->where( 'task_id', '=', 1)->orWhere( 'task_id', '=', 2);})->get();
+				
+			//All employees for that position
+			$allEmployees = Employee::all()->where('position_id', $position_id);
+			
+			//Array difference
+			$id = array_diff($idEMployees, $idAbsentees);
+			
+		// Error control for employees not/present.
+		
+		//get records of the employees available for the task
+		$employee_record = $this-> getRecords($task_id, $position_id, $employee_ids);
+		
+			//order employee ids
+			$employee = $this-> orderAccordingToTask( $employee_ids,  $task_id);
+			
+			//Count tasks done in that position -> it means the table may have no record of the task being ever done.
+			if( $isThereATaskDoneInThisPosition )
+				
+				$employeesWithRecordOnTask[] = $objectEmployee->id;
+				$next_record = [ 'employee_id' => $employee_for_task_id, 'next_record' => $employee_for_task_max_record + 1 ];
+			else
+				
+				$employeesWithZeroRecordOnTask[] =  $objectEmployee->id;
+				if(isset($employeesWithZeroRecordOnTask))
+					$first_employee_id = collect($employeesWithZeroRecordOnTask)->first()
+				
+		save()

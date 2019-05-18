@@ -74,7 +74,7 @@
             @foreach ($today_tasks as $task)
             <tr>
                 <td>{{$task['position']}}</td><td>{{$task['employee']}}</td>
-                <td>{{$task['task']}}</td><td>{{$task['date']}}</td>
+                <td>{{$task['task']}}</td><td>{{ date('d F Y ',  strtotime($task['date'])) }}</td>
                 <tr>
                     @endforeach
                 </table>

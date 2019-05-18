@@ -15,10 +15,9 @@ class EmployeeTableSeeder extends Seeder
 
     public function run()
     {   
-        $limit = 7;
+        $limit = 32;
 
         Schema::disableForeignKeyConstraints();
-        DB::table('employees')->truncate();
         factory(App\Employee::class, $limit )->create();
 
         for ($i = $limit; $i >= 1; $i--) {

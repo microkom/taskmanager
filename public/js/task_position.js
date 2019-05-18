@@ -1,7 +1,7 @@
 $(document).ready(function(){
             $("#task").change(function(){
                 var task_id = $(this).val();
-                
+                console.log(task_id)
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -10,7 +10,7 @@ $(document).ready(function(){
                 $.ajax({
                     url: '/positions_ajax',
                     type: 'post',
-                    data: { task_id : $(task).val() },
+                    data: { task_id : task_id },
                     dataType: 'json',
                     
                     success:function(response){

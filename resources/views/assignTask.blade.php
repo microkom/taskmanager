@@ -60,7 +60,7 @@
         </div>
     </form>
     
-    <div ><br>
+    <div ><br><hr><br>
         @if(isset($today_tasks))
         
         {{--  <div class="alert alert-primary text-center" role="alert">
@@ -70,14 +70,18 @@
         <table id="tabla_hoy">
             <thead>
                 <tr><td>Empleo</td><td>Nombre</td><td>Servicio</td><td>Fecha</td></tr>
-            </thead>
+            </thead><tbody>
+            
             @foreach ($today_tasks as $task)
-            <tr>
-                <td>{{$task['position']}}</td><td>{{$task['employee']}}</td>
-                <td>{{$task['task']}}</td><td>{{ date('d F Y ',  strtotime($task['date'])) }}</td>
-                <tr>
-                    @endforeach
-                </table>
+           <tr>
+                 <td>{{$task['position']}}</td>
+                 <td>{{$task['employee']}}</td>
+                 <td>{{$task['task']}}</td>
+                 <td>{{ date('d M Y', strtotime($task['date'])) }}</td>
+           </tr>
+            @endforeach
+             </tbody></table>
+            
                 @else 
                 <div class="alert alert-primary text-center" role="alert">
                     <h4 >No hay Servicios en esta fecha</h4>
@@ -89,7 +93,7 @@
             <script type="text/javascript" src="/js/task_position.js"></script>
             <!-- JQuery must be loaded before bootstrap -->
             
-        </div>
+     
         
         
     </div>

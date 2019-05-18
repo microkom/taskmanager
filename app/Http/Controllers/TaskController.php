@@ -29,7 +29,7 @@ class TaskController extends Controller
         
         
         if(! $request-> position >0 ){
-            dump('value');
+            //dump('value');
             $task = Task::all();
             
             return view('assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
@@ -108,9 +108,7 @@ class TaskController extends Controller
         }
         
         $task = Task::all();
-        
         $today_tasks = $this->show_today_tasks_ajax();
-        
         $today_tasks = collect($today_tasks);
         
         return view('assignTask', ['tasks' => $task, 'counter' => $counter, 'today_tasks' => $today_tasks]);
@@ -165,8 +163,9 @@ class TaskController extends Controller
         
         $employee = $this-> orderAccordingToTask( $employee_ids,  $task_id);
         $employee = collect( $employee);
-        
         //Count tasks done in that position -> it means the table may have no record of the task being ever done.
+        //dump('no employee');
+        if(!$employee->isEmpty()) //dump($employee); 
         $isThereATaskDoneInThisPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
         //dump('isThereATaskDoneInThisPosition');
         if( $isThereATaskDoneInThisPosition ){
@@ -253,18 +252,18 @@ class TaskController extends Controller
         * Get ids of all employees who are not available for the task
         */
         $id_absentees_obj = $this->_whoIsUnavailable( $date,$position_id, $task_id);
-        
+        //dump('id_absentees_obj'); //dump($id_absentees_obj);
         /**
         * get all employees in database within a $position_id
         */
         
-        $all_employees_obj = Employee::all()->where('position_id', $position_id);
+        $all_employees_obj = DB::table('employees')->where('position_id', $position_id)->get();
         
         
         /**
         * Posible exit if there are no employees in this position
         */
-        
+        //dump('all employees'); dump($all_employees_obj);exit();
         if( !$all_employees_obj->count() > 0 ) return;
         
         
@@ -320,87 +319,99 @@ class TaskController extends Controller
     */
     protected function _whoIsUnavailable($date, $position_id, $task_id)
     {   
-       /**
+        /**
         * convert received date to Carbon format
         */
         $carbonDate = new Carbon($date);
-
-        $beforeDutyDate = $carbonDate->subDay();            
-           
-        /**
-         * Get employees in the position for the task, from dbase 
-         */
-        $employees = DB::table('employees')->where('position_id', $position_id)->get();
         
-        dump('employees');dump($employees);exit();
-         /**
+        $beforeDutyDate = $carbonDate->subDay();
+        /**
         * Filter employees who are absent
         */
-        //$absences = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
+         $abss = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
         
         //extract employee ids
         
-        /* foreach ($absences as $itemId) {
+             foreach ($abss as $itemId) {
             
             $id[] = $itemId->employee_id;
-        } */
+        } 
         
-   /*      
         //filter employees doing a task on $date
-        $onduty = EmployeeTask::where('date_time', '=', $carbonDate)->get();
+         $onduty = EmployeeTask::where('date_time', '=', $carbonDate)->get();
         
         //extract employee ids
-        foreach ( $onduty as $itemId) {
+           foreach ( $onduty as $itemId) {
             $id[] = $itemId->employee_id;
-        }
-        $beforeDutyDate = $carbonDate->subDay();
+        } 
+        
+        //filter employees who have a day off after task
+        
+         //  $beforeDutyDate = $carbonDate->subDay();
         
         $afterDuty = DB::table('employee_tasks')->where( 'date_time', '=', $beforeDutyDate)->where(function ($query) {
             
             $query->where( 'task_id', '=', 1)->orWhere( 'task_id', '=', 2);        
             
-        })->get();
+        })->get(); 
         
         
         //extract employee ids
-        foreach ( $afterDuty as $itemId) {
+        /*    foreach ( $afterDuty as $itemId) {
             $id[] = $itemId->employee_id;
         }
+        */
         
-         */
-        foreach ($employees as $e) {
+        $employees = DB::table('employees')->where('position_id', $position_id)->get();
+        
+        if (\is_object($employees)){
             
-            /**
-            * Filter employees who are absent
-            */
-            $e->absence = DB::table('absences')->where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->where('employee_id', $e->id)->get();
-                                      //Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
-            
-            /**
-            * filter employees doing a task on $date
-            */
-            
-            $e->employee_on_duty = DB::table('employee_tasks')->where('employee_id', $e->id)->where( 'date_time', '=', $beforeDutyDate)->where(function ($query) {
+            foreach ($employees as $employee_obj) {
                 
-                $query->where( 'task_id', '=', 1)->orWhere( 'task_id', '=', 2);        
+                /**
+                * Filter employees who are absent
+                */
                 
-            })->get();
-            
-            
-            /**
-            * filter employees who have a day off after task
-            */
-           
-            $e->employee_day_off = DB::table('employee_tasks')->where('employee_id', $e->id)->where( 'date_time', '=', $beforeDutyDate)->where(function ($query) {
+                $a = DB::table('absences')->
+                where('start_date_time',    '<=',    $carbonDate)->
+                where('end_date_time',      '>=',    $carbonDate)->
+                where('employee_id',                 $employee_obj->id)->
+                get();
+
+                if(!$a->isEmpty()) $employee_obj->absence = $a;
                 
-                $query->where( 'task_id', '=', 1)->orWhere( 'task_id', '=', 2);        
                 
-            })->get();
-            
+                
+                /**
+                * filter employees doing a task on $date
+                */
+                
+                $b = DB::table('employee_tasks')->
+                where('employee_id',            $employee_obj->id)->
+                where('date_time',      '=',    $carbonDate)->
+                get();
+                if(!$b->isEmpty()) $employee_obj->employee_on_duty = $b;
+                
+                /**
+                * filter employees who have a day off after task
+                */
+                
+                $c = DB::table('employee_tasks')->
+                where('employee_id',            $employee_obj->id)->
+                where( 'date_time',     '=',    $beforeDutyDate)->
+                where(function ($query) {
+                    $query->
+                    where(   'task_id', '=', 1)->
+                    orWhere( 'task_id', '=', 2);        
+                    
+                })->get();
+
+                if(!$c->isEmpty()) $employee_obj->employee_day_off = $c;
+            }
         }
+        //dump('employee');dump($employees);exit();
         
-        dump('employee');dump($employees);exit();
-        //dump('employee');dump($employees[1]->absence->isEmpty());var_dump($employees[0]->absence[0]);exit();
+        //exit();
         /**
         * No value to send
         */
@@ -456,14 +467,14 @@ class TaskController extends Controller
             $data[] = [
                 'id' => $task->id, 
                 'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
-                'task' =>       Task::      findOrFail    ($task->task_id)->name, 
+                'task' =>       Task::      findOrFail    ($task->task_id)->name,
                 'position' =>   Position::  findOrFail    ($task->position_id)->name,
-                'date' => $task->date_time
-            ];
+                'date' => $task->date_time];
         }
-        /* if(!isset($data)){ 
-            dump($data);exit();
-        }return ; */
+        if(!isset($data)){ 
+           return ; 
+        }
+
         return $data;
     }
     
@@ -478,12 +489,11 @@ class TaskController extends Controller
     {
         $task = Task::all();
         
+        
         $today_tasks = $this->show_today_tasks_ajax();
-        
         $today_tasks = collect($today_tasks);
-        
-        return view('assignTask', ['tasks' => $task, 'today_tasks' => $today_tasks]);
-        
+        //$request->session()->flash('alert-success', 'User was successful added!');
+        return view('assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
     }
     
 }

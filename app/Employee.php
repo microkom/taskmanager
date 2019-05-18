@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
 
-    public $id;
+ /*    public $id;
     public $position_id;
     public $scale_number;
     public $dni;
@@ -23,7 +23,7 @@ class Employee extends Model
     public $updated_at;
     public $absence ;
     public $employee_on_duty;
-    public $employee_day_off;
+    public $employee_day_off; */
 
 
     

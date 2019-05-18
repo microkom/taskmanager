@@ -1,86 +1,90 @@
 
 * {
     box-sizing: border-box;
-
 }
+/* #page-content {
+  flex: 1 0 auto;
+} */
 
+/* #sticky-footer {
+  flex-shrink: 0;
+} */
 
 /* Style the body */
-body {
-    font-family: sans-serif;
+/* body {
     margin: 0 auto;
-    max-width: 1000px;
-}
+    max-width: 1200px;
+} */
 
 /* Change color on hover */
-#salir:hover {
+/* #salir:hover {
     background-color: white;
     color: #333;
     text-decoration: none;
-}
+} */
 
 /* Active/current link */
-#salir:active {
-    /*background-color: #f42;*/
+/* #salir:active {
+    background-color: #f42;
     color: black;
-}
+} */
 
 /*botones de edicion y borrado de entradas*/
-article aside{
+/* article aside{
     margin : 0 0 0 1em;
     float:right;
     padding: 0.5em;
-}
+} */
 /*usuario, fecha y hora de entradas*/
 
 
 /* Header/logo Title */
-.header {
+/* .header {
     flex-wrap: wrap;
-    /*justify-content: space-around;*/
+    justify-content: space-around;
     padding: 2rem;
     text-align: center;
     background:#355C7D;
     font-size: 2.5rem;
     font-weight: 600;
-}
-.header img{
+} */
+/* .header img{
 	height: 90px;
-}
-.header a{
+} */
+/* .header a{
     text-decoration: none; 
     color:#ffcf79;
-}
-.header a:hover {
+} */
+/* .header a:hover {
     color: white;
-}
+} */
 
 /*Padding */
-.messCent{
+/* .messCent{
     padding: 20px 20px;
     text-align: center;
     font-size: 1em;
-}
-.center {
+} */
+/* .center {
   text-align: center;
-}
+} */
 
 
-.activo{ 
+/* .activo{ 
 	border: 2px solid orange !important;
 	background-color: papayawhip!important;
 	color: #333 !important;
 	
-}
+} */
 
 /* Sticky menu - toggles between relative and fixed, depending on the scroll position. It is positioned relative until a given offset position is met in the viewport - then it "sticks" in place (like position:fixed). The sticky value is not supported in IE or Edge 15 and earlier versions. However, for these versions the menu will inherit default position */
-.menu {
+/* .menu {
     overflow: hidden;
     background-color: #333;
     position: sticky;
     top: 0;
-}
-.pagina{
+} */
+/* .pagina{
 	padding: 8px 14px;
 	border: 1px solid #355C7D;
 	background-color: #355C7D;
@@ -89,10 +93,10 @@ article aside{
 .pagina:disabled{
 	background-color: gray !important;
 	color: black !important;
-}
+} */
 
 /* Style the navigation bar links */
-.menu a {
+/* .menu a {
     float: left;
     display: block;
     color: papayawhip;
@@ -100,34 +104,34 @@ article aside{
     padding: 14px 10px;
     text-decoration: none;
 }
-
+ */
 /* Change color on hover */
-.menu a:hover, .pagina:hover {
+/* .menu a:hover, .pagina:hover {
     background-color: white;
     color: black;
-}
+} */
 
 /* Active/current link */
-.menu a:active, .pagina:active {
+/* .menu a:active, .pagina:active {
     /*background-color: #f42;*/
     color: white;
-}
+} */
 
 /* Column container */
-.main {  
+/* .main {  
     display: flex;
     flex-wrap: wrap;
-}
+} */
 
 /* Create two unequal columns that sits next to each other */
 /* Sidebar/left column */
-.side {
+/* .side {
     flex: 30%;
     background-color: #355C7D;
     padding: 20px;
     color:papayawhip;
-}
-.side a{
+} */
+/* .side a{
     text-decoration: none;
     color:white;
 }
@@ -135,25 +139,25 @@ article aside{
     text-decoration: none;
     color:papayawhip;
 }
-
+ */
 
 /* Main column */
-.principal {   
+/* .principal {   
     flex: 70%;
     background-color: white;
     padding: 20px;
-}
+} */
 
 
 
-.hidden{
+/* .hidden{
     display: none;
 }
 .visible{
     display:inline;
-}
+} */
 
-
+/* 
 .center{
     text-align: center;
 }
@@ -173,7 +177,7 @@ textarea{
     width: 95%;
     height: 100px;
    
-}
+} */
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
     .main {   

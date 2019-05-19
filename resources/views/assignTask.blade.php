@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('main')
 
 @section('title','Asignación de Tareas')
 
@@ -19,7 +19,7 @@
     </div>
     
     @endif
-    
+    <span id="assingtask">a</span>
     {{-- Form to asign a task --}}
     <form action="/assigntask" method="post">
         

@@ -1,0 +1,52 @@
+ *{
+    box-sizing: border-box;
+}
+
+/* div{
+    border:1px solid lightgrey;
+} */
+.inner
+{
+    margin :0;
+}
+
+.container{
+    padding:0!important;
+}
+.side{     
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.main{ 
+    padding-left: 1em;
+    padding-right: 1em;    
+}
+.header{
+    margin: 0 auto 1em 0;
+}
+aside{
+    padding-left: 0!important;
+    padding-right:0!important;
+}
+/* button height */
+.bh3{
+    height: 3em;
+    padding-left: 1em;
+    font-weight: 800;
+    background-color: #fff;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    border-top: 0;
+    text-decoration: none;
+    
+}
+.btn-top{
+    border-top:1px solid lightgray;
+}
+button:hover{
+    border-left: 5px solid rgb(114, 157, 221);
+}
+.active{
+    border-left: 5px solid lightseagreen;
+}

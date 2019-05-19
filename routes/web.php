@@ -29,7 +29,11 @@ Route::get('/assigntask', 'TaskController@landing');                //landing pa
     return redirect('assigntask')->with('error', 'There are no employees available on that date');
 }); */
 
-Route::post( '/assigntask', 'TaskController@addtask');
+/**
+ * Route to assign tasks
+ * This route is used by jquery in the file jquery_functions. BEWARE if it is changed, buttons classes would stop working.
+ */
+Route::post( '/assigntask', 'TaskController@addtask');  
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
 

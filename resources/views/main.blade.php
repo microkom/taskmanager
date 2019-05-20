@@ -55,18 +55,16 @@
                         <img src="/svg/file-directory.svg" alt="Tasks" >&ensp;
                         Archivar
                     </button>
-                    
-                    <div id="accordion">
-                        <div class="card">
-                            <div class="card-header"  id="employee">
-                                <a class="card-link" data-toggle="collapse"  href="#employee2"> 
-                                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 text-left menu_item">
-                                        <img src="/svg/person.svg" alt="Personal" >&ensp;
-                                        Personal
-                                    </button>
-                                </a>
-                            </div>
-                            <div id="employee2" class="collapse show" aria-labelledby="employee" data-parent="#accordion">
+                    <a href="/employee" >
+                        <button id='employee' class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
+                            <img src="/svg/person.svg" alt="Empleados" >&ensp;
+                            Personal
+                        </button>
+                    </a>
+                   
+                               
+                            
+                           {{--  <div id="employee2" class="collapse show" aria-labelledby="employee" data-parent="#accordion">
                                 <div class="card-body">
                                     
                                     <img src="/svg/pencil.svg" alt="Editar" >
@@ -84,13 +82,13 @@
                                     
                                     <img src="/svg/dash.svg" alt="Excluir" >
                                     <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="employee/exclude">Excluir</a>
-                                    
+                                     
                                 </div>
                             </div>
                         </div>
                      
                        
-                    </div>
+                    </div> --}}
                 </aside>
             </div>
             <div class="main col-xl-9 col-lg-9 col-md-9 col-sm-12  col-xs-12">
@@ -99,5 +97,6 @@
         </div>
     </div>
     <script type="text/javascript" src="/js/jquery_functions.js"></script>
+   
 </body>
-</html>
+</html>/

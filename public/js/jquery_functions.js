@@ -1,11 +1,11 @@
 $(document).ready(function () {
     
     /**
-     * Retrieve positions according to task
-     */
+    * Retrieve positions according to task
+    */
     $("#task").change(function () {
         var task_id = $(this).val();
-
+        
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -16,7 +16,7 @@ $(document).ready(function () {
             type: 'post',
             data: { task_id: task_id },
             dataType: 'json',
-
+            
             success: function (response) {
                 console.log(response)
                 $("#position").empty();
@@ -28,11 +28,14 @@ $(document).ready(function () {
             }
         });
     });
-
-
+    
+    $(document).ready(function () {
+        $('#tabla_hoy').DataTable();
+    });
     /**
-     * Assign class 'active' to active button by capturing the current url '/assigntask'
+    * Assign class 'active' to active button by capturing the current url '/assigntask'
+    */
+    /* var path = window.location.pathname.substring(1)
+    $('#' + path).addClass('active');
      */
-/*     var path = window.location.pathname.substring(1)
-    $('#' + path).addClass('active'); */
 });

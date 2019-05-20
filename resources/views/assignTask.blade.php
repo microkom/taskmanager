@@ -121,10 +121,6 @@
         
         
     </div>
-    <script>
-        $(document).ready( function () {
-            $('#tabla_hoy').DataTable();
-        } );
-    </script>
+   
     @endsection
     

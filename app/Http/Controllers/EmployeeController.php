@@ -46,6 +46,7 @@ class EmployeeController extends Controller
     */
     public function store(Request $request)
     {
+        $request->flash();
         $dni = Employee::where('dni', $request->dni)->count();
         $email = Employee::where('email', $request->email)->count();
         $cip_code =Employee::where('cip_code', $request->cip_code)->count();
@@ -79,7 +80,7 @@ class EmployeeController extends Controller
             $employee->save();
             $employee = Employee::find($employee->id);
             $employee->position_name = Position::find($request->position)->name;
-            $request->session()->flash('alert-success', 'User was successful added!');
+            session()->flash('alert-success', 'User was successful added!');
             return view('employee.show', ['employee' => $employee]);
         }
         

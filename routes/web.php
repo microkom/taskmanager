@@ -29,14 +29,46 @@ Route::post( '/assigntask', 'TaskController@addtask');              //task addin
  * Route to get a list of all the positions in the database to be loaded when choosing a task.
  */
 
-Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
+Route::post('/task_positions_ajax', 'TaskController@task_positions_ajax');                    //Internal, ajax url
 
+Route::get('/employee', function(){
+    return view('employee.index', ['employees' => DB::table('employees')->get()]);
+});
 
 /**
- * Route to personnel 
+ * Route to personnel adding
  */
 
-Route::get('/employee', 'EmployeeController@list_personnel');
+Route::get('/employee/add', function(){
+    return view('employee.addemployee',  ['positions' => DB::table('positions')->get()]);
+});
+
+Route::post('/addemployee', 'EmployeeController@add_employee')->name('addemployee.add_employee');
+
+/**
+ * Route to personnel editing
+ */
+ Route::get('/employee/edit', function(){
+    return view('editemployee',  ['positions' => DB::table('positions')->get()]);
+});
+/*
+Route::get('/employee/add', function(){
+    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
+});
+
+Route::get('/employee/add', function(){
+    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
+});
+
+Route::get('/employee/add', function(){
+    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
+}); */
+
+
+
+
+
+Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
 
 
 /*

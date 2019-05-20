@@ -10,10 +10,34 @@ use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
+    public function index()
     
-    public function list_personnel()
+    public function add_employee(Request $request)
     {
-        $employees = DB::table('employees')->where('position_id', 1)->get();
+        try{
+        $employee = new Employee;
+        $employee->position_id = $request->position;
+        $employee->scale_number = $request->scale_number;
+        $employee->name = $request->name;
+        $employee->surname = $request->surname;
+        $employee->dni = $request->dni;
+        $employee->cip_code = $request->cip_code;
+        $employee->email = $request->email;
+
+        $employee->save();
+        }catch{
+
+        }
+        $request->session()->flash('alert-success', 'User was successful added!');
+        dump(\Session::all());exit();
+    }
+
+    public function all_positions() 
+    {
+        return view('addemployee');
+
+    }
+     //   $employees = DB::table('employees')->where('position_id', 1)->get();
         //$employees = Carbon::today()-Carbon::yesterday();
        // $employees =  Absence::all()->where('start_date_time','like','2019-05-26 00:00:00')[0]->start_date_time; //eloquent
        // $employees = new Carbon($employees);
@@ -28,8 +52,8 @@ class EmployeeController extends Controller
         return view('home', array('ultimosProductos' => $ultimosProductos, 'productosCategoria' => $productosCategoria, 'categorias' => $categorias));
         */
         //return (array('employees' => $employees));
-        return view('employee', array('employees' => $employees));
-    }
+     
+   // }
 /*     public function busqueda(Request $request)
     {
         $arrayProductos = Product::where('object', 'like', '%'.$request->busqueda.'%')

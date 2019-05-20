@@ -7,7 +7,7 @@
 
 <div class="container mx-auto">
     
-    <h1 class="text-center">Asignación de tareas</h1>
+    <h4 class="text-uppercase text-dark">Asignación de tareas</h4>
     <hr>
     @if(isset($error))
     <div class="text-center alert alert-danger">
@@ -73,8 +73,6 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
                 </select>
             </div>
             
@@ -116,7 +114,7 @@
             
         </div>
         
-        <script type="text/javascript" src="/js/task_position.js"></script>
+       {{--  <script type="text/javascript" src="/js/task_position.js"></script> --}}
         <!-- JQuery must be loaded before bootstrap -->
         
         

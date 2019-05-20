@@ -5,3 +5,6 @@ El empleado:
 Tareas de 24 horas continuas
  - Cuando termina una tarea no trabajará el día el resto del día en el que finaliza la tarea.
  - No realizará más tareas aparte de la asignada.
+
+
+Cuando un empleado asciende esto no tiene repercusiones en la tabla de tareas ya asignadas debido que en el momento que se asigna la tarea lo que se hace es listar el personal del empleo para la tarea y se saca de ahi. Cuando la persona asciende el empleo que se mantiene en la lista es el de la tabla de tareas.

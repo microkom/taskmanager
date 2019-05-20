@@ -69,18 +69,21 @@
                             <div id="employee2" class="collapse show" aria-labelledby="employee" data-parent="#accordion">
                                 <div class="card-body">
                                     
+                                    <img src="/svg/pencil.svg" alt="Editar" >
+                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/employee/edit">Editar </a><br>
+                                     
                                     <img src="/svg/plus.svg" alt="Agregar" >
-                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/addPersonnel">Agregar </a><br>
+                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/employee/add">Agregar </a><br>
                                     
                                     <img src="/svg/chevron-up.svg" alt="Ascender" >
-                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/promote">Ascender</a><br>
+                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="employee/promote">Ascender</a><br>
                                     
                                     <img src="/svg/x.svg" alt="Desactivar" >
-                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/deactivate">Desactivar</a><br>
+                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="employee/deactivate">Desactivar</a><br>
                                     
                                     
                                     <img src="/svg/dash.svg" alt="Excluir" >
-                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="/exclude">Excluir</a>
+                                    <a class=" col-xl-12 col-lg-12 col-md-12 text-left " href="employee/exclude">Excluir</a>
                                     
                                 </div>
                             </div>

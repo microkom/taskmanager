@@ -440,7 +440,7 @@ class TaskController extends Controller
     * @param $request Info received through post
     * @return $data JSON file containing the positions specific to a task
     */
-    public function positions_ajax(Request $request)
+    public function task_positions_ajax(Request $request)
     {
         $task_positions = TaskPosition::all()->where('task_id', $request->task_id);
         

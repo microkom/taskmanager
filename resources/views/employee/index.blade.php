@@ -6,14 +6,15 @@
 
 <h4>Personal</h4>
 
+<br>
+<p>Para editar un empleado haga click sobre el nombre</p>
 
-
-<br><hr>
+<hr>
 <div class="row btn-group col-md-12" role="group">
-<a  href="/employee/create" class="btn btn-info btn-lg col-md-4 col-sm-12 col-xs-12">Nuevo</a>
+<a  href="/employee/create" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Nuevo</a>
 
-<a href="/employee/disable" class="btn btn-info btn-lg col-md-4 col-sm-12 col-xs-12">Borrar</a>
-<a href="/employee/exclude" class="btn btn-info btn-lg col-md-4 col-sm-12 col-xs-12">Excluir</a>
+<a href="/employee/disable" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Borrar</a>
+<a href="/employee/exclude" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Excluir</a>
 </div>
 <br><hr><br>
 <div>

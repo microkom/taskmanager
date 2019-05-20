@@ -49,7 +49,9 @@ class EmployeeController extends Controller
         $dni = Employee::where('dni', $request->dni)->count();
         $email = Employee::where('email', $request->email)->count();
         $cip_code =Employee::where('cip_code', $request->cip_code)->count();
-
+        $position_id =Employee::where('position_id', $request->position)->get();
+   /*      dump('$position_id');
+        dump($position_id); */
         if($dni > 0 ){
             $request->session()->flash('alert-danger', 'El DNI ya existe');
             return view('employee.create',['positions' => DB::table('positions')->get()] );
@@ -60,7 +62,10 @@ class EmployeeController extends Controller
         }elseif( $cip_code > 0 ){
             $request->session()->flash('alert-danger', 'Código CIP ya existe!');
             return view('employee.create', ['positions' => DB::table('positions')->get()]);
-        }else{
+        }/* elseif( $position_id->isEmpty()){
+            $request->session()->flash('alert-danger', 'Error de empleo');
+            return view('employee.create', ['positions' => DB::table('positions')->get()]);
+        } */else{
             
             $employee = new Employee;
             $employee->position_id = $request->position;
@@ -72,10 +77,10 @@ class EmployeeController extends Controller
             $employee->email = $request->email;
             
             $employee->save();
+            $employee = Employee::find($employee->id);
             $employee->position_name = Position::find($request->position)->name;
-            
             $request->session()->flash('alert-success', 'User was successful added!');
-            return view('employee.show', ['employee' => Employee::find($employee->id)]);
+            return view('employee.show', ['employee' => $employee]);
         }
         
         
@@ -89,7 +94,9 @@ class EmployeeController extends Controller
     */
     public function show($id)
     {
-        return view('employee.show', ['employee' => Employee::find($id)]);
+        $employee = Employee::find($id);
+        $employee->position_name = Position::find($employee->position_id)->name;
+        return view('employee.show', ['employee' => $employee]);
         
     }
     

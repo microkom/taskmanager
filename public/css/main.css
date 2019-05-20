@@ -5,6 +5,11 @@
 /* div{
     border:1px solid lightgrey;
 } */
+body{
+    background-color:#f8f8f8;
+    color: #777;
+}
+
 .inner
 {
     margin :0;
@@ -18,18 +23,21 @@
     padding-right: 1em;
 }
 .main{ 
-    padding-left: 1em;
-    padding-right: 1em;    
+    padding: 2em;
+    background-color: #fff;
+    border: 1px solid lightgrey;   
 }
 .header{
     margin: 0 auto 1em 0;
+    font-size: 2em;
+    text-decoration: none!important;
 }
 aside{
     padding-left: 0!important;
     padding-right:0!important;
 }
-/* button height */
-.bh3{
+/* button  */
+.menu_item{
     height: 3em;
     padding-left: 1em;
     font-weight: 800;
@@ -38,15 +46,48 @@ aside{
     border-right: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
     border-top: 0;
-    text-decoration: none;
+    color: #aaa;
     
 }
 .btn-top{
     border-top:1px solid lightgray;
 }
-button:hover{
-    border-left: 5px solid rgb(114, 157, 221);
+.menu_item:hover{
+    border-left: 5px solid rgb(255, 206, 0);
+    color: #444;
 }
 .active{
-    border-left: 5px solid lightseagreen;
+    color: #222;
+    border-left: 5px solid #BA151C;
+}
+.card-header{
+    padding:0;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+    .main {   
+        flex-direction: column;
+    }
+    .header {
+        font-size: 1.5em;
+        padding: 1px;
+    }
+    .side {
+        font-size: 0.8em;
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+/* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+
+    .header {
+        font-size: 1.5em;
+        padding: 1.3em;
+    }
+    .side {
+        font-size: 0.8em;
+    }
 }

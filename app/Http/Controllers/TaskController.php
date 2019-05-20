@@ -106,7 +106,10 @@ class TaskController extends Controller
                 $counter++;
             }
         }
-        
+        unset($_POST['task']);
+        unset($_POST['date']);
+        unset($_POST['position']);
+    
         $task = Task::all();
         $today_tasks = $this->show_today_tasks_ajax();
         $today_tasks = collect($today_tasks);

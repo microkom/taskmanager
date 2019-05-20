@@ -11,12 +11,12 @@ use Carbon\Carbon;
 class EmployeeController extends Controller
 {
     
-    public function employee()
+    public function list_personnel()
     {
-        $employees = Absence::where('start_date_time','not like', '2019-05-26%')->get();
+        $employees = DB::table('employees')->where('position_id', 1)->get();
         //$employees = Carbon::today()-Carbon::yesterday();
-        $employees =  Absence::all()->where('start_date_time','like','2019-05-26 00:00:00')[0]->start_date_time; //eloquent
-        $employees = new Carbon($employees);
+       // $employees =  Absence::all()->where('start_date_time','like','2019-05-26 00:00:00')[0]->start_date_time; //eloquent
+       // $employees = new Carbon($employees);
         //Absence::where('start_date_time','not like', '2019-05-26%')->get(); //direct request
         
         /* 
@@ -27,7 +27,7 @@ class EmployeeController extends Controller
         $categorias = Category::all(); 
         return view('home', array('ultimosProductos' => $ultimosProductos, 'productosCategoria' => $productosCategoria, 'categorias' => $categorias));
         */
-        return (array('employees' => $employees));
+        //return (array('employees' => $employees));
         return view('employee', array('employees' => $employees));
     }
 /*     public function busqueda(Request $request)

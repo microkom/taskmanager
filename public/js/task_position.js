@@ -1,11 +1,8 @@
 $(document).ready(function(){
-    
-    /**
-    * Get the positions that corresponds to each task 
-    */
+
     $("#task").change(function(){
         var task_id = $(this).val();
-        console.log(task_id)
+        
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -18,6 +15,7 @@ $(document).ready(function(){
             dataType: 'json',
             
             success:function(response){
+                console.log(response)
                 $("#position").empty();
                 for( var i = 0; i< response.length; i++){
                     var id = response[i]['id'];

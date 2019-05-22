@@ -62,6 +62,9 @@ Route::get('/settings', function(){
 Route::get('/settings/task' , 'TaskController@index');
 
 
+Route::get('/settings/position' , 'PositionController@index');
+
+
 Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
 
 

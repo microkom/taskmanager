@@ -69,7 +69,7 @@
     </div><br>
     <div class="form-row">
         <div class="col-md-2 col-sm-3 col-xs-6">
-            <input type="submit" name="enviar" id="enviar" value="Guardar" class="btn btn-info">
+            <input type="submit" name="enviar" id="enviar" value="Guardar" class="btn btn-primary">
         </div>
     </div>
     

@@ -8,24 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
 
- /*    public $id;
-    public $position_id;
-    public $scale_number;
-    public $dni;
-    public $name;
-    public $surname;
-    public $cip_code;
-    public $email;
-    public $email_verified_at;
-    public $password;
-    public $remember_token;
-    public $created_at;
-    public $updated_at;
-    public $absence ;
-    public $employee_on_duty;
-    public $employee_day_off; */
 
-
+    protected $fillable = [
+        'scale_number',
+        'name', 
+        'surname', 
+        'dni', 
+        'cip_code',
+        'email'
+    ];
     
     public function absences()
     {

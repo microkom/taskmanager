@@ -11,10 +11,10 @@
 
 <hr>
 <div class="row btn-group col-md-12" role="group">
-<a  href="/employee/create" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Nuevo</a>
-
-<a href="/employee/disable" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Borrar</a>
-<a href="/employee/exclude" class="btn btn-euro btn-lg col-md-4 col-sm-12 col-xs-12">Excluir</a>
+<a  href="/employee/create" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 " >Nuevo</a>
+<a  href="/employee/promote" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Ascender</a>
+<a href="/employee/disable" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Desactivar</a>
+<a href="/employee/exclude" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Excluir</a>
 </div>
 <br><hr><br>
 <div>
@@ -35,7 +35,8 @@
                 {{-- <td>{{ $employee->email }}</td> --}}
             </tr>
             @endforeach
-        </tbody></table>
+        </tbody>
+    </table>
         
         
         

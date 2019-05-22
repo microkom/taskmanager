@@ -51,7 +51,7 @@ class EmployeeController extends Controller
         $email = Employee::where('email', $request->email)->count();
         $cip_code =Employee::where('cip_code', $request->cip_code)->count();
         $position_id =Employee::where('position_id', $request->position)->get();
-   /*      dump('$position_id');
+        /*      dump('$position_id');
         dump($position_id); */
         if($dni > 0 ){
             $request->session()->flash('alert-danger', 'El DNI ya existe');
@@ -97,6 +97,7 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employee->position_name = Position::find($employee->position_id)->name;
+        
         return view('employee.show', ['employee' => $employee]);
         
     }
@@ -121,7 +122,41 @@ class EmployeeController extends Controller
     */
     public function update(Request $request, $id)
     {
-        //
+        
+        $dni = Employee::where('dni', $request->dni)->count();
+        $email = Employee::where('email', $request->email)->count();
+        $scale_number = Employee::where('scale_number', $request->scale_number)->count();
+        $cip_code =Employee::where('cip_code', $request->cip_code)->count();
+        $position_id =Employee::where('position_id', $request->position)->get();
+        
+        /* dump('request');
+        var_dump($request);exit(); */
+        if($dni > 1 ){
+            $request->session()->flash('alert-danger', 'El DNI existe en otro registro');
+            return view('employee.show',['employee' => $request] );
+        }
+        if( $email > 1 ){
+            $request->session()->flash('alert-danger', 'Email existe en otro registro!');
+            return view('employee.show', ['employee' => $request]);
+        }
+        if( $scale_number > 1 ){
+            $request->session()->flash('alert-danger', 'Nº Escalafón existe en otro registro');
+            return view('employee.show', ['employee' => $request]);
+        }
+        if( $cip_code > 1 ){
+            $request->session()->flash('alert-danger', 'Código CIP existe en otro registro!');
+            return view('employee.show', ['employee' => $request]);
+        }
+        
+            
+            
+            $employee = Employee::find($id);
+            $employee->update($request->only(['scale_number','name', 'surname', 'dni', 'cip_code','email']));
+            
+            $employee->position_name = Position::find($request->position)->name;
+            session()->flash('alert-success', 'Se han actualizado los datos');
+            return view('employee.show', ['employee' => $employee]);
+      
     }
     
     /**

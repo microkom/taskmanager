@@ -53,22 +53,13 @@ Route::get('/employee/edit', function(){
 });
 
 Route::get('/employee/{id}', 'EmployeeController@show'); 
+Route::patch('/employee/update/{id}', 'EmployeeController@update'); 
 
-/*
-Route::get('/employee/add', function(){
-    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
+Route::get('/settings', function(){
+    return view('settings');
 });
 
-Route::get('/employee/add', function(){
-    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
-});
-
-Route::get('/employee/add', function(){
-    return view('addemployee',  ['positions' => DB::table('positions')->get()]);
-}); */
-
-
-
+Route::get('/settings/task' , 'TaskController@index');
 
 
 Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url

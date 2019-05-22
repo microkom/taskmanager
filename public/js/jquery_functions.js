@@ -3,7 +3,7 @@ $(document).ready(function () {
     /**
     * Retrieve positions according to task
     */
-    $("#task").change(function () {
+    $("#task_assign_task").change(function () {
         var task_id = $(this).val();
         
         $.ajaxSetup({
@@ -19,11 +19,11 @@ $(document).ready(function () {
             
             success: function (response) {
                 console.log(response)
-                $("#position").empty();
+                $("#position_assign_task").empty();
                 for (var i = 0; i < response.length; i++) {
                     var id = response[i]['id'];
                     var name = response[i]['name'];
-                    $("#position").append("<option value='" + id + "'>" + name + "</option>");
+                    $("#position_assign_task").append("<option value='" + id + "'>" + name + "</option>");
                 }
             }
         });

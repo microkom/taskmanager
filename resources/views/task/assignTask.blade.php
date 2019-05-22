@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <label for="task">Tarea</label>
-                <select class="form-control"  id="task" name="task" required>
+                <select class="form-control"  id="task_assign_task" name="task" required>
                     <option value="">- Tarea -</option>
                     
                     {{-- [landing] Task list extracted from the database --}}
@@ -59,7 +59,7 @@
             {{-- Position list based on task selected previously  [upon request][task_position.js] --}}
             <div class="col-md-3 col-sm-4 col-xs-12">
                 <label for="position">Empleo</label>
-                <select class="form-control " id="position" name="position" required>
+                <select class="form-control " id="position_assign_task" name="position" required>
                     <option value="">- Empleo -</option>
                 </select>
             </div>
@@ -79,7 +79,7 @@
             {{-- submit button --}}
             <div class="col-md-2 col-sm-4 col-xs-12">
                 <br>
-                <button class="btn btn-info " type="submit" name="enviar" value="Asignar" id="asignar">Asignar</button>
+                <button class="btn btn-primary" type="submit" name="enviar" value="Asignar" id="asignar">Asignar</button>
             </div>
         </div>
     </form>

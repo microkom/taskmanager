@@ -26,6 +26,7 @@ class CreateEmployeesTable extends Migration
             $table->string('password')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
+            $table->boolean('active')->default(true);
         });
     }
 

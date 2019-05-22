@@ -19,6 +19,27 @@ define("GUARDIA_FEST",  "2");
 
 class TaskController extends Controller
 {
+
+    public function index()
+    {
+        $task_names = [];
+        
+        $task_positions = TaskPosition::all();
+       
+        foreach ($task_positions as $task_p) {
+            $tasks = new TaskPosition;
+           
+            $tasks->position_name = Position::find($task_p->position_id)->name;
+            $tasks->task_name = Task::find($task_p->task_id)->name;
+
+            $task_names[]= $tasks;
+            
+        }
+        /* dump('tasks name');
+        dump($task_names);exit(); */
+
+        return view('task.index', ['task' => $task_names]);
+    }
     /*********************************************************
     * Defines the task to be done
     * @param $request Info received through post
@@ -32,7 +53,7 @@ class TaskController extends Controller
             //dump('value');
             $task = Task::all();
             
-            return view('assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
+            return view('task.assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
             
         }
         
@@ -73,7 +94,7 @@ class TaskController extends Controller
                 
                 $task = Task::all();
                 
-                return view('assignTask', ['tasks' => $task], ['error' => 'There are no employees available on that date']);
+                return view('task.assignTask', ['tasks' => $task], ['error' => 'There are no employees available on that date']);
                 
             }else{
                 
@@ -114,7 +135,7 @@ class TaskController extends Controller
         $today_tasks = $this->show_today_tasks_ajax();
         $today_tasks = collect($today_tasks);
         
-        return view('assignTask', ['tasks' => $task, 'counter' => $counter, 'today_tasks' => $today_tasks]);
+        return view('task.assignTask', ['tasks' => $task, 'counter' => $counter, 'today_tasks' => $today_tasks]);
         
     }
     
@@ -496,7 +517,7 @@ class TaskController extends Controller
         $today_tasks = $this->show_today_tasks_ajax();
         $today_tasks = collect($today_tasks);
         //$request->session()->flash('alert-success', 'User was successful added!');
-        return view('assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
+        return view('task.assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
     }
     
 }

@@ -18,12 +18,12 @@ $(document).ready(function () {
             dataType: 'json',
             
             success: function (response) {
-                console.log(response)
+                
                 $("#position_assign_task").empty();
                 for (var i = 0; i < response.length; i++) {
                     var id = response[i]['id'];
                     var name = response[i]['name'];
-                    $("#position_assign_task").append("<option value='" + id + "'>" + name + "</option>");
+                $("#position_assign_task").append("<option value='" + id + "'>" + name + "</option>");
                 }
             }
         });

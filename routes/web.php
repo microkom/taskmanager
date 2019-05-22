@@ -59,7 +59,7 @@ Route::get('/settings', function(){
     return view('settings');
 });
 
-Route::get('/settings/task' , 'TaskController@index');
+Route::get('/settings/taskposition' , 'TaskController@index');
 
 
 Route::get('/settings/position' , 'PositionController@index');

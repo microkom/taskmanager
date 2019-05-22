@@ -38,7 +38,7 @@ class TaskController extends Controller
         /* dump('tasks name');
         dump($task_names);exit(); */
 
-        return view('task.index', ['task' => $task_names]);
+        return view('task.task_position', ['task' => $task_names]);
     }
     /*********************************************************
     * Defines the task to be done

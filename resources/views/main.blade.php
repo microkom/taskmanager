@@ -30,9 +30,9 @@
 </head>
 <body @yield('onload')>
     <div class="container">
-        <div class="header col-12 border d-lg-block">
+        <div class="header col-12 text-center d-lg-block">
             <a href="/">
-                <div class="d-inline-block">
+                <div class="d-inline-block float-left">
                     <img src="/images/logo.png" alt="Logo">
                 </div>
                 <div class="d-inline-block  ">
@@ -66,7 +66,12 @@
                             Personal
                         </button>
                     </a>
-                  
+                  <a href="/absences" >
+                        <button  class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item">
+                            <img src="/svg/eye.svg" alt="Ausencias" >&ensp;
+                            Ausencias
+                        </button>
+                    </a>
                     
                 </aside>
             </div>

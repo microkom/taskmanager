@@ -44,18 +44,32 @@
                 
             </tr>
             @endforeach
-            <td class="editable">
-                <form action="/position/create" method="post">
-                    @csrf
-                    <input type="text" name="name" class="pos_input " id="pos_input_create" placeholder="Click: nuevo empleo " disabled>
-                    <input type="submit" class="btn btn-light btn-sm" style="display:none" value="Guardar">
-                </form>
-            </td>
         </tbody>
+        
+        
     </table>    
-add warnings
     
+    
+    <div class="border border-primary btn mx-auto col-xl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <table>
+            <tr>
+                <td class="editable col-xl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <form action="/position/create" method="post">
+                        @csrf
+                        <input type="text" name="name" class="pos_input " id="pos_input_create" placeholder="Nuevo empleo " disabled>
+                        <input type="submit" class="btn btn-light btn-sm" style="display:none" value="Guardar">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
 </div>
+
+
+{{-- add warnings --}}
+
+
 <script type="text/javascript">
     $(document).ready(function(){
         var count = 0

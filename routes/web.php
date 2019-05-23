@@ -75,6 +75,11 @@ Route::patch('/task/update/{id}','TaskController@update');
 Route::delete('/task/delete/{id}','TaskController@destroy');
 Route::post('/task/create','TaskController@create');
 
+Route::get('/absences', 'AbsenceController@index');
+Route::post('/absences/search', 'AbsenceController@index');
+
+
+
 /*
 Route::get('/', function () {
     return view('welcome');

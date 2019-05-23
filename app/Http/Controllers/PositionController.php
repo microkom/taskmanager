@@ -24,9 +24,25 @@ class PositionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+      // dump($request->name);exit();
+        $verify = Position::where('name', 'like', $request->name)->exists();
+
+        if($verify){
+            $request->session()->flash('alert-danger', 'Ese empleo/categoría ya existe ');
+            return back();
+        }
+       /*   if(strcmp($request->name, null) == 0){
+            $request->session()->flash('alert-danger', 'Debe escribir un nombre');
+            return back();
+        } */
+        $position = new Position;
+        $position->name = $request->name;
+        $position->save();
+
+         session()->flash('alert-success', 'Se han actualizado los datos');
+        return back();
     }
 
     /**
@@ -71,8 +87,13 @@ class PositionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $position = Position::find($id);
+        $position->update($request->only(['name']));
+     
+        return back();
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -82,6 +103,9 @@ class PositionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $position = Position::find($id);
+        $position->delete();
+
+        return back();
     }
 }

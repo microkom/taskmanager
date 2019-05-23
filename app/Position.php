@@ -8,7 +8,7 @@ class Position extends Model
 {
 
     
-   
+   protected $fillable = ['name'];
 
     public function employees()
     {

@@ -12,30 +12,29 @@
 */
 
 /**
- * Initial landing page.
- */
-Route::get('/', 'indexController@index');
+* Initial landing page.
+*/
+Route::get('/', 'TaskController@landing');
 
 /**
- * Route to assign tasks
- * This route is used by jquery in the file jquery_functions. BEWARE if it is changed, buttons classes would stop working.
- */
+* Route to assign tasks
+* This route is used by jquery in the file jquery_functions. BEWARE if it is changed, buttons classes would stop working.
+*/
 
-Route::get('/assigntask', 'TaskController@landing');                //landing page
 
 Route::post( '/assigntask', 'TaskController@addtask');              //task adding
 
 /**
- * Route to get a list of all the positions in the database to be loaded when choosing a task.
- */
+* Route to get a list of all the positions in the database to be loaded when choosing a task.
+*/
 
 Route::post('/task_positions_ajax', 'TaskController@task_positions_ajax');                    //Internal, ajax url
 
 Route::get('/employee', 'EmployeeController@index')->name('employee.index');
 
 /**
- * Route to personnel adding
- */
+* Route to personnel adding
+*/
 
 Route::get('/employee/create', function(){
     return view('employee.create',  ['positions' => DB::table('positions')->get()]);
@@ -44,10 +43,10 @@ Route::get('/employee/create', function(){
 Route::post('/employee/store', 'EmployeeController@store')->name('addemployee.store');
 
 /**
- * Route to personnel editing
- */
- Route::get('/employee/edit/{id}', 'EmployeeController@edit'); 
- 
+* Route to personnel editing
+*/
+Route::get('/employee/edit/{id}', 'EmployeeController@edit'); 
+
 Route::get('/employee/edit', function(){
     return view('editemployee',  ['positions' => DB::table('positions')->get()]);
 });
@@ -75,9 +74,18 @@ Route::patch('/task/update/{id}','TaskController@update');
 Route::delete('/task/delete/{id}','TaskController@destroy');
 Route::post('/task/create','TaskController@create');
 
-Route::get('/absences', 'AbsenceController@index');
-Route::post('/absences/search', 'AbsenceController@index');
 
+
+Route::group(['middleware' => ['auth']], function(){
+ 
+    
+    
+    Route::group(['middleware' => ['admin']], function(){
+        Route::get('/assigntask', 'TaskController@landing');                //landing page
+        Route::get('/absences', 'AbsenceController@index'); 
+        Route::post('/absences/search', 'AbsenceController@index');
+    });
+});
 
 
 /*
@@ -96,12 +104,12 @@ Route::get('/employees', 'EmployeeController@employee');
 /* Route::get('/assigntask', function(){
     return view('assignTask');
 });
- */
+*/
 
 
- Route::get('/present', 'AddTaskController@whoIsPresent');
+Route::get('/present', 'AddTaskController@whoIsPresent');
 
- 
+
 
 /* Route::get('/assigntask/error', function(){
     return redirect('assigntask')->with('error', 'There are no employees available on that date');
@@ -109,4 +117,4 @@ Route::get('/employees', 'EmployeeController@employee');
 
 Auth::routes();
 
-Route::get('/', 'IndexController@index');
+Route::get('/home', 'HomeController@index')->name('home');

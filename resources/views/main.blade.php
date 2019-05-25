@@ -84,23 +84,22 @@
     
 </div>
 <div class="container">
- {{--    <div class="header col-12 text-center d-lg-block">
-        <a href="/">
-            <div class="d-inline-block float-left">
-                <img src="/images/logo.png" alt="Logo">
-            </div>
-            <div class="d-inline-block  ">
-                <p class="text-dark">Ministerio de Defensa</p>   
-            </div>
-        </a> 
-    </div>
-     --}}
+
     <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5">
         <div class="side col-xl-3 col-lg-3 col-md-3 col-sm-12  col-xs-12">
             <aside class="col-12">
+                @auth
+                    
+                <a href="/home" >
+                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
+                        <img src="/svg/desktop-download.svg" alt="Usuario" >&ensp;
+                        Usuario
+                    </button>
+                </a>
+                @endauth
                 <a href="/assigntask" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
-                        <img src="/svg/desktop-download.svg" alt="Tasks" >&ensp;
+                        <img src="/svg/desktop-download.svg" alt="Tareas" >&ensp;
                         Asignación de tareas
                     </button>
                 </a>
@@ -111,7 +110,7 @@
                     </button>
                 </a>
                 <button class="bh3 col-xl-12 col-lg-12 col-md-12 text-left menu_item">
-                    <img src="/svg/file-directory.svg" alt="Tasks" >&ensp;
+                    <img src="/svg/file-directory.svg" alt="Archivo" >&ensp;
                     Archivar
                 </button>
                 <a href="/employee" >

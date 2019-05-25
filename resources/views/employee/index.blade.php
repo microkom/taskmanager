@@ -22,7 +22,7 @@
     
     <table id="tabla_hoy">
         <thead>
-            <tr><td>Empleo</td><td>Nº Esc.</td><td>Nombre</td><td>DNI</td><td>Código CIP</td>{{-- <td>email</td> --}}</tr>
+            <tr><th>Empleo</th><th>Nº Esc.</th><th>Nombre</th><th>DNI</th><th>Código CIP</th>{{-- <th>email</th> --}}</tr>
         </thead><tbody>
             
             @foreach ($employees as $employee)

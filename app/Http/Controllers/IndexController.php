@@ -68,23 +68,7 @@ class IndexController extends Controller
 
         return view('index', ['tasks' => $data]);
 
-       /*  
-        
-        dump('is not null');
-        dump($data);exit();
-        if(is_null($data)){ 
-            
-            $data[] = [
-                'employee' =>   Employee::  findOrFail    (auth()->id())->name.' '.Employee::  findOrFail    (auth()->id())->surname,
-                'position' =>   Employee::  findOrFail    (auth()->id())->position->name
-            ];
-            dump('is null');
-            dump($data);exit();
-            session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
-            return view('index', ['tasks' => $data]);
-        } */
-        
-        // dump($data);exit();
+      
         
         
     }   

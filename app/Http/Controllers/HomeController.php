@@ -1,12 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Employee;
 use App\EmployeeTask;
 use App\Task;
 use App\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
+use App\Absence;
+
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -20,6 +25,7 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
     
+    
     /**
     * Show the application dashboard.
     *
@@ -28,33 +34,46 @@ class HomeController extends Controller
     public function index()
     {
         
+        /* if(auth()->guest()) */
+        
         $tasks = DB::table('employee_tasks')->where('employee_id',auth()->id())->get();
         
-        
-        
-        foreach ($tasks as $task) {
-            
+        //dump('tasks');
+        //dump($tasks->isEmpty());exit();
+        $data = null;
+        if($tasks->isEmpty())
+        {
             $data[] = [
-                'id' => $task->id, 
-                'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
-                'task' =>       Task::      findOrFail    ($task->task_id)->name,
-                'position' =>   Position::  findOrFail    ($task->position_id)->name,
-                'date' => $task->date_time];
-            };
-            
-            if(!isset($data)){ 
+                'employee' =>   Employee::  findOrFail    (auth()->id())->name.' '.Employee::  findOrFail    (auth()->id())->surname,
+                'position' =>   Employee::  findOrFail    (auth()->id())->position->name
+            ];
+           // dump('is null');
+            //dump($data);exit();
+            session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
+            //return view('index', ['tasks' => $data]);
+
+        }else{
+            foreach ($tasks as $task) {
                 
                 $data[] = [
-                    'employee' =>   Employee::  findOrFail    (auth()->id())->name.' '.Employee::  findOrFail    (auth()->id())->surname,
-                    'position' =>   Employee::  findOrFail    (auth()->id())->position->name
+                    'id' => $task->id, 
+                    'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
+                    'task' =>       Task::      findOrFail    ($task->task_id)->name,
+                    'position' =>   Position::  findOrFail    ($task->position_id)->name,
+                    'date' => $task->date_time
                 ];
-                
-                session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
-                return view('index', ['tasks' => $data]);
-            }
-            
-            
-            return view('index', ['tasks' => $data]);
+            };
+           
         }
-    }
+
+        return view('index', ['tasks' => $data]);
+
+      
+        
+        
+    }   
     
+    
+    
+    
+}

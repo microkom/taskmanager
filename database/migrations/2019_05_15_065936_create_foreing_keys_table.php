@@ -7,43 +7,46 @@ use Illuminate\Database\Migrations\Migration;
 class CreateForeingKeysTable extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    * Run the migrations.
+    *
+    * @return void
+    */
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
             $table->foreign('position_id')->references('id')->on('positions');
         });
-
+        
         Schema::table('employee_tasks', function (Blueprint $table) {
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->foreign('task_id')->references('id')->on('tasks');
             $table->foreign('position_id')->references('id')->on( 'positions');
         });
-
+        
         Schema::table('task_positions', function (Blueprint $table) {
             $table->foreign('position_id')->references('id')->on('positions');
             $table->foreign('task_id')->references('id')->on('tasks');
         });
-
+        
         Schema::table('absences', function (Blueprint $table) {
             $table->foreign('employee_id')->references('id')->on('employees');
         });
-
-/*         Schema::table('employee_exclusions', function (Blueprint $table) {
+        /* Schema::table('users', function (Blueprint $table) {
+            $table->foreign('employee_id')->references('id')->on('employees');
+        }); */
+        
+        /*         Schema::table('employee_exclusions', function (Blueprint $table) {
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->foreign('task_id')->references('id')->on('tasks');
         }); */
     }
     /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    * Reverse the migrations.
+    *
+    * @return void
+    */
     public function down() {
-
+        
         Schema::table('subcategories', function (Blueprint $table) {
             $table->dropForeign('subcategories_categoryid_foreign');
         });

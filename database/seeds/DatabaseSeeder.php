@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EmployeeTaskTableSeeder::class);
         $this->call(AbsenceTableSeeder::class);
         $this->call(TaskPositionTableSeeder::class);
+        $this->call(UserTableSeeder::class);
     }
 }

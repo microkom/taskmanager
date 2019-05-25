@@ -40,6 +40,8 @@ class TaskController extends Controller
 
         return view('task.task_position', ['task' => $task_names]);
     }
+
+
     /*********************************************************
     * Defines the task to be done
     * @param $request Info received through post
@@ -50,7 +52,7 @@ class TaskController extends Controller
         
         
         if(! $request-> position >0 ){
-            //dump('value');
+
             $task = Task::all();
             
             return view('task.assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
@@ -62,8 +64,6 @@ class TaskController extends Controller
         $task_id = $request->task;
         $quantity = $request->quantity;
         $position_id = $request->position;
-        
-        
         
         
         /**
@@ -127,12 +127,10 @@ class TaskController extends Controller
                 $counter++;
             }
         }
-        unset($_POST['task']);
-        unset($_POST['date']);
-        unset($_POST['position']);
+
     
         $task = Task::all();
-        $today_tasks = $this->show_today_tasks_ajax();
+        $today_tasks = $this->show_today_tasks();
         $today_tasks = collect($today_tasks);
         
         return view('task.assignTask', ['tasks' => $task, 'counter' => $counter, 'today_tasks' => $today_tasks]);
@@ -275,8 +273,11 @@ class TaskController extends Controller
         /**
         * Get ids of all employees who are not available for the task
         */
+        
         $id_absentees_obj = $this->_whoIsUnavailable( $date,$position_id, $task_id);
         //dump('id_absentees_obj'); //dump($id_absentees_obj);
+        
+        
         /**
         * get all employees in database within a $position_id
         */
@@ -385,8 +386,9 @@ class TaskController extends Controller
             $id[] = $itemId->employee_id;
         }
         */
-        
+       // dump('date');dump($date); 
         $employees = DB::table('employees')->where('position_id', $position_id)->get();
+        
         
         if (\is_object($employees)){
             
@@ -398,13 +400,14 @@ class TaskController extends Controller
                 
                 $a = DB::table('absences')->
                 where('start_date_time',    '<=',    $carbonDate)->
-                where('end_date_time',      '>=',    $carbonDate)->
+                Where('end_date_time',      '>=',    $carbonDate)->
                 where('employee_id',                 $employee_obj->id)->
                 get();
 
+               
                 if(!$a->isEmpty()) $employee_obj->absence = $a;
                 
-                
+                dump( $a);//exit();
                 
                 /**
                 * filter employees doing a task on $date
@@ -414,6 +417,9 @@ class TaskController extends Controller
                 where('employee_id',            $employee_obj->id)->
                 where('date_time',      '=',    $carbonDate)->
                 get();
+
+                //dump('b'.$b);
+
                 if(!$b->isEmpty()) $employee_obj->employee_on_duty = $b;
                 
                 /**
@@ -430,10 +436,13 @@ class TaskController extends Controller
                     
                 })->get();
 
+                //dump('c'.$c);
                 if(!$c->isEmpty()) $employee_obj->employee_day_off = $c;
             }
         }
-        //dump('employee');dump($employees);exit();
+        
+        ///dump('employee');dump($employees);
+        
         
         //exit();
         /**
@@ -449,7 +458,7 @@ class TaskController extends Controller
             $uniqueIds = array_unique($id);
             
             $uniqueIds = array_values($uniqueIds);
-            
+            dump('id');dump($uniqueIds);exit();
             return $uniqueIds;
         }           
         
@@ -479,7 +488,7 @@ class TaskController extends Controller
     * @param $request Info received through post
     * @return $data JSON file containing today's task
     */
-    protected function show_today_tasks_ajax()
+    public function show_today_tasks()
     {
         $tdate = new Carbon(date("Y-m-d"));
         
@@ -514,7 +523,7 @@ class TaskController extends Controller
         $task = Task::all();
         
         
-        $today_tasks = $this->show_today_tasks_ajax();
+        $today_tasks = $this->show_today_tasks();
         $today_tasks = collect($today_tasks);
         //$request->session()->flash('alert-success', 'User was successful added!');
         return view('task.assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);

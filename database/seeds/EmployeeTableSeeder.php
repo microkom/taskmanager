@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Employee;
+use App\User;
 
 class EmployeeTableSeeder extends Seeder
 {
@@ -18,6 +19,7 @@ class EmployeeTableSeeder extends Seeder
         $limit = 32;
 
         Schema::disableForeignKeyConstraints();
+        DB::table('employees')->truncate();
         factory(App\Employee::class, $limit )->create();
 
         for ($i = $limit; $i >= 1; $i--) {
@@ -31,6 +33,7 @@ class EmployeeTableSeeder extends Seeder
                     ['position_id' => $pos]
                 );
         }
+        factory(App\User::class, $limit)->create();
 
         Schema::enableForeignKeyConstraints();
     }

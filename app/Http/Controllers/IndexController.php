@@ -2,53 +2,94 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Absence;
 use App\Employee;
-use App\Turn;
+use App\EmployeeTask;
 use App\Task;
+use App\Position;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use App\Absence;
 
 use Carbon\Carbon;
 
 class IndexController extends Controller
 {
-    public function index($date=0, $position=0) //revise
+    /**
+    * Create a new controller instance.
+    *
+    * @return void
+    */
+    public function __construct()
     {
-        $date = '2019-05-28 00:00:00';                           //simulated date received by parameter
-        $position = 1;                                               //simulated position received by parameter
-        $dateOrig = $date;                                       //keep original date
-        $year = substr ($date, 0, 4);                            //filter the year
-        $dateShow = substr($date, 0, 10);                        //get only the date 2000-02-02
-        $dateShow = new Carbon($dateShow);                       //convert date to Carbon format
-        $dateShow = $dateShow->locale('es')->isoFormat('dddd, D MMMM YYYY');        //format date to Spanish locale
-
-/*         //filter absentees per year [attempt to optimize machine processing]
-        $absentees = Absence::where('start_date_time','like', $year.'%')->get();
-
-        //get all employees that will be absent on $date given
-        $absentees = $this->whoIsAbsent($date);
-
-        //filter employees who WILL BE PRESENT base on the those who will be absent
-        foreach ($absentees as $key => $absent) {
-            $employee[] = Employee::all()->where('id','<>',($absent->employee_id))->where('position_id', $position);
-        }
-        //convert the array to collection for easier handling
-        if(isset($employee)){
-            $employee = collect($employee[0]);
-            //Order by scale_number ascending
-            $employee = $employee->sortByDesc('scale_number');
-        }else{
-            $employee[] = Employee::all()->where('position_id', $position);
-        } */
-        $employee = Employee::all()->where('position_id', $position);
-        /*
-        //number of employees in the list
-        $employee = $employee->take(3);
-        */
-        return view('index', array('employees' => $employee), array('date' => $dateShow));
+        $this->middleware('auth');
     }
+    
+    
+    /**
+    * Show the application dashboard.
+    *
+    * @return \Illuminate\Contracts\Support\Renderable
+    */
+    public function index()
+    {
+        
+        /* if(auth()->guest()) */
+        
+        $tasks = DB::table('employee_tasks')->where('employee_id',auth()->id())->get();
+        
+        //dump('tasks');
+        //dump($tasks->isEmpty());exit();
+        $data = null;
+        if($tasks->isEmpty())
+        {
+            $data[] = [
+                'employee' =>   Employee::  findOrFail    (auth()->id())->name.' '.Employee::  findOrFail    (auth()->id())->surname,
+                'position' =>   Employee::  findOrFail    (auth()->id())->position->name
+            ];
+           // dump('is null');
+            //dump($data);exit();
+            session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
+            //return view('index', ['tasks' => $data]);
 
+        }else{
+            foreach ($tasks as $task) {
+                
+                $data[] = [
+                    'id' => $task->id, 
+                    'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
+                    'task' =>       Task::      findOrFail    ($task->task_id)->name,
+                    'position' =>   Position::  findOrFail    ($task->position_id)->name,
+                    'date' => $task->date_time
+                ];
+            };
+           
+        }
 
+        return view('index', ['tasks' => $data]);
+
+       /*  
+        
+        dump('is not null');
+        dump($data);exit();
+        if(is_null($data)){ 
+            
+            $data[] = [
+                'employee' =>   Employee::  findOrFail    (auth()->id())->name.' '.Employee::  findOrFail    (auth()->id())->surname,
+                'position' =>   Employee::  findOrFail    (auth()->id())->position->name
+            ];
+            dump('is null');
+            dump($data);exit();
+            session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
+            return view('index', ['tasks' => $data]);
+        } */
+        
+        // dump($data);exit();
+        
+        
+    }   
+    
+    
     /**
     * Sort multidimensional array in ascending order
     */
@@ -63,7 +104,7 @@ class IndexController extends Controller
         }
         return $c;
     }
-
+    
     /**
     * Sort multidimensional array in descending order
     */
@@ -78,6 +119,6 @@ class IndexController extends Controller
         }
         return $c;
     }
-
-
+    
+    
 }

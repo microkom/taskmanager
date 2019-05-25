@@ -106,3 +106,7 @@ Route::get('/employees', 'EmployeeController@employee');
 /* Route::get('/assigntask/error', function(){
     return redirect('assigntask')->with('error', 'There are no employees available on that date');
 }); */
+
+Auth::routes();
+
+Route::get('/', 'IndexController@index');

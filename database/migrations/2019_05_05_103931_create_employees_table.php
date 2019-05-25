@@ -17,6 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('position_id')->index();
             $table->unsignedBigInteger('scale_number')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('dni')->nullable();
             $table->string('name');
             $table->string('surname');

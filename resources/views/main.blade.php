@@ -44,7 +44,8 @@
                     <ul class="navbar-nav mr-auto">
                         
                     </ul>
-                    <h4 class="text-dark">Ministerio de Defensa</h4>   
+                    <h3 class="text-dark">Ministerio de Defensa</h3>  
+                       
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -84,25 +85,41 @@
     
 </div>
 <div class="container">
-
+    
     <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5">
         <div class="side col-xl-3 col-lg-3 col-md-3 col-sm-12  col-xs-12">
             <aside class="col-12">
-                @auth
-                    
+                
+                 @if (!auth()->guest() )      
                 <a href="/home" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
                         <img src="/svg/desktop-download.svg" alt="Usuario" >&ensp;
                         Usuario
                     </button>
                 </a>
-                @endauth
+                 @if(auth()->user()->role->id === 5) 
+                <a href="/assigntask" >
+                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
+                        <img src="/svg/file-directory.svg" alt="Tareas" >&ensp;
+                        Todas las tareas
+                    </button>
+                </a>
+                @endif
+                @endif
+                <?php //dd(auth()->user()->role->id ===1 ) ?>
+                
+                @if (!auth()->guest())                   
+                
+                @if(auth()->user()->role->id === 1) 
+                
+                
                 <a href="/assigntask" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
                         <img src="/svg/desktop-download.svg" alt="Tareas" >&ensp;
                         Asignación de tareas
                     </button>
                 </a>
+                
                 <a href="/settings" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item">
                         <img src="/svg/settings.svg" alt="Configuración" >&ensp;
@@ -125,7 +142,8 @@
                         Ausencias
                     </button>
                 </a>
-                
+                @endif
+                @endif
             </aside>
         </div>
         <div class="main col-xl-9 col-lg-9 col-md-9 col-sm-12  col-xs-12">

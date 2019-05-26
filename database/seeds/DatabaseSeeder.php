@@ -19,6 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TaskPositionTableSeeder::class);
         $this->call(RoleTableSeeder::class);
         $this->call(UserTableSeeder::class);
-        $this->call(RoleUserTableSeeder::class);
+       
     }
 }

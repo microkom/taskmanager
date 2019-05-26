@@ -7,8 +7,20 @@
 
 <div class="container mx-auto">
     
-    <h4 class="text-uppercase text-dark">Asignación de tareas</h4>
-    <hr>
+    @if (!auth()->guest())                   
+                
+     @if(auth()->user()->role->id === 5)  
+        <h4 class="text-uppercase text-dark">Tareas Programadas</h4>
+    @endif
+    @endif
+
+  @if (!auth()->guest())                   
+                
+     @if(auth()->user()->role->id === 1) 
+         <h4 class="text-uppercase text-dark">Asignación de tareas</h4>
+    @endif
+    @endif
+         
     @if(isset($error))
     <div class="text-center alert alert-danger">
         <h5>{{$error}}</h5>
@@ -18,7 +30,7 @@
     @if(isset($counter))
     
     <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
-        @if($counter==1)
+        @if($counter === 1)
         <h5>Se ha añadido {{ $counter}} tarea </h5>
         @else
         <h5>Se han añadido {{ $counter}} tareas </h5>
@@ -30,7 +42,9 @@
     
     @endif
 
-    
+     @if (!auth()->guest())                   
+                
+     @if(auth()->user()->role->id === 1) 
     {{-- Form to asign a task --}}
     <form action="/assigntask" method="post">
         
@@ -84,12 +98,10 @@
         </div>
     </form>
     
+    @endif
+    @endif
     <div ><br><hr><br>
         @if(isset($today_tasks))
-        
-        {{--  <div class="alert alert-primary text-center" role="alert">
-            <h4 class="">{{ $today_tasks[0]['date']}}</h4>
-        </div> --}}
         
         <table id="tabla_hoy">
             <thead>

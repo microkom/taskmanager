@@ -24,6 +24,10 @@ class UserTableSeeder extends Seeder
             $data->password = '$2y$10$fVUc2cSubCmXvYxcSgGpQOb.l4MhHHU79e4Xllg792GRTjlQt0IOy';
             $data->save();
         }
+
+        $employee = User::find(1);
+        $employee->update(['role_id' => 1]);
+
         Schema::enableForeignKeyConstraints();
     }
 }

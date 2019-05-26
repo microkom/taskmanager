@@ -16,9 +16,9 @@ class CheckRole
      */
     public function handle($request, Closure $next)
     {
-        $userRoles = Auth::user()->roles->pluck('name')->first();
+        $userRole = Auth::user()->role->name;
        
-        if($userRoles !== 'admin'){
+        if($userRole !== 'admin'){
             return redirect('/');
             
         }

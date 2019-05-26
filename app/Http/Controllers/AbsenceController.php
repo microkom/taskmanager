@@ -19,6 +19,7 @@ class AbsenceController extends Controller
     */
     public function index(Request $request)
     {
+       // dd($request);
         $start_date = new Carbon($request->start_date);
         $end_date = new Carbon($request->end_date);
         

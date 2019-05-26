@@ -40,9 +40,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Employee::class);
     }
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany('App\Role','role_users', 'user_id', 'role_id');
+        return $this->belongsTo('App\Role');
     }
     
     /* public function hasAnyRole($roles)

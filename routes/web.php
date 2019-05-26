@@ -14,7 +14,7 @@
 /**
 * Initial landing page.
 */
-Route::get('/', 'TaskController@landing');
+Route::get('/', 'HomeController@index');
 
 /**
 * Route to assign tasks
@@ -58,32 +58,35 @@ Route::get('/settings', function(){
     return view('settings');
 });
 
-Route::get('/settings/taskposition' , 'TaskController@index');
-
-
-Route::get('/settings/position' , 'PositionController@index');
-
-Route::patch('/position/update/{id}','PositionController@update');
-Route::delete('/position/delete/{id}','PositionController@destroy');
-Route::post('/position/create','PositionController@create');
-
-Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
-
-Route::get('/settings/task', 'TaskController@index');
-Route::patch('/task/update/{id}','TaskController@update');
-Route::delete('/task/delete/{id}','TaskController@destroy');
-Route::post('/task/create','TaskController@create');
-
 
 
 Route::group(['middleware' => ['auth']], function(){
- 
     
+    
+    Route::get('/assigntask', 'TaskController@landing');                //landing page
     
     Route::group(['middleware' => ['admin']], function(){
-        Route::get('/assigntask', 'TaskController@landing');                //landing page
+        
         Route::get('/absences', 'AbsenceController@index'); 
         Route::post('/absences/search', 'AbsenceController@index');
+        
+        
+        Route::get('/settings/taskposition' , 'TaskController@index');
+        
+        
+        Route::get('/settings/position' , 'PositionController@index');
+        
+        Route::patch('/position/update/{id}','PositionController@update');
+        Route::delete('/position/delete/{id}','PositionController@destroy');
+        Route::post('/position/create','PositionController@create');
+        
+        Route::post('/positions_ajax', 'TaskController@positions_ajax');                    //Internal, ajax url
+        
+        Route::get('/settings/task', 'TaskController@index');
+        Route::patch('/task/update/{id}','TaskController@update');
+        Route::delete('/task/delete/{id}','TaskController@destroy');
+        Route::post('/task/create','TaskController@create');
+        
     });
 });
 

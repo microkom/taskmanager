@@ -8,6 +8,7 @@
 body{
     background-color:#f8f8f8;
     color: #777;
+    line-height: 1em!important;
 }
 
 .inner
@@ -79,8 +80,36 @@ h4{
 }
 
 .img_bg{
-  opacity: 0.5;
-  filter: alpha(opacity=50); /* For IE8 and earlier */
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+#tabla_hoy{
+    border: 1px solid lightgray;
+}
+#tabla_hoy td{
+    border-bottom: 1px solid lightgray;
+}
+.title{
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+0,c2ad79+100 */
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgb(255,255,255) 0%, rgb(194,173,121) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgb(255,255,255) 0%,rgb(194,173,121) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgb(255,255,255) 0%,rgb(194,173,121) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c2ad79',GradientType=1 ); /* IE6-9 */
+    
+}
+.red-gradient{
+    width:80%;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f70909+0,e8b0b0+70,ffffff+99 */
+    background: rgb(247,9,9); /* Old browsers */
+    background: -moz-linear-gradient(left,  rgb(247,9,9) 0%, rgb(232,176,176) 70%, rgb(255,255,255) 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  rgb(247,9,9) 0%,rgb(232,176,176) 70%,rgb(255,255,255) 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  rgb(247,9,9) 0%,rgb(232,176,176) 70%,rgb(255,255,255) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f70909', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+    
+}
+.bg-whitesmoke{
+    background-color: whitesmoke;
 }
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
@@ -98,11 +127,11 @@ h4{
     }
 }
 .dropdown:hover>.dropdown-menu {
-  display: block!important;
+    display: block!important;
 }
 /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
 @media screen and (max-width: 400px) {
-
+    
     .header {
         font-size: 1.5em;
         padding: 1.3em;

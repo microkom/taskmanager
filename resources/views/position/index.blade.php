@@ -31,7 +31,7 @@
                         @method('PATCH')
                         <input type="hidden" name="id" class="id" value="{{$pos->id}}">
                         <input type="text" name="name" class="pos_input " id="pos_input_edit_{{$pos->id}}" value="{{ $pos->name }}" disabled>
-                        &ensp;<input type="submit"  id="save" value="Guardar" class="btn btn-success btn-sm"  style="display:none" >
+                        &ensp;<input type="submit"   value="Guardar" class="btn btn-success btn-sm save"  style="display:none" >
                     </form>
                 </td>
                 <td class="text-right">
@@ -87,7 +87,7 @@
         });
         
         
-        $('#save').click(function(e){
+        $('.save').click(function(e){
             e.preventDefault()
             var form = $(this).parents('form');
             swal({

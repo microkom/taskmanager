@@ -103,9 +103,9 @@
     <div ><br><hr><br>
         @if(isset($today_tasks))
         
-        <table id="tabla_hoy">
-            <thead>
-                <tr><td>Empleo</td><td>Nombre</td><td>Servicio</td><td>Fecha</td></tr>
+        <table id="tabla_hoy" class="table table-sm table-border">
+            <thead class="thead-dark">
+                <tr><th>Empleo</th><th>Nombre</th><th>Servicio</th><th>Fecha</th></tr>
             </thead><tbody>
                 
                 @foreach ($today_tasks as $task)

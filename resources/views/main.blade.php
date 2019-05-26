@@ -7,34 +7,35 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     {{-- jquery --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     
     {{-- bootstrap --}}
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     
-    {{-- datatables --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    {{-- datatables --}}    
+    <link rel="stylesheet" type="text/css" href="/DataTables/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="/DataTables/js/jquery.dataTables.min.js"></script>
     
     {{-- styles --}}
     <link rel="stylesheet" href="/css/main.css">
     
     
     {{-- sweet alert --}}
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="/js/sweetalert.min.js"></script>
     
     <title>@yield('title')</title>
     {{-- <script src="/js/calendar.js"></script> --}}
 </head>
 <body @yield('onload')>
+    
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <img src="/images/logo.png" alt="Logo">
-                </a>
+                </a><h3 class="text-dark">Ministerio de Defensa</h3>  
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -44,7 +45,7 @@
                     <ul class="navbar-nav mr-auto">
                         
                     </ul>
-                    <h3 class="text-dark">Ministerio de Defensa</h3>  
+                    
                        
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -90,15 +91,15 @@
         <div class="side col-xl-3 col-lg-3 col-md-3 col-sm-12  col-xs-12">
             <aside class="col-12">
                 
-                 @if (!auth()->guest() )      
+                @if (!auth()->guest() )      
                 <a href="/home" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
-                        <img src="/svg/desktop-download.svg" alt="Usuario" >&ensp;
+                        <img src="/svg/person.svg" alt="Usuario" >&ensp;
                         Usuario
                     </button>
                 </a>
                  @if(auth()->user()->role->id === 5) 
-                <a href="/assigntask" >
+                <a href="/tasks" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
                         <img src="/svg/file-directory.svg" alt="Tareas" >&ensp;
                         Todas las tareas
@@ -106,7 +107,6 @@
                 </a>
                 @endif
                 @endif
-                <?php //dd(auth()->user()->role->id ===1 ) ?>
                 
                 @if (!auth()->guest())                   
                 

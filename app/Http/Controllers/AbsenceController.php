@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Absence;
 use App\Employee;
 use Carbon\Carbon;
+use App\User;
 
 class AbsenceController extends Controller
 {
@@ -19,7 +20,9 @@ class AbsenceController extends Controller
     */
     public function index(Request $request)
     {
-       // dd($request);
+        session()->put('absence.index.sdate', $request->start_date);
+        session()->put('absence.index.edate', $request->end_date);
+        
         $start_date = new Carbon($request->start_date);
         $end_date = new Carbon($request->end_date);
         
@@ -33,7 +36,7 @@ class AbsenceController extends Controller
             $absence =  Absence::where('start_date_time','>=',$start_date)->get();
             
         }else{    
-
+            
             //Check if the end date is after today - This is the index view
             $tdate = new Carbon(date("Y-m-d"));                
             $absence =  DB::table('absences')->where('end_date_time','>=',$tdate)->get();
@@ -66,7 +69,30 @@ class AbsenceController extends Controller
     */
     public function store(Request $request)
     {
-        //
+        
+        session()->put('absence.create.user', $request->user);
+        session()->put('absence.create.sdate', $request->start_date);
+        session()->put('absence.create.edate', $request->end_date);
+        
+        if($request->start_date === null ||  $request->end_date === null){
+            session()->flash('alert-danger', 'Es necesario especificar ambas fechas');
+            return back();
+        }
+        
+        $start_date = new Carbon($request->start_date);
+        $end_date = new Carbon($request->end_date);
+        
+        if($start_date > $end_date){
+            session()->flash('alert-danger', 'La fecha de inicio no puede ser superior a la fecha final');
+            return back();
+        }
+        
+        $abs = new Absence;
+        $abs->employee_id = $request->user;
+        $abs->start_date_time = $request->start_date;
+        $abs->end_date_time = $request->end_date;
+        $abs->note = $request->note;
+
     }
     
     /**

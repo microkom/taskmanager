@@ -119,6 +119,19 @@ h4{
 input{
     border-radius: 2px;
 }
+.img-bg{
+    background-image: url('/images/spain.png');
+    background-repeat: no-repeat;
+    background-position-x: 10em;
+    background-size: contain;
+}
+
+.bg-gray{
+    background-color: rgba(252, 210, 64, 0.5);
+    color: #000;
+    font-weight: 800;
+}
+
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
     .main {   

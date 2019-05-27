@@ -33,9 +33,15 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="/images/logo.png" alt="Logo">
-                </a><h3 class="text-dark">Ministerio de Defensa</h3>  
+                @if(auth()->check())
+                <div>
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        <img src="/images/logo.png" alt="Logo">
+                    </a>
+                </div>
+                <div>
+                    <h3 class="text-dark">Ministerio de Defensa</h3>  
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -46,7 +52,7 @@
                         
                     </ul>
                     
-                       
+                    
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
@@ -71,13 +77,21 @@
                                 document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
-                            
+                        
+                         
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
                         </div>
                     </li>
                     @endguest
+                    @else
+                    <div class="mx-auto">
+                            <div class="justify-content-center">
+                                <h1>Sistema de Gestion de tareas</h1>
+                            </div>
+                            </div>
+                    @endif   
                 </ul>
             </div>
         </div>
@@ -88,6 +102,7 @@
 <div class="container">
     
     <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5">
+        @auth
         <div class="side col-xl-3 col-lg-3 col-md-3 col-sm-12  col-xs-12">
             <aside class="col-12">
                 
@@ -98,7 +113,7 @@
                         Usuario
                     </button>
                 </a>
-                 @if(auth()->user()->role->id === 5) 
+                @if(auth()->user()->role->id === 5) 
                 <a href="/tasks" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
                         <img src="/svg/file-directory.svg" alt="Tareas" >&ensp;
@@ -146,13 +161,18 @@
                 @endif
             </aside>
         </div>
+        @endauth
+        @if(auth()->check())
         <div class="main col-xl-9 col-lg-9 col-md-9 col-sm-12  col-xs-12">
-            @yield('content')
-        </div>
-    </div> 
-</div>
-
-<script type="text/javascript" src="/js/jquery_functions.js"></script>
-
+            @else
+            <div class="main col-xl-12 col-lg-12 col-md-12 col-sm-12  col-xs-12">
+                @endif
+                @yield('content')
+            </div>
+        </div> 
+    </div>
+    
+    <script type="text/javascript" src="/js/jquery_functions.js"></script>
+    
 </body>
 </html>

@@ -38,7 +38,7 @@
                     <form action="/position/delete/{{ $pos->id}}" method="post">
                         @csrf
                         @method('DELETE')
-                        <input type="submit" class="btn btn-light btn-sm "  style="display:none" value="Borrar">
+                        <input type="submit" class="btn btn-light btn-sm delete"  style="display:none" value="Borrar">
                     </form>
                 </td>
                 
@@ -91,7 +91,7 @@
             e.preventDefault()
             var form = $(this).parents('form');
             swal({
-                title: "Confirmar",
+                title: "Guardar",
                 text: "Desea guardar esta entrada?",
                 icon: "warning",
                 buttons: true,
@@ -105,6 +105,34 @@
                     
                 }
             });
+        })
+        $('.delete').on('click', function(e){
+            try{
+                e.preventDefault()
+                var form = $(this).parents('form');
+                swal({
+                    title: "Borrar",
+                    text: "Desea borrar esta entrada?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willSave) => {
+                    try{
+                    if (willSave) {
+                        form.submit();
+                        
+                    } else {
+                        $(this).parent().parent().parent().find('.pos_input').removeAttr('style').prop('disabled','disabled')
+                        $(this).parent().parent().parent().find('.btn').hide();
+                    }
+                }catch(err){
+                    console.log(err)
+                }
+                });
+            }catch(er){
+                console.log(er)
+            }
         })
         
     })

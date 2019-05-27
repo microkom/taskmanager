@@ -4,8 +4,9 @@
 
 @section('content')
 
-<h4>Personal</h4>
-
+<div class="title py-2">
+<h3>Personal</h3>
+</div>
 <br>
 <p>Para editar un empleado haga click sobre el nombre</p>
 

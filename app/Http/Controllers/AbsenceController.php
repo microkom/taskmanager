@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Absence;
+use App\Position;
 use App\Employee;
 use Carbon\Carbon;
 use App\User;
@@ -87,12 +88,25 @@ class AbsenceController extends Controller
             return back();
         }
         
+
+        if(Absence::where('employee_id', $request->user)->where('start_date_time',$start_date)->where('end_date_time',$end_date)->exists()){
+            session()->flash('alert-danger', 'Ese usuario ya tiene esa fecha asignada');
+            return back();
+        }
+        
         $abs = new Absence;
         $abs->employee_id = $request->user;
         $abs->start_date_time = $request->start_date;
         $abs->end_date_time = $request->end_date;
         $abs->note = $request->note;
+        $abs->save();
 
+        session()->forget('absence.create.user');
+        session()->forget('absence.create.sdate');
+        session()->forget('absence.create.edate');
+        session()->flash('alert-success', 'Aunsencia anotada: '.$request->start_date.' - '.$request->end_date);
+            
+        return back();
     }
     
     /**
@@ -101,9 +115,18 @@ class AbsenceController extends Controller
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-    public function show($id)
+    public function show($user_id)
     {
-        //
+        
+        $user_absences = Absence::where('employee_id', $user_id)->get();
+       
+        if(count($user_absences)< 1)
+            session()->flash('alert-success', 'El usuario no tiene ausencias registradas.');
+
+        $user = Employee::find($user_id);
+        $user->position = Position::find($user->position_id)->name;
+        
+        return view ('absence.show', ['user' => $user, 'absences' => $user_absences]);
     }
     
     /**
@@ -137,6 +160,9 @@ class AbsenceController extends Controller
     */
     public function destroy($id)
     {
-        //
+        if(Absence::find($id)->delete()){
+            session()->flash('alert-success', 'Ausencia borrada');
+        }
+        return back();
     }
 }

@@ -35,9 +35,7 @@ class TaskController extends Controller
             $task_names[]= $tasks;
             
         }
-        /* dump('tasks name');
-        dump($task_names);exit(); */
-
+       
         return view('task.task_position', ['task' => $task_names]);
     }
 
@@ -186,12 +184,12 @@ class TaskController extends Controller
         $employee = $this-> orderAccordingToTask( $employee_ids,  $task_id);
         $employee = collect( $employee);
         //Count tasks done in that position -> it means the table may have no record of the task being ever done.
-        //dump('no employee');
-        if(!$employee->isEmpty()) //dump($employee); 
+        
+        if(!$employee->isEmpty())  
         $isThereATaskDoneInThisPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
-        //dump('isThereATaskDoneInThisPosition');
+
         if( $isThereATaskDoneInThisPosition ){
-            //dump($isThereATaskDoneInThisPosition);
+
             
             //Count employees who have zero record on a task -> checking those who are available for the task
             foreach ($employee as $key => $objectEmployee) {
@@ -275,9 +273,8 @@ class TaskController extends Controller
         */
         
         $id_absentees_obj = $this->_whoIsUnavailable( $date,$position_id, $task_id);
-        //dump('id_absentees_obj'); //dump($id_absentees_obj);
-        
-        
+
+            
         /**
         * get all employees in database within a $position_id
         */
@@ -288,7 +285,7 @@ class TaskController extends Controller
         /**
         * Posible exit if there are no employees in this position
         */
-        //dump('all employees'); dump($all_employees_obj);exit();
+
         if( !$all_employees_obj->count() > 0 ) return;
         
         
@@ -386,7 +383,7 @@ class TaskController extends Controller
             $id[] = $itemId->employee_id;
         }
         */
-       // dump('date');dump($date); 
+
         $employees = DB::table('employees')->where('position_id', $position_id)->get();
         
         
@@ -407,7 +404,7 @@ class TaskController extends Controller
                
                 if(!$a->isEmpty()) $employee_obj->absence = $a;
                 
-                dump( $a);//exit();
+
                 
                 /**
                 * filter employees doing a task on $date
@@ -418,8 +415,8 @@ class TaskController extends Controller
                 where('date_time',      '=',    $carbonDate)->
                 get();
 
-                //dump('b'.$b);
 
+                
                 if(!$b->isEmpty()) $employee_obj->employee_on_duty = $b;
                 
                 /**
@@ -436,15 +433,12 @@ class TaskController extends Controller
                     
                 })->get();
 
-                //dump('c'.$c);
+
                 if(!$c->isEmpty()) $employee_obj->employee_day_off = $c;
             }
         }
         
-        ///dump('employee');dump($employees);
         
-        
-        //exit();
         /**
         * No value to send
         */
@@ -458,7 +452,7 @@ class TaskController extends Controller
             $uniqueIds = array_unique($id);
             
             $uniqueIds = array_values($uniqueIds);
-            dump('id');dump($uniqueIds);exit();
+
             return $uniqueIds;
         }           
         

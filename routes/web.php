@@ -31,12 +31,17 @@ Route::group(['middleware' => ['auth']], function(){
     
     Route::group(['middleware' => ['admin']], function(){
         
-        Route::get('/absences', 'AbsenceController@index'); 
+        Route::get('/absences', 'AbsenceController@index')->name('absences-index'); 
         Route::post('/absences/search', 'AbsenceController@index');
         Route::post('/absences/store', 'AbsenceController@store');
+        Route::get('/absences/delete/{id}', 'AbsenceController@destroy');
         Route::get('/absences/create', function(){
-            return view ('absence.create', ['users' => DB::table('employees')->get()->sortBy('surname')]);
-        });
+            return view ('absence.create', [
+                'users' => DB::table('employees')->get()->sortBy('surname'), 
+                'notes' => App\Absence::all()->pluck('note')->unique()
+                ]);
+        }); 
+        Route::get('/absences/show/{id}', 'AbsenceController@show');
         
         
         Route::get('/settings/taskposition' , 'TaskController@index');

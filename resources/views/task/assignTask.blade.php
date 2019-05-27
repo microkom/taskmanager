@@ -17,19 +17,17 @@
   @if (!auth()->guest())                   
                 
      @if(auth()->user()->role->id === 1) 
-         <h4 class="text-uppercase text-dark">Asignación de tareas</h4>
+        <div class="title py-2">
+         <h3 class="text-uppercase text-dark">Asignación de tareas</h3>
+         </div>
     @endif
     @endif
          
-    @if(isset($error))
-    <div class="text-center alert alert-danger">
-        <h5>{{$error}}</h5>
-    </div>
-    
-    @endif
+  <br>
+  
     @if(isset($counter))
     
-    <div class="text-center alert alert-success alert-dismissible fade show" role="alert">
+    <div class="text-center alert alert-success alert-dismissible fade show py-3" role="alert">
         @if($counter === 1)
         <h5>Se ha añadido {{ $counter}} tarea </h5>
         @else
@@ -46,7 +44,7 @@
                 
      @if(auth()->user()->role->id === 1) 
     {{-- Form to asign a task --}}
-    <form action="/assigntask" method="post">
+    <form action="/assigntask" method="post" class="py-3">
         
         {{-- laravel security measure --}}
         @csrf

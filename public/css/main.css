@@ -96,7 +96,8 @@ h4{
     background: -webkit-linear-gradient(left,  rgb(255,255,255) 0%,rgb(194,173,121) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right,  rgb(255,255,255) 0%,rgb(194,173,121) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c2ad79',GradientType=1 ); /* IE6-9 */
-    
+    border-top-right-radius: 3em;
+    border-bottom-right-radius: 3em;
 }
 .red-gradient{
     width:80%;
@@ -110,6 +111,13 @@ h4{
 }
 .bg-whitesmoke{
     background-color: whitesmoke;
+}
+
+.l-height-normal{
+    line-height:1.5em;
+}
+input{
+    border-radius: 2px;
 }
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
@@ -129,6 +137,8 @@ h4{
 .dropdown:hover>.dropdown-menu {
     display: block!important;
 }
+
+
 /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
 @media screen and (max-width: 400px) {
     

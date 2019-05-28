@@ -5,19 +5,19 @@
 @section('content')
 
 <div class="title py-2">
-<h3>Personal</h3>
+<h4>Personal</h4>
 </div>
 <br>
-<p>Para editar un empleado haga click sobre el nombre</p>
+
 
 <hr>
-<div class="row btn-group col-md-12" role="group">
-<a  href="/employee/create" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 " >Nuevo</a>
-<a  href="/employee/promote" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Ascender</a>
-<a href="/employee/disable" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Desactivar</a>
-<a href="/employee/exclude" class="btn btn-primary btn-lg col-md-3 col-sm-12 col-xs-12 disabled" >Excluir</a>
+<div class="row  justify-content-center">
+<a  href="/employee/create" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1" >Nuevo</a>
+<a  href="/employee/promote" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1">Ascender</a>
+<a href="/employee/disable" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1 disabled" >Fuera de servicio</a>
+
 </div>
-<br><hr><br>
+<hr><br><p>Para editar un empleado haga click sobre el nombre</p>
 <div>
     
     

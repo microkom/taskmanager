@@ -4,13 +4,9 @@
 
 @section('content')
 
-
-<h3 class="title py-3"><span class=" p-2">Nueva ausencia&ensp;&ensp;</span>    </h3>
-
-
-
-<br><br>
-
+<div class="title py-3">
+<h4 >Nueva ausencia</h4>
+</div>
 {{-- Result Message  --}}
 @include('result_message')
 <br>

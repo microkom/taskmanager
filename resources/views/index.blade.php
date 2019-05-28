@@ -6,7 +6,7 @@
 
 <div class="container">
         <div class="title py-2">
-            <h3>Tareas de: 
+            <h4>Tareas de: 
 
                 @if( !is_null($tasks) )
                  
@@ -18,7 +18,7 @@
                  
                 @endif
 
-            </h3>
+            </h4>
             
         </div>
     

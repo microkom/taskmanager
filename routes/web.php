@@ -92,7 +92,14 @@ Route::group(['middleware' => ['auth']], function(){
         });
         
         Route::get('/employee/{id}', 'EmployeeController@show'); 
-        Route::patch('/employee/update/{id}', 'EmployeeController@update'); 
+
+        /**
+         * Promote employee
+         * @param id
+         */
+        Route::patch('/employee/promote/{id}', 'EmployeeController@promote'); 
+
+        Route::patch('/employee/update/{id}', 'EmployeeController@update')->name('employee.update.show'); 
         
         Route::get('/settings', function(){
             return view('settings');

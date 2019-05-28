@@ -13,13 +13,13 @@ class EmployeeTaskTableSeeder extends Seeder
      */
 
     private $arrayEmployeeTask = [
-        ["id" => 1, "task_id" => "1", "employee_id" => "1","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "5" ],
-        ["id" => 2, "task_id" => "1", "employee_id" => "2","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "2" ],
-        ["id" => 3, "task_id" => "1", "employee_id" => "3","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "3" ],
-        ["id" => 4, "task_id" => "1", "employee_id" => "4","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "5" ],
-        ["id" => 5, "task_id" => "1", "employee_id" => "5","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "1" ],
-        ["id" => 6, "task_id" => "1", "employee_id" => "6","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "4" ],
-        ["id" => 7, "task_id" => "1", "employee_id" => "7","position_id" => 1, "date_time" => "2019/5/27 00:00", "record_counter" => "3"]
+        ["id" => 1, "task_id" => "1", "employee_id" => "1","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "5" ],
+        ["id" => 2, "task_id" => "1", "employee_id" => "2","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "2" ],
+        ["id" => 3, "task_id" => "1", "employee_id" => "3","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "3" ],
+        ["id" => 4, "task_id" => "1", "employee_id" => "4","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "5" ],
+        ["id" => 5, "task_id" => "1", "employee_id" => "5","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "1" ],
+        ["id" => 6, "task_id" => "1", "employee_id" => "6","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "4" ],
+        ["id" => 7, "task_id" => "1", "employee_id" => "7","position_id" => 1, "date_time" => "2019/6/27", "record_counter" => "3"]
 
     ];
     public function run()

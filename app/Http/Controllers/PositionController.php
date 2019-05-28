@@ -15,7 +15,6 @@ class PositionController extends Controller
      */
      public function index()
     {
-
         return view('position.index', ['position' => Position::all() ]);
     }
 
@@ -26,17 +25,15 @@ class PositionController extends Controller
      */
     public function create(Request $request)
     {
-      // dump($request->name);exit();
+ 
         $verify = Position::where('name', 'like', $request->name)->exists();
 
         if($verify){
             $request->session()->flash('alert-danger', 'Ese empleo/categoría ya existe ');
             return back();
         }
-       /*   if(strcmp($request->name, null) == 0){
-            $request->session()->flash('alert-danger', 'Debe escribir un nombre');
-            return back();
-        } */
+    
+        
         $position = new Position;
         $position->name = $request->name;
         $position->save();

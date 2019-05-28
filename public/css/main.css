@@ -8,7 +8,7 @@
 body{
     background-color:#f8f8f8;
     color: #777;
-    line-height: 1em!important;
+    line-height: 0.9em!important;
 }
 
 .inner
@@ -58,9 +58,9 @@ aside{
     border-left: 5px solid rgb(255, 206, 0);
     color: #444;
 }
-.active{
+.active-side{
     color: #222;
-    border-left: 5px solid #BA151C;
+    border-left: 5px solid rgb(255, 41, 41);
 }
 .card-header{
     padding:0;
@@ -72,6 +72,27 @@ aside{
 }
 h4{
     color: #000;
+    font-size: 1.3rem;
+    
+    
+}
+h5{
+    color: #444;
+    font-size: 1.1rem;
+}
+/* .btn{
+    filter: drop-shadow(4px 10px 4px #aaa);
+} */
+#tabla_hoy_wrapper{
+    border: 1px solid lightgray;
+    padding: 0.5rem;
+    border-radius: 2px;
+    filter: drop-shadow(4px 4px 4px #aaa);
+    background-color: whitesmoke;
+}
+
+#tabla_hoy thead{
+    background-color: whitesmoke;
 }
 /* decoration for input */
 .pos_input{
@@ -85,6 +106,7 @@ h4{
 }
 #tabla_hoy{
     border: 1px solid lightgray;
+    
 }
 #tabla_hoy td{
     border-bottom: 1px solid lightgray;
@@ -98,6 +120,8 @@ h4{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#c2ad79',GradientType=1 ); /* IE6-9 */
     border-top-right-radius: 3em;
     border-bottom-right-radius: 3em;
+    filter: drop-shadow(4px 10px 4px #aaa);
+    text-align: center;
 }
 .red-gradient{
     width:80%;
@@ -131,6 +155,11 @@ input{
     color: #000;
     font-weight: 800;
 }
+.editable.form-row{
+    margin-left: 0!important;
+    margin-right:0!important;
+}
+
 
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {

@@ -122,15 +122,14 @@ class EmployeeController extends Controller
     */
     public function update(Request $request, $id)
     {
+        /* $request data received from employee/show */
         
         $dni = Employee::where('dni', $request->dni)->count();
         $email = Employee::where('email', $request->email)->count();
         $scale_number = Employee::where('scale_number', $request->scale_number)->count();
         $cip_code =Employee::where('cip_code', $request->cip_code)->count();
-        $position_id =Employee::where('position_id', $request->position)->get();
+        $position_id =Employee::where('position_id', $request->position_id)->get();
         
-        /* dump('request');
-        var_dump($request);exit(); */
         if($dni > 1 ){
             $request->session()->flash('alert-danger', 'El DNI existe en otro registro');
             return view('employee.show',['employee' => $request] );
@@ -148,15 +147,15 @@ class EmployeeController extends Controller
             return view('employee.show', ['employee' => $request]);
         }
         
-            
-            
-            $employee = Employee::find($id);
-            $employee->update($request->only(['scale_number','name', 'surname', 'dni', 'cip_code','email']));
-            
-            $employee->position_name = Position::find($request->position)->name;
-            session()->flash('alert-success', 'Se han actualizado los datos');
-            return view('employee.show', ['employee' => $employee]);
-      
+        
+        
+        $employee = Employee::find($id);
+        $employee->update($request->only(['scale_number','name', 'surname', 'dni', 'cip_code','email']));
+        
+        $employee->position_name = Position::find($request->position_id)->name;
+        session()->flash('alert-success', 'Se han actualizado los datos');
+        return view('employee.show', ['employee' => $employee]);
+        
     }
     
     /**
@@ -168,5 +167,29 @@ class EmployeeController extends Controller
     public function destroy($id)
     {
         //
+    }
+    
+    
+    /**
+    * Show the form for promoting a user.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function promote($id)
+    {
+
+        $user = Employee::find($id);
+
+        if( $user->position_id == Position::all()->max('id') ){
+            session()->flash('alert-danger', 'El usuario no puede ascender más.');
+            return back();
+        }
+        
+        $user->position_id += 1;
+        $user->update(['position_id'=> $user->position_id]);
+        session()->flash('alert-success', 'El usuario ha sido ascendido de empleo.');
+        
+        return redirect('employee/'.$id)->with( compact($user) );
     }
 }

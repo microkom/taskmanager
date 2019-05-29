@@ -19,27 +19,87 @@ define("GUARDIA_FEST",  "2");
 
 class TaskController extends Controller
 {
-
-    public function index()
+    
+    public function index_task_position()
     {
         $task_names = [];
         
         $task_positions = TaskPosition::all();
-       
+        
         foreach ($task_positions as $task_p) {
             $tasks = new TaskPosition;
-           
+            
             $tasks->position_name = Position::find($task_p->position_id)->name;
             $tasks->task_name = Task::find($task_p->task_id)->name;
-
+            
             $task_names[]= $tasks;
             
         }
-       
+        
         return view('task.task_position', ['task' => $task_names]);
     }
-
-
+    
+    
+    public function index_task()
+    {
+        return view('task.index', ['tasks' => Task::all() ]);
+    }
+    
+    /**
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create(Request $request)
+    {
+        
+        $verify = Task::where('name', 'like', $request->name)->exists();
+        
+        if($verify){
+            $request->session()->flash('alert-danger', 'Esa tarea ya existe ');
+            return back();
+        }
+        
+        $task = new Task;
+        $task->name = $request->name;
+        $task->save();
+        
+        session()->flash('alert-success', 'Se han guardado los datos');
+        return back();
+    }
+    
+    
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  \Illuminate\Http\Request  $request
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request, $id)
+    {
+        
+        $task = Task::find($id);
+        $task->update($request->only(['name']));
+        session()->flash('alert-success', 'Registros actualizados');
+        return back();
+    }
+    
+    
+    /**
+    * Remove the specified resource from storage.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy($id)
+    {
+        $task = Task::find($id);
+        $task->delete();
+        session()->flash('alert-success', 'Registro borrado.');
+        return back();
+    }
+    
     /*********************************************************
     * Defines the task to be done
     * @param $request Info received through post
@@ -50,7 +110,7 @@ class TaskController extends Controller
         
         
         if(! $request-> position >0 ){
-
+            
             $task = Task::all();
             
             return view('task.assignTask', ['tasks' => $task], ['error' => 'You should select a position']);
@@ -125,8 +185,8 @@ class TaskController extends Controller
                 $counter++;
             }
         }
-
-    
+        
+        
         $task = Task::all();
         $today_tasks = $this->show_today_tasks();
         $today_tasks = collect($today_tasks);
@@ -187,9 +247,9 @@ class TaskController extends Controller
         
         if(!$employee->isEmpty())  
         $isThereATaskDoneInThisPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
-
+        
         if( $isThereATaskDoneInThisPosition ){
-
+            
             
             //Count employees who have zero record on a task -> checking those who are available for the task
             foreach ($employee as $key => $objectEmployee) {
@@ -273,8 +333,8 @@ class TaskController extends Controller
         */
         
         $id_absentees_obj = $this->_whoIsUnavailable( $date,$position_id, $task_id);
-
-            
+        
+        
         /**
         * get all employees in database within a $position_id
         */
@@ -285,7 +345,7 @@ class TaskController extends Controller
         /**
         * Posible exit if there are no employees in this position
         */
-
+        
         if( !$all_employees_obj->count() > 0 ) return;
         
         
@@ -350,26 +410,26 @@ class TaskController extends Controller
         /**
         * Filter employees who are absent
         */
-         $abss = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
+        $abss = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
         
         //extract employee ids
         
-             foreach ($abss as $itemId) {
+        foreach ($abss as $itemId) {
             
             $id[] = $itemId->employee_id;
         } 
         
         //filter employees doing a task on $date
-         $onduty = EmployeeTask::where('date_time', '=', $carbonDate)->get();
+        $onduty = EmployeeTask::where('date_time', '=', $carbonDate)->get();
         
         //extract employee ids
-           foreach ( $onduty as $itemId) {
+        foreach ( $onduty as $itemId) {
             $id[] = $itemId->employee_id;
         } 
         
         //filter employees who have a day off after task
         
-         //  $beforeDutyDate = $carbonDate->subDay();
+        //  $beforeDutyDate = $carbonDate->subDay();
         
         $afterDuty = DB::table('employee_tasks')->where( 'date_time', '=', $beforeDutyDate)->where(function ($query) {
             
@@ -383,7 +443,7 @@ class TaskController extends Controller
             $id[] = $itemId->employee_id;
         }
         */
-
+        
         $employees = DB::table('employees')->where('position_id', $position_id)->get();
         
         
@@ -400,11 +460,11 @@ class TaskController extends Controller
                 Where('end_date_time',      '>=',    $carbonDate)->
                 where('employee_id',                 $employee_obj->id)->
                 get();
-
-               
+                
+                
                 if(!$a->isEmpty()) $employee_obj->absence = $a;
                 
-
+                
                 
                 /**
                 * filter employees doing a task on $date
@@ -414,8 +474,8 @@ class TaskController extends Controller
                 where('employee_id',            $employee_obj->id)->
                 where('date_time',      '=',    $carbonDate)->
                 get();
-
-
+                
+                
                 
                 if(!$b->isEmpty()) $employee_obj->employee_on_duty = $b;
                 
@@ -432,8 +492,8 @@ class TaskController extends Controller
                     orWhere( 'task_id', '=', 2);        
                     
                 })->get();
-
-
+                
+                
                 if(!$c->isEmpty()) $employee_obj->employee_day_off = $c;
             }
         }
@@ -452,7 +512,7 @@ class TaskController extends Controller
             $uniqueIds = array_unique($id);
             
             $uniqueIds = array_values($uniqueIds);
-
+            
             return $uniqueIds;
         }           
         
@@ -497,30 +557,31 @@ class TaskController extends Controller
                 'task' =>       Task::      findOrFail    ($task->task_id)->name,
                 'position' =>   Position::  findOrFail    ($task->position_id)->name,
                 'date' => $task->date_time];
+            }
+            if(!isset($data)){ 
+                return ; 
+            }
+            
+            return $data;
         }
-        if(!isset($data)){ 
-           return ; 
-        }
-
-        return $data;
-    }
-    
-    
-    
-    /*********************************************************
-    * Get all tasks from the database
-    * @return tasks[] array of all the tasks in the database
-    */
-    
-    public function landing()
-    {
-        $task = Task::all();
         
         
-        $today_tasks = $this->show_today_tasks();
-        $today_tasks = collect($today_tasks);
-        //$request->session()->flash('alert-success', 'User was successful added!');
-        return view('task.assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
+        
+        /*********************************************************
+        * Get all tasks from the database
+        * @return tasks[] array of all the tasks in the database
+        */
+        
+        public function landing()
+        {
+            $task = Task::all();
+            
+            
+            $today_tasks = $this->show_today_tasks();
+            $today_tasks = collect($today_tasks);
+            //$request->session()->flash('alert-success', 'User was successful added!');
+            return view('task.assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
+        }
+        
     }
     
-}

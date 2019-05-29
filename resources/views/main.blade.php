@@ -108,14 +108,16 @@
                 
                 @if (!auth()->guest() )      
                 <a href="/home" >
-                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
+                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item
+                    <?php  if(request()->path() == 'home' || request()->path() == '/')echo 'active-side';?>">
                         <img src="/svg/person.svg" alt="Usuario" >&ensp;
                         Usuario
                     </button>
                 </a>
                 @if(auth()->user()->role->id === 5) 
                 <a href="/tasks" >
-                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item">
+                    <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item
+                    <?php  if(request()->path() == 'assigntask' || request()->path() == 'tasks')echo 'active-side';?>">
                         <img src="/svg/file-directory.svg" alt="Tareas" >&ensp;
                         Todas las tareas
                     </button>
@@ -135,7 +137,7 @@
                     </button>
                 </a>
                 
-                <a href="/settings" >
+                <a href="/settings/taskposition" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item
                         <?php if( substr(request()->path(),0,8) == 'settings') echo 'active-side';?>">
                         <img src="/svg/settings.svg" alt="Configuración" >&ensp;
@@ -149,14 +151,14 @@
                 </button>
                 <a href="/employee" >
                     <button  class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item
-                        <?php  if(request()->path() == 'employee')echo 'active-side';?>">
+                        <?php if( substr(request()->path(),0,8) == 'employee') echo 'active-side';?>">
                         <img src="/svg/person.svg" alt="Empleados" >&ensp;
                         Personal
                     </button>
                 </a>
                 <a href="/absences" >
                     <button  class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item
-                        <?php  if(request()->path() == 'absences')echo 'active-side';?>">
+                        <?php if( substr(request()->path(),0,8) == 'absences') echo 'active-side';?>">
                         <img src="/svg/eye.svg" alt="Ausencias" >&ensp;
                         Ausencias
                     </button>

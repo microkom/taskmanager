@@ -15,7 +15,8 @@ class Employee extends Model
         'surname', 
         'dni', 
         'cip_code',
-        'email'
+        'email',
+        'active'
     ];
     
     public function absences()

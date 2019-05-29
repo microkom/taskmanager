@@ -5,18 +5,14 @@
 @show
 @section('content')
 
-<h4>Nuevo</h4>
-<br>
-
-{{-- Result Message  --}}
-<div class="flash-message">
-    @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-    @if(Session::has('alert-' . $msg))
-    
-    <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
-    @endif
-    @endforeach
+<div class="title py-3">
+    <h4>Nuevo</h4>
+    <h5>Información personal</h5>
 </div>
+<br>
+<hr>
+{{-- Result Message  --}}
+@include('result_message')
 
 
 <form action="/employee/store" method="POST">
@@ -71,7 +67,7 @@
     </div><br>
     <div class="form-row">
         <div class="col-md-2 col-sm-3 col-xs-6">
-            <input type="submit" name="enviar" id="enviar" value="Guardar" class="btn btn-primary">
+            <input type="submit" name="enviar" id="enviar" value="Guardar" class="btn btn-outline-primary">
         </div>
     </div>
     

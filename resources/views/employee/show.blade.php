@@ -1,9 +1,31 @@
-{{-- 
-    This blade receives an array with of the class 'Employee'. 
-    It contains the info of one employee to be displayed.  
-    The array is sent from EmployeeController@show, EmployeeController@promote.
+
+
+{{------------------------------------------------------------------- 
+    Section:      Shows one specific user information
+    Author:       German Navarro
+    Date:         2019 June
+    School Loc.:  Manises, Spain
     
-    --}}
+    This section shows the information of one specific user to be edited;
+    sent from EmployeeController@show
+    
+    It is also possible to promote the user in rank (category).
+    
+    Warnings are prompted when attempting to promote the user (1 level up in 
+    category).
+    
+    Users cannot be deleted, this is done so in order to prevent 
+    misreadings from the database when attempting to access a previous assigned 
+    task. However, for simulating a deletion it is possible to make the user 
+    inactive for task assingments.
+    
+    Deletion of a user will be available in the "archive" option in the menu. 
+    When a user would be deleted their record throughout the database would be 
+    cascaded (delete).
+    
+    Bootstrap 4. used in almost all elements.
+    
+    -------------------------------------------------------------------}}
     
     @extends('main')
     
@@ -16,45 +38,69 @@
         <h4 class="text-black">{{ $employee->name}} {{ $employee->surname}}</h4>
         <h5>Información personal</h5>
     </div>
-    <br>
+    <br><br>
     
     {{-- Result Message  --}}
-    <div class="flash-message">
-        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-        @if(Session::has('alert-' . $msg))
-        
-        <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }} <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></p>
-        @endif
-        @endforeach
-    </div>
+    @include('result_message')
     
-    {{-- Promotion form --}}
-    <form action="/employee/promote/{{ $employee->id }}" method="POST">
-        <input type="hidden" name="id" value="{{ $employee->id }}">
-        <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
-        
-        
-        {{-- laravel security measure --}}
-        @csrf
-        @method('PATCH')
-        
-        
-        <div class="form-group">
-            <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+        <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            
+            
+            <div class="col-xl-4 col-lg-4 col-md-142 col-sm-12 col-xs-12">
+                
+                {{-- This button is linked to a jquery function by its id 'edit' --}}
+                <input  type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                
+            </div>
+            <div class="col-xl-4 col-lg-4col-md-12 col-sm-12 col-xs-12  "  >
+                
+                {{-- Promotion form --}}
+                <form action="/employee/promote/{{ $employee->id }}" method="POST">
                     
-                    {{-- This button is linked to a jquery function by its id 'edit' --}}
-                    <input  type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <input type="hidden" name="id" value="{{ $employee->id }}">
+                    <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
                     
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12  "  >
+                    {{-- laravel security measure --}}
+                    @csrf
+                    
+                    {{-- HTTP method --}}
+                    @method('PATCH')                   
+                                        
                     {{-- This button is linked to a jquery function by its id 'promote' --}}
-                    <button  type="submit" name="enviar" id="promote"  class="btn btn-outline-info col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12" >Ascender</button>
-                    
+                    <button  type="submit" name="promote" id="promote"  class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" >Ascender</button>
+                
+                </form>
+
+            </div>
+            
+            
+            <div id="div_user_active" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 btn border-info"  >
+                {{-- This button is linked to a jquery function by its id 'promote' --}}
+                <div class="form-check">
+
+                    {{-- Active user form --}}
+                    <form action="/employee/update/{{ $employee->id }}" method="POST">
+                        
+                        <input type="hidden" name="id" value="{{ $employee->id }}">
+                        <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
+                        
+                        {{-- laravel security measure --}}
+                        @csrf
+                        
+                        {{-- HTTP method --}}
+                        @method('PATCH')
+
+                        <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }} onchange="this.form.submit()">
+                        <label class="form-check-label" for="exampleCheck1">Usuario activo</label>
+
+                    </form>
                 </div>
+                
             </div>
         </div>
-    </form>
+    </div>
+    
     
     {{-- Edit and Save form --}}
     <form action="/employee/update/{{ $employee->id }}" method="POST">
@@ -130,6 +176,7 @@
                 $('.editable').removeAttr('disabled')
                 $(this).fadeOut('slow');
                 $('#promote').fadeOut('slow');
+                $('#div_user_active').fadeOut('slow');
                 $('.store').fadeIn('slow');
             });
             
@@ -138,6 +185,7 @@
                 $('.editable').prop('disabled', true)
                 $('#edit').fadeIn('slow')
                 $('#promote').fadeIn('slow');
+                $('#div_user_active').fadeIn('slow');
                 $('.store').fadeOut('slow');
             })
             
@@ -178,7 +226,23 @@
                     }
                 });
             })
-            
+            /* $('#user_active').click(function(e){
+                e.preventDefault()
+                var form = $(this).parent('form');
+                console.log($('#user_acvite').is('checked'))
+                swal({
+                    title: "Servicio Activo/Inactivo",
+                    text: "Confirmar?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willSave) => {
+                    if (willSave) {
+                        form.submit();
+                    }
+                });
+            }) */
         })
     </script>
     

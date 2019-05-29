@@ -97,7 +97,7 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
         $employee->position_name = Position::find($employee->position_id)->name;
-        
+       
         return view('employee.show', ['employee' => $employee]);
         
     }
@@ -123,7 +123,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         /* $request data received from employee/show */
-        
+        //dd($request);
         $dni = Employee::where('dni', $request->dni)->count();
         $email = Employee::where('email', $request->email)->count();
         $scale_number = Employee::where('scale_number', $request->scale_number)->count();
@@ -152,6 +152,10 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         $employee->update($request->only(['scale_number','name', 'surname', 'dni', 'cip_code','email']));
         
+        $employee->update([
+            'active' => request()->has('active')
+        ]);
+
         $employee->position_name = Position::find($request->position_id)->name;
         session()->flash('alert-success', 'Se han actualizado los datos');
         return view('employee.show', ['employee' => $employee]);

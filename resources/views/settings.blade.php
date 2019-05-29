@@ -13,19 +13,20 @@
 <hr>
 
 {{-- General setting buttons --}}
-<div class="row  col-md-12"  >
-    <a href="/settings/general" 
-        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 disabled 
-         " >General</a>
+<div class="row  col-md-12 justify-content-center"  >
     <a href="/settings/taskposition" 
-        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12
+        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mr-1
         <?php if(request()->path() == 'settings/taskposition') echo 'active' ?>">Empleo/Tarea</a>
     <a href="/settings/position" 
-        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 
+        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mr-1 
         <?php if(request()->path() == 'settings/position') echo 'active' ?>">Empleo</a>
-    <a href="/settings/personnel" 
-        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 disabled
-        <?php if(request()->path() == 'settings/personnel') echo 'active' ?>" >Tarea</a>
+    <a href="/settings/task" 
+        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mr-1 
+        <?php if(request()->path() == 'settings/task') echo 'active' ?>" >Tarea</a>
+    {{--  <a href="/settings/general" 
+        class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mr-1 disabled 
+         " >General</a> --}}
+       
 </div>
 
 <hr><br>

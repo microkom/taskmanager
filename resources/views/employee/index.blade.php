@@ -13,7 +13,7 @@
 <hr>
 <div class="row  justify-content-center">
 <a  href="/employee/create" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1" >Nuevo</a>
-<a  href="/employee/promote" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1">Ascender</a>
+{{-- <a  href="/employee/promote" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1">Ascender</a> --}}
 <a href="/employee/disable" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1 disabled" >Fuera de servicio</a>
 
 </div>

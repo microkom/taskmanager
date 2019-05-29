@@ -81,7 +81,7 @@ class EmployeeController extends Controller
             $employee = Employee::find($employee->id);
             $employee->position_name = Position::find($request->position)->name;
             session()->flash('alert-success', 'User was successful added!');
-            return view('employee.show', ['employee' => $employee]);
+            return redirec()->route('employee.show', ['employee' => $employee]);
         }
         
         
@@ -152,16 +152,26 @@ class EmployeeController extends Controller
         $employee = Employee::find($id);
         $employee->update($request->only(['scale_number','name', 'surname', 'dni', 'cip_code','email']));
         
+        
+
+        session()->flash('alert-success', 'Se han actualizado los datos');
+        return redirect()->route('employee.show', ['employee' => $employee]);
+         
+
+    }
+    
+    public function active($id)
+    {
+      
+        $employee = Employee::find($id);
+
         $employee->update([
             'active' => request()->has('active')
         ]);
-
-        $employee->position_name = Position::find($request->position_id)->name;
-        session()->flash('alert-success', 'Se han actualizado los datos');
-        return view('employee.show', ['employee' => $employee]);
         
+        session()->flash('alert-success', 'Se han actualizado los datos');
+        return redirect()->route('employee.show', [ $employee]);
     }
-    
     /**
     * Remove the specified resource from storage.
     *
@@ -182,7 +192,7 @@ class EmployeeController extends Controller
     */
     public function promote($id)
     {
-
+        
         $user = Employee::find($id);
 
         if( $user->position_id == Position::all()->max('id') ){
@@ -193,7 +203,7 @@ class EmployeeController extends Controller
         $user->position_id += 1;
         $user->update(['position_id'=> $user->position_id]);
         session()->flash('alert-success', 'El usuario ha sido ascendido de empleo.');
-        
-        return redirect('employee/'.$id)->with( compact($user) );
+        /* return redirect()->route('employee.show', ['employee' => $employee]); */
+        return redirect()->route('employee.show',  [$user] );
     }
 }

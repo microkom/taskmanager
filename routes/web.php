@@ -80,7 +80,7 @@ Route::group(['middleware' => ['auth']], function(){
             });
             
             
-            Route::get('/employee/{id}', 'EmployeeController@show'); 
+            Route::get('/employee/{id}', 'EmployeeController@show')->name('employee.show'); 
             Route::get('/employee/edit/{id}', 'EmployeeController@edit'); 
             Route::post('/employee/store', 'EmployeeController@store')->name('addemployee.store');
             Route::get('/employee/edit', function(){
@@ -88,8 +88,9 @@ Route::group(['middleware' => ['auth']], function(){
             });
             
             /** Promote employee */
-            Route::patch('/employee/promote/{id}', 'EmployeeController@promote'); 
+            Route::patch('/employee/promote/{id}', 'EmployeeController@promote')->name('employee.promote'); 
             Route::patch('/employee/update/{id}', 'EmployeeController@update')->name('employee.update.show'); 
+            Route::patch('/employee/active/{id}', 'EmployeeController@active')->name('employee.active.show'); 
             
         });
     });

@@ -80,7 +80,7 @@
                 <div class="form-check">
 
                     {{-- Active user form --}}
-                    <form action="/employee/update/{{ $employee->id }}" method="POST">
+                    <form action="/employee/active/{{ $employee->id }}" method="POST">
                         
                         <input type="hidden" name="id" value="{{ $employee->id }}">
                         <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
@@ -106,7 +106,7 @@
     <form action="/employee/update/{{ $employee->id }}" method="POST">
         <input type="hidden" name="id" value="{{ $employee->id }}">
         <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
-        <input type="hidden" name="position_name" value="{{ $employee->position_name }}">
+        <input type="hidden" name="position_name" value="{{ $employee->position->name }}">
         
         
         {{-- laravel security measure --}}
@@ -115,20 +115,24 @@
         
         
         <div class="form-row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
                 <label for="position">Empleo</label>
                 <select class="form-control"    disabled>
                     
                     {{-- [landing] User list extracted from the database --}}
                     
-                    <option value="{{ $employee->position_id }}">{{ $employee->position_name }} </option>
+                    <option value="{{ $employee->position_id }}">{{ $employee->position->name }} </option>
                     
                 </select>
             </div>
             
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
                 <label for="scale_number">Nº Escalafón</label>
                 <input class="form-control editable" type="number" name="scale_number" value="{{ $employee->scale_number }}" id="scale_number" placeholder="Nº Escalafón" required disabled>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <label for="scale_number">Rol de Usuario</label>
+                <input class="form-control editable" type="text" name="role" value="{{ $employee->role }}" id="role" placeholder="Rol" required disabled>
             </div>
         </div><br>
         <div class="form-row">       
@@ -226,10 +230,14 @@
                     }
                 });
             })
-            /* $('#user_active').click(function(e){
+       /*      $('#user_active').click(function(e){
                 e.preventDefault()
                 var form = $(this).parent('form');
-                console.log($('#user_acvite').is('checked'))
+                if($('#user_acvite').is('checked')){
+                    $(this).prop('')
+                }else{
+                    $(this).is('checked')
+                }
                 swal({
                     title: "Servicio Activo/Inactivo",
                     text: "Confirmar?",

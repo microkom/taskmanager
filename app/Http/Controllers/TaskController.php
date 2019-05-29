@@ -88,7 +88,7 @@ class TaskController extends Controller
     
     /**
     * Remove the specified resource from storage.
-    *
+    * 
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
@@ -98,6 +98,18 @@ class TaskController extends Controller
         $task->delete();
         session()->flash('alert-success', 'Registro borrado.');
         return back();
+    }
+    
+    
+    public function delete_assigned_task($id)
+    {
+        
+        if(EmployeeTask::find($id)->delete()){
+            session()->flash('alert-success', 'Tarea borrada');
+        }
+        
+        return back();
+        
     }
     
     /*********************************************************
@@ -118,11 +130,20 @@ class TaskController extends Controller
         }
         
         
-        $date = $request->date;
-        $task_id = $request->task;
-        $quantity = $request->quantity;
-        $position_id = $request->position;
-        
+       /*  if(session()->has('task_to_be_assigned')){
+
+            $date = session()->get('task_to_be_assigned_date');
+            $task_id = session()->get('task_to_be_assigned_task_id');
+            $quantity = session()->get('task_to_be_assigned_quantity');
+            $position_id = session()->get('task_to_be_assigned_position_id');
+
+        }else{ */
+            
+            $date = $request->date;
+            $task_id = $request->task;
+            $quantity = $request->quantity;
+            $position_id = $request->position;
+      /*   } */
         
         /**
         * Counter for the tasks added
@@ -186,6 +207,7 @@ class TaskController extends Controller
             }
         }
         
+        if(session()->has('task_exit')) return;
         
         $task = Task::all();
         $today_tasks = $this->show_today_tasks();
@@ -579,7 +601,7 @@ class TaskController extends Controller
             
             $today_tasks = $this->show_today_tasks();
             $today_tasks = collect($today_tasks);
-            //$request->session()->flash('alert-success', 'User was successful added!');
+            
             return view('task.assignTask', ['tasks' => $task,'today_tasks' => $today_tasks]);
         }
         

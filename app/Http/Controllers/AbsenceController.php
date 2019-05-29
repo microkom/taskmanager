@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Absence;
 use App\Position;
 use App\Employee;
+use App\EmployeeTask;
 use Carbon\Carbon;
 use App\User;
 
@@ -19,7 +20,22 @@ class AbsenceController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
-    public function index(Request $request)
+    public function index()
+    {
+        //Check if the end date is after today - This is the index view
+        $tdate = new Carbon(date("Y-m-d"));                
+        $absence =  DB::table('absences')->where('end_date_time','>=',$tdate)->get();
+        
+        
+        foreach ($absence as $person) {
+            $person->_name = Employee::find($person->employee_id)->name;
+            $person->surname = Employee::find($person->employee_id)->surname;
+            $person->name = $person->_name." ".$person->surname;
+        }
+        return view('absence.index', ['absences' => $absence]);
+    }
+    
+    public function search(Request $request)
     {
         session()->put('absence.index.sdate', $request->start_date);
         session()->put('absence.index.edate', $request->end_date);
@@ -71,7 +87,7 @@ class AbsenceController extends Controller
     public function store(Request $request)
     {
         
-        session()->put('absence.create.user', $request->user);
+        session()->put('absence.create.employee', $request->employee);
         session()->put('absence.create.sdate', $request->start_date);
         session()->put('absence.create.edate', $request->end_date);
         
@@ -88,25 +104,62 @@ class AbsenceController extends Controller
             return back();
         }
         
-
-        if(Absence::where('employee_id', $request->user)->where('start_date_time',$start_date)->where('end_date_time',$end_date)->exists()){
+        
+        if(Absence::where('employee_id', $request->employee)->where('start_date_time',$start_date)->where('end_date_time',$end_date)->exists()){
             session()->flash('alert-danger', 'Ese usuario ya tiene esa fecha asignada');
             return back();
         }
         
         $abs = new Absence;
-        $abs->employee_id = $request->user;
+        $abs->employee_id = $request->employee;
         $abs->start_date_time = $request->start_date;
         $abs->end_date_time = $request->end_date;
         $abs->note = $request->note;
         $abs->save();
-
-        session()->forget('absence.create.user');
+        
+        session()->forget('absence.create.employee');
         session()->forget('absence.create.sdate');
         session()->forget('absence.create.edate');
         session()->flash('alert-success', 'Aunsencia anotada: '.$request->start_date.' - '.$request->end_date);
+        
+        /* Reprogram all assigned tasks after new absence created */
+        
+        $request->employee;
+        $start_date;
+        
+        /* Employee's first instance */
+        
+        if( EmployeeTask::where('employee_id', $request->employee)->get()->isEmpty()) return back();
+        
+        /* Get all the tasks assigned during and after the date the user is absent*/
+        $arr_employee_tasks = EmployeeTask::where('id', '>=', EmployeeTask::where('employee_id', $request->employee)->first()->id)->get();
+        
+        /** Delete from the database the previously saved tasks  */
+        EmployeeTask::where('id', '>=', EmployeeTask::where('employee_id', $request->employee)->first()->id)->delete();
+        
+        
+        foreach ($arr_employee_tasks as  $emp_task) {
+          
+            session()->put('task_exit', true);
             
+            $a = new TaskController;
+            $request = new Request;
+              
+            $request->date =  $emp_task->date_time ;
+            $request->task =  $emp_task->task_id ;
+            $request->quantity = 1;
+            $request->position = $emp_task->position_id ;
+            $a->addTask($request);
+        
+        }
+
+        session()->forget('task_exit');
+
         return back();
+    }
+    
+    public function reassign_task_after_adding_new(){
+        
     }
     
     /**
@@ -119,10 +172,10 @@ class AbsenceController extends Controller
     {
         
         $user_absences = Absence::where('employee_id', $user_id)->get();
-       
+        
         if(count($user_absences)< 1)
-            session()->flash('alert-success', 'El usuario no tiene ausencias registradas.');
-
+        session()->flash('alert-success', 'El usuario no tiene ausencias registradas.');
+        
         $user = Employee::find($user_id);
         $user->position = Position::find($user->position_id)->name;
         
@@ -163,6 +216,7 @@ class AbsenceController extends Controller
         if(Absence::find($id)->delete()){
             session()->flash('alert-success', 'Ausencia borrada');
         }
+        
         return back();
     }
 }

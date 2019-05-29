@@ -16,15 +16,15 @@
     <form action="/absences/store" method="post">
         @csrf
         <div class="form-group row">
-            <select name="user" class="form-control col-md-6 mx-auto" >
+            <select name="employee" class="form-control col-md-6 mx-auto" >
                 
-                @foreach ($users as $user)
+                @foreach ($employees as $employee)
                 
-                @if((int)$user->id == (int)session()->get('absence.create.user') )
+                @if((int)$employee->id == (int)session()->get('absence.create.employee') )
                 
-                <option value="{{$user->id}}" selected> {{$user->dni}} : {{$user->name}} {{$user->surname}}</option>   
+                <option value="{{$employee->id}}" selected> {{$employee->dni}} : {{$employee->name}} {{$employee->surname}}</option>   
                 @else
-                <option value="{{$user->id}}"> {{$user->dni}} : {{$user->name}} {{$user->surname}}</option>    
+                <option value="{{$employee->id}}"> {{$employee->dni}} : {{$employee->name}} {{$employee->surname}}</option>    
                 @endif
                 @endforeach                
             </select>            

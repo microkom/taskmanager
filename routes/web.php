@@ -31,13 +31,14 @@ Route::group(['middleware' => ['auth']], function(){
     
     Route::group(['middleware' => ['admin']], function(){
         
-        Route::get('/absences', 'AbsenceController@index')->name('absences-index'); 
-        Route::post('/absences/search', 'AbsenceController@index');
-        Route::post('/absences/store', 'AbsenceController@store');
-        Route::get('/absences/delete/{id}', 'AbsenceController@destroy');
-        Route::get('/absences/create', function(){
+        Route::get( '/absences',                'AbsenceController@index')      ->name('absences-index'); 
+        Route::post('/absences/search',         'AbsenceController@search');
+        Route::post('/absences/store',          'AbsenceController@store');
+        Route::get( '/absences/delete/{id}',    'AbsenceController@destroy')    ->name('absence.destroy');
+        
+        Route::get( '/absences/create', function(){
             return view ('absence.create', [
-                'users' => DB::table('employees')->get()->sortBy('surname'), 
+                'employees' => DB::table('employees')->get()->sortBy('surname'), 
                 'notes' => App\Absence::all()->pluck('note')->unique()
                 ]);
             }); 
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth']], function(){
             /** Task assignment */
             Route::post( '/assigntask', 'TaskController@addtask');              //task adding
             Route::get( '/assigntask', 'TaskController@landing');   
+            Route::get( '/assignTask/delete/{id}', 'TaskController@delete_assigned_task');   
             
             
             
@@ -100,7 +102,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/', function () {
         return view('welcome');
     }); */
-/*     Route::get('/calendar', function () {
+    /*     Route::get('/calendar', function () {
         return view('calendar');
     });
     Route::get('/turn', 'indexController@topTurnPerTaskAndRank');
@@ -109,7 +111,7 @@ Route::group(['middleware' => ['auth']], function(){
     
     Route::get('/present', 'AddTaskController@whoIsPresent');
     
-     */
+    */
     Auth::routes();
     
     Route::get('/home', 'HomeController@index')->name('home');

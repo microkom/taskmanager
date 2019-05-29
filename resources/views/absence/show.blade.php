@@ -4,11 +4,13 @@
 
 @section('content')
 
-
-<h3 class="title py-3"><span class=" p-2">Ausencias de:&ensp;&ensp; {{$user->position}} {{$user->name}} {{ $user->surname}} </span>    </h3>
+<div class="title py-3">    
+<h4 >Ausencias de:&ensp;&ensp; {{$user->position}} {{$user->name}} {{ $user->surname}} </span>    </h4>
+</div>
 <br>
 @include('result_message')
-
+<br>
+<p>Para eliminar una ausencia haga click sobre ella.</p>
 <table class="border table table-sm table-hover">
     <thead class="thead-light">
         <tr>

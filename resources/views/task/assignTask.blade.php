@@ -5,6 +5,7 @@
 @show
 @section('content')
 
+
 <div class="container mx-auto">
   
   @if (!auth()->guest())                   
@@ -13,7 +14,7 @@
   <h4 class="text-uppercase text-dark title py-3">Tareas Programadas</h4>
   @endif
   @endif
-  
+
   @if (!auth()->guest())                   
   
   @if(auth()->user()->role->id === 1) 
@@ -39,7 +40,7 @@
   </div>
   
   @endif
-  
+    @include('result_message')
   @if (!auth()->guest())                   
   
   @if(auth()->user()->role->id === 1) 
@@ -87,7 +88,7 @@
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-            </select>
+            </select> 
           </div>
         </div>  
       
@@ -108,7 +109,7 @@
     
     <table id="tabla_hoy" class="table table-sm table-border">
       <thead>
-        <tr><th>Empleo</th><th>Nombre</th><th>Servicio</th><th>Fecha</th></tr>
+        <tr><th>Empleo</th><th>Nombre</th><th>Servicio</th><th>Fecha</th><th></th></tr>
       </thead><tbody>
         
         @foreach ($today_tasks as $task)
@@ -117,6 +118,10 @@
           <td>{{$task['employee']}}</td>
           <td>{{$task['task']}}</td>
           <td>{{ date('d M Y', strtotime($task['date'])) }}</td>
+          <td class="text-center">
+            <a class="delete-link" href="/assignTask/delete/{{$task['id']}}"> Borrar </a>
+
+          </td>
         </tr>
         @endforeach
       </tbody></table>
@@ -136,6 +141,36 @@
     
     
   </div>
+  <script>
+  /* Delete Link */
+ /*  $(document).ready(function(){
+
+    $('.delete-link').on('click', function (e) {
+      console.log($(this))
+        try {
+            e.preventDefault()
+            swal({
+                title: "Borrar",
+                text: "Desea borrar esta entrada?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willSave) => {
+                try {
+                    if (willSave) {
+                        window.location.href ='/assignTask/delete/{{$task['id']}}'
+                      }
+                } catch (err) {
+                    console.log(err)
+                }
+            });
+        } catch (er) {
+            console.log(er)
+        }
+    })
+  }) */
   
+  </script>
   @endsection
   

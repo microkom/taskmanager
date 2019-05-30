@@ -34,11 +34,10 @@ class EmployeeTableSeeder extends Seeder
                 );
         }
         $fakeEmail = Employee::find(1);
-        $fakeEmail->update(['name' => 'admin', 'email' => 'admin@gmail.com']);
+        $fakeEmail->update(['name' => 'admin', 'role_id' => 1]);
         $fakeEmail = Employee::find(2);
-        $fakeEmail->update(['name' => 'usuario','email' => 'usuario@gmail.com']);
-        
-        factory(App\User::class, $limit)->create();
+        $fakeEmail->update(['name' => 'usuario' ]);
+         
 
         Schema::enableForeignKeyConstraints();
     }

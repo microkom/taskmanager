@@ -4,20 +4,20 @@
 
 @section('content')
 
-<div class="title py-2">
+<div class="title py-3">
 <h4>Personal</h4>
 </div>
 <br>
 
 
-<hr>
+<hr class="border border-info">
 <div class="row  justify-content-center">
 <a  href="/employee/create" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1" >Nuevo</a>
 {{-- <a  href="/employee/promote" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1">Ascender</a> --}}
 <a href="/employee/disable" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1 disabled" >Fuera de servicio</a>
 
 </div>
-<hr><br><p>Para editar un empleado haga click sobre el nombre</p>
+<hr class="border border-info"><br><p>Para editar un empleado haga click sobre el nombre</p>
 <div>
     
     

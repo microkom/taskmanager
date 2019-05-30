@@ -66,6 +66,8 @@ class HomeController extends Controller
            
         }
 
+        $data = collect($data)->sortByDesc('date')->values();
+        
         return view('index', ['tasks' => $data]);
 
       

@@ -265,7 +265,8 @@ class TaskController extends Controller
         
         $employee = $this-> orderAccordingToTask( $employee_ids,  $task_id);
         $employee = collect( $employee);
-        //Count tasks done in that position -> it means the table may have no record of the task being ever done.
+        
+        //Count tasks done in that position -> it means the table may have no record of the task ever being done.
         
         if(!$employee->isEmpty())  
         $isThereATaskDoneInThisPosition = EmployeeTask::where('task_id',$task_id)->where('position_id', $position_id)->count();
@@ -310,9 +311,15 @@ class TaskController extends Controller
             
             if(isset($employeesWithZeroRecordOnTask)){
                 
+                //person who should be doing the task
                 $first_employee_id = collect($employeesWithZeroRecordOnTask)->first();
                 
-                $next_record = [ 'employee_id' => $first_employee_id, 'next_record'=> 1];
+                //top record count for task and position, even if the person was just added to the database this would work.
+                $top_record_count = EmployeeTask::where('task_id', $task_id)->where('position_id', $position_id)->get()->max('record_counter');
+
+                //if($top_record_count >=2 ) $top_record_count -= 1;
+
+                $next_record = [ 'employee_id' => $first_employee_id, 'next_record'=> $top_record_count];
                 
             } else {
                 
@@ -461,10 +468,10 @@ class TaskController extends Controller
         
         
         //extract employee ids
-        /*    foreach ( $afterDuty as $itemId) {
+           foreach ( $afterDuty as $itemId) {
             $id[] = $itemId->employee_id;
         }
-        */
+       
         
         $employees = DB::table('employees')->where('position_id', $position_id)->get();
         
@@ -534,6 +541,7 @@ class TaskController extends Controller
             $uniqueIds = array_unique($id);
             
             $uniqueIds = array_values($uniqueIds);
+            
             
             return $uniqueIds;
         }           

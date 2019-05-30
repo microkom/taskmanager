@@ -8,7 +8,12 @@
 <h4 ><span class=" p-2">Ausencias&ensp;&ensp;</span>    </h4>
 </div>
 <br>
-
+<hr class="border border-info">
+<div  class="py-1   row justify-content-center">
+    <a href="/absences/create" class="btn btn-outline-info btn-sm col-md-3 ">Nueva ausencia</a>
+</div>
+<hr class="border border-info">
+<br>
 {{-- Result Message  --}}
 @include('result_message')
 
@@ -53,7 +58,7 @@
 </table>
 
 <br><br>
-<a href="/absences/create" class="btn btn-primary border border-primary py-2 col-12">Nueva ausencia</a>
+
 
 
 

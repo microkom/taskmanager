@@ -10,7 +10,7 @@
 </div>
 
 <br>
-<hr>
+<hr class="border border-info">
 
 {{-- General setting buttons --}}
 <div class="row  col-md-12 justify-content-center"  >
@@ -29,7 +29,7 @@
        
 </div>
 
-<hr><br>
+<hr class="border border-info"><br>
 
 <div>
 

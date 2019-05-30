@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth']], function(){
             
             Route::get('/employee', 'EmployeeController@index')->name('employee.index');
             Route::get('/employee/create', function(){
-                return view('employee.create',  ['positions' => DB::table('positions')->get()]);
+                return view('employee.create',  ['positions' => DB::table('positions')->get(), 'roles' => DB::table('roles')->get()]);
             });
             
             

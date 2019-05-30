@@ -20,48 +20,65 @@
     {{-- laravel security measure --}}
     @csrf
     
+    <div class="form-group">
+
     <div class="form-row">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <label for="position">Empleo</label>
-            <select class="form-control"  id="position" name="position" required>
-                <option value="">- Empleo -</option>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <label for="position_id">Empleo</label>
+            <select class="form-control"  id="position_id" name="position_id" required>
+                {{-- <option value="">- Empleo -</option> --}}
                 
                 {{-- [landing] Task list extracted from the database --}}
                 @foreach ($positions as $position)
-                <option value="{{ $position->id }}">{{ $position->name }} </option>
+                <option value="{{ $position->id }}" {{ (int)$position->id == (int)session()->get('employee.create.position_id') ? 'selected': ''}}>{{ $position->name }} </option>
                 @endforeach
-                
+                 
             </select>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <label for="scale_number">Nº Escalafón</label>
-            <input class="form-control" type="number" name="scale_number" id="scale_number" placeholder="Nº Escalafón" required>
+            <input class="form-control" type="number" name="scale_number" id="scale_number" value="{{ session()->get('employee.create.scale_number')}}" placeholder="Nº Escalafón" required>
         </div>
-    </div><br>
+         <div class="col-md-4 col-sm-4 col-xs-12">
+            <label for="role">Rol Usuario</label>
+            <select class="form-control"  id="role" name="role" required>
+                <option value="">- Rol -</option>
+                
+                {{-- [landing] Task list extracted from the database --}}
+                @foreach ($roles as $role)
+                <option value="{{ $role->id }}" {{ ($role->id == 2) ? 'selected': ''}}>{{ $role->name }} </option>
+                @endforeach
+                 
+            </select>
+        </div>
+    </div>
+    </div>
+
     <div class="form-row">       
         <div class="col-md-6 col-sm-6 col-xs-12">
             <label for="name">Nombre</label>
-            <input class="form-control" type="text" name="name" id="name" placeholder="Nombre" required>
+            <input class="form-control" type="text" name="name"  value="{{ session()->get('employee.create.name')}}" id="name" placeholder="Nombre" required>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <label for="surname">Apellidos</label>
-            <input class="form-control" type="text" name="surname" id="surname" placeholder="Apellidos" required>
+            <input class="form-control" type="text" name="surname"  value="{{ session()->get('employee.create.surname')}}" id="surname" placeholder="Apellidos" required>
         </div>
-    </div><br>
+    </div>
+    <br>
     <div class="form-row">       
         <div class="col-md-3 col-sm-6 col-xs-12">
             <label for="dni">DNI</label>
-            <input type="text" class="form-control" name="dni" id="dni" placeholder="DNI" required >
+            <input type="text" class="form-control" name="dni" id="dni"  value="{{ session()->get('employee.create.dni')}}" placeholder="DNI" required >
             <span id="msg" > </span>
             
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12">
             <label for="cip_code">Código CIP</label>
-            <input type="text" class="form-control" name="cip_code" id="cip_code" placeholder="Código CIP" required>
+            <input type="text" class="form-control" name="cip_code" id="cip_code"  value="{{ session()->get('employee.create.cip_code')}}" placeholder="Código CIP" required>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <label for="email">Email</label>
-            <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+            <input type="text" class="form-control" name="email" id="email"  value="{{ session()->get('employee.create.email')}}" placeholder="Email" required>
         </div>
         
     </div><br>

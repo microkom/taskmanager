@@ -17,15 +17,12 @@ class CreateEmployeesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('position_id')->index();
             $table->unsignedBigInteger('scale_number')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
+            /* $table->unsignedBigInteger('user_id')->nullable(); */
             $table->string('dni')->nullable();
             $table->string('name');
             $table->string('surname');
             $table->string('cip_code')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            $table->rememberToken()->nullable();
+             $table->unsignedBigInteger('role_id')->default('2')->index();
             $table->timestamps();
             $table->boolean('active')->default(true);
         });

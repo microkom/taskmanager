@@ -13,10 +13,10 @@ class RoleTableSeeder extends Seeder
   
   private $arrayRoles = [
     ["id" => 1, "name" => "admin", "priority" => 1 ],
-    ["id" => 2, "name" => "auxiliar", "priority" => 2 ],
+    /* ["id" => 2, "name" => "auxiliar", "priority" => 2 ],
     ["id" => 3, "name" => "suboficial", "priority" => 3 ],
-    ["id" => 4, "name" => "escribiente", "priority" => 4 ],
-    ["id" => 5, "name" => "usuario", "priority" => 5 ]        
+    ["id" => 4, "name" => "escribiente", "priority" => 4 ], */
+    ["id" => 2, "name" => "usuario", "priority" => 5 ]        
   ];
   
   public function run()

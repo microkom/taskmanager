@@ -39,13 +39,14 @@
                         <img src="/images/logo.png" alt="Logo">
                     </a>
                 </div>
-                <div>
-                    <h3 class="text-dark">Ministerio de Defensa</h3>  
+                <div class="col-auto text-center">
+                    <h3 class="d-none d-md-block"  >Ministerio de Defensa</h3>  
+                    <h4 class="d-none d-md-block" >Sistema de gestion de tareas</h4>  
                 </div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
-                
+                </button> --}}
+                <div class="col-xl-2 col-lg-2 col-md-3 ">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
@@ -94,11 +95,12 @@
                     @endif   
                 </ul>
             </div>
-        </div>
-    </nav>
-    
-    
+
 </div>
+        </div>
+    </nav>    
+</div>
+
 <div class="container">
     
     <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5">
@@ -114,7 +116,8 @@
                         Usuario
                     </button>
                 </a>
-                @if(auth()->user()->role->id === 5) 
+                 
+                @if(auth()->user()->employee->role->id === 2) 
                 <a href="/tasks" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item
                     <?php  if(request()->path() == 'assigntask' || request()->path() == 'tasks')echo 'active-side';?>">
@@ -127,7 +130,7 @@
                 
                 @if (!auth()->guest())                   
                 
-                @if(auth()->user()->role->id === 1) 
+                @if(auth()->user()->employee->role->id === 1) 
                 
                 <a href="/assigntask" >
                     <button class="bh3 col-xl-12 col-lg-12 col-md-12 btn-top text-left menu_item

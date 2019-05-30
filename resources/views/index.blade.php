@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="container">
-        <div class="title py-2">
+        <div class="title py-3">
             <h4>Tareas de: 
 
                 @if( !is_null($tasks) )
@@ -21,8 +21,9 @@
             </h4>
             
         </div>
-    
+    <br><br>
     <div class="row justify-content-center">
+        
         {{-- Result Message  --}}
         @include('result_message')
         
@@ -33,7 +34,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    
+                    <div class="justtify-content"><p>Las tareas se muestran en orden cronológico. Abajo está la más antigua.</p></div>
                     @if(count($tasks[0])>2)
                     
                     <table class="table table-sm table-border table-hover">

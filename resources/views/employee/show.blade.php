@@ -47,13 +47,19 @@
         <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             
             
-            <div class="col-xl-4 col-lg-4 col-md-142 col-sm-12 col-xs-12">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                
+                <a href="/employee/create"  class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">Nuevo</a>
+                
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
                 
                 {{-- This button is linked to a jquery function by its id 'edit' --}}
                 <input  type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 
             </div>
-            <div class="col-xl-4 col-lg-4col-md-12 col-sm-12 col-xs-12  "  >
+            <div class="col-xl-3 col-lg-3col-md-12 col-sm-12 col-xs-12  "  >
                 
                 {{-- Promotion form --}}
                 <form action="/employee/promote/{{ $employee->id }}" method="POST">
@@ -75,7 +81,7 @@
             </div>
             
             
-            <div id="div_user_active" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 btn border-info"  >
+            <div id="div_user_active" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 btn border-info"  >
                 {{-- This button is linked to a jquery function by its id 'promote' --}}
                 <div class="form-check">
 
@@ -132,7 +138,7 @@
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <label for="scale_number">Rol de Usuario</label>
-                <input class="form-control editable" type="text" name="role" value="{{ $employee->role }}" id="role" placeholder="Rol" required disabled>
+                <input class="form-control editable" type="text" name="role" value="{{ $employee->role->name }}" id="role" placeholder="Rol" required disabled>
             </div>
         </div><br>
         <div class="form-row">       
@@ -156,7 +162,7 @@
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <label for="email">Email</label>
-                <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->email }}" placeholder="Email" required disabled>
+                <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->user->email }}" placeholder="Email" required disabled>
             </div>
             
         </div><br>

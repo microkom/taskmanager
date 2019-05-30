@@ -127,15 +127,17 @@ class AbsenceController extends Controller
         $request->employee;
         $start_date;
         
-        /* Employee's first instance */
-        
+        /* Error control: there are no occurances of the user in the 'employee_tasks' table */
         if( EmployeeTask::where('employee_id', $request->employee)->get()->isEmpty()) return back();
         
+        /* Employee's first instance */
+        $first_occurance_id = EmployeeTask::where('employee_id', $request->employee)->first()->id;
+
         /* Get all the tasks assigned during and after the date the user is absent*/
-        $arr_employee_tasks = EmployeeTask::where('id', '>=', EmployeeTask::where('employee_id', $request->employee)->first()->id)->get();
+        $arr_employee_tasks = EmployeeTask::where('id', '>=', $first_occurance_id)->get()->sortBy('date_time');
         
         /** Delete from the database the previously saved tasks  */
-        EmployeeTask::where('id', '>=', EmployeeTask::where('employee_id', $request->employee)->first()->id)->delete();
+        EmployeeTask::where('id', '>=', $first_occurance_id)->delete();
         
         
         foreach ($arr_employee_tasks as  $emp_task) {

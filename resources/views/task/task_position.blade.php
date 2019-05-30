@@ -11,7 +11,7 @@
 
 <br>
 
-<div class="mx-auto col-xl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+<div class="mx-auto col-xl-6 col-lg-8 col-md-12 col-sm-12 col-xs-12">
     <table id="tabla_hoy" class="table  table-sm  table-setting">
         <thead >
             <tr><th scope="col">Tarea</th><th scope="col">Empleo</th></tr>

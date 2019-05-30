@@ -40,7 +40,7 @@
    
    <p>Empleos existentes. Haga click en un empleo para modificarlo</p>
    
-   <div class="mx-auto col-xl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+   <div class="mx-auto col-xl-6 col-lg-8 col-md-12 col-sm-12 col-xs-12">
       
       {{-- Table to show list of all the positions --}}
       <table id="tabla_hoy" class="table table-sm  ">

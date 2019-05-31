@@ -123,9 +123,7 @@ class AbsenceController extends Controller
         session()->flash('alert-success', 'Aunsencia anotada: '.$request->start_date.' - '.$request->end_date);
         
         /* Reprogram all assigned tasks after new absence created */
-        
-        $request->employee;
-        $start_date;
+     
         
         /* Error control: there are no occurances of the user in the 'employee_tasks' table */
         if( EmployeeTask::where('employee_id', $request->employee)->get()->isEmpty()) return back();

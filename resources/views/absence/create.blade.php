@@ -19,7 +19,7 @@
             <select name="employee" class="form-control col-md-6 mx-auto" >
                 
                 @foreach ($employees as $employee)
-                
+                 
                 @if((int)$employee->id == (int)session()->get('absence.create.employee') )
                 
                 <option value="{{$employee->id}}" selected> {{$employee->dni}} : {{$employee->name}} {{$employee->surname}}</option>   

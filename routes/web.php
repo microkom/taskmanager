@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth']], function(){
             Route::post( '/assigntask', 'TaskController@addtask');              //task adding
             Route::get( '/assigntask', 'TaskController@landing');   
             Route::get( '/assignTask/delete/{id}', 'TaskController@delete_assigned_task');   
+            Route::get( '/assignTask/show/{id}', 'TaskController@show_user_tasks');   
             
             
             
@@ -75,19 +76,27 @@ Route::group(['middleware' => ['auth']], function(){
             
             
             /**  Employee  */
-            
             Route::get('/employee', 'EmployeeController@index')->name('employee.index');
             Route::get('/employee/create', function(){
                 return view('employee.create',  ['positions' => DB::table('positions')->get(), 'roles' => DB::table('roles')->get()]);
             });
             
             
+            Route::get('/employee/inactive', function(){
+                $employees = DB::table('employees')->where('active',0)->get();
+                foreach($employees as $employee){
+                    $employee->position_name = App\Position::find($employee->position_id)->name;
+                    
+                }
+                return view('employee.inactive',['employees'=> $employees]);
+            }); 
             Route::get('/employee/{id}', 'EmployeeController@show')->name('employee.show'); 
             Route::get('/employee/edit/{id}', 'EmployeeController@edit'); 
             Route::post('/employee/store', 'EmployeeController@store')->name('addemployee.store');
-            Route::get('/employee/edit', function(){
+         /*    Route::get('/employee/edit', function(){
                 return view('editemployee',  ['positions' => DB::table('positions')->get()]);
-            });
+            }); */
+           
             
             /** Promote employee */
             Route::patch('/employee/promote/{id}', 'EmployeeController@promote')->name('employee.promote'); 

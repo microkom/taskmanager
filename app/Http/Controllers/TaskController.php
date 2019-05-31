@@ -68,7 +68,47 @@ class TaskController extends Controller
         return back();
     }
     
-    
+    /* Show all the tasks assigned to a user  */
+    public function show_user_tasks($id){
+     
+        
+        $tasks = DB::table('employee_tasks')->where('employee_id',$id)->get();
+        
+     
+        $data = null;
+        if($tasks->isEmpty())
+        {
+            $data[] = [
+                'employee' =>   Employee::  findOrFail    ($id)->name.' '.Employee::  findOrFail    ($id)->surname,
+                'position' =>   Employee::  findOrFail    ($id)->position->name
+            ];
+         
+            session()->flash('alert-warning', 'El usuario no tiene tareas asignadas');
+     
+
+        }else{
+            foreach ($tasks as $task) {
+                
+                $data[] = [
+                    
+                    'id' => $task->id, 
+                    'employee_id' => $task->employee_id,
+                    'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
+                    'task' =>       Task::      findOrFail    ($task->task_id)->name,
+                    'position' =>   Position::  findOrFail    ($task->position_id)->name,
+                    'date' => $task->date_time
+                ];
+            };
+           
+        }
+
+        $data = collect($data)->sortByDesc('date')->values();
+        
+        return view('index', ['tasks' => $data]);
+
+      
+        
+    }
     /**
     * Update the specified resource in storage.
     *
@@ -232,24 +272,24 @@ class TaskController extends Controller
         
         //The $variable has to be coverted to collection
         $employee = collect( $employee);
-        
+       
         switch ( $task_id) {
             
-            case 'GUARDIA_DIA':
+            case GUARDIA_DIA:
             
-            case 'GUARDIA_FEST':{
+            case GUARDIA_FEST:
                 
                 $employees = $employee->sortByDesc('scale_number');
-            }            
+                        
             break;
             
             default:{
-                
+ 
                 $employees = $employee->sortBy( 'scale_number');
             }            
             break;
         }
-        
+   
         return ($employees);
     }
     
@@ -366,11 +406,11 @@ class TaskController extends Controller
         
         /**
         * get all employees in database within a $position_id
-        */
+        */ 
         
         $all_employees_obj = DB::table('employees')->where('position_id', $position_id)->get();
         
-        
+     
         /**
         * Posible exit if there are no employees in this position
         */
@@ -415,7 +455,7 @@ class TaskController extends Controller
             
             
             $id_arr = array_values(array_diff($id_employees_arr, $id_absents_arr));
-            
+               
             return $id_arr ;
         }
     }
@@ -436,6 +476,13 @@ class TaskController extends Controller
         $carbonDate = new Carbon($date);
         
         $beforeDutyDate = $carbonDate->subDay();
+
+        //filter inactive employees
+        $inact  = Employee::where('active', 0)->get();
+       
+         foreach ($inact as $out) {
+            $id[] = $out->id;
+        } 
         /**
         * Filter employees who are absent
         */
@@ -472,7 +519,7 @@ class TaskController extends Controller
             $id[] = $itemId->employee_id;
         }
        
-        
+        /* 
         $employees = DB::table('employees')->where('position_id', $position_id)->get();
         
         
@@ -480,9 +527,9 @@ class TaskController extends Controller
             
             foreach ($employees as $employee_obj) {
                 
-                /**
-                * Filter employees who are absent
-                */
+               
+               //Filter employees who are absent
+                
                 
                 $a = DB::table('absences')->
                 where('start_date_time',    '<=',    $carbonDate)->
@@ -495,9 +542,9 @@ class TaskController extends Controller
                 
                 
                 
-                /**
-                * filter employees doing a task on $date
-                */
+                
+                //filter employees doing a task on $date
+                
                 
                 $b = DB::table('employee_tasks')->
                 where('employee_id',            $employee_obj->id)->
@@ -508,9 +555,9 @@ class TaskController extends Controller
                 
                 if(!$b->isEmpty()) $employee_obj->employee_on_duty = $b;
                 
-                /**
-                * filter employees who have a day off after task
-                */
+                
+                // filter employees who have a day off after task
+               
                 
                 $c = DB::table('employee_tasks')->
                 where('employee_id',            $employee_obj->id)->
@@ -526,7 +573,7 @@ class TaskController extends Controller
                 if(!$c->isEmpty()) $employee_obj->employee_day_off = $c;
             }
         }
-        
+         */
         
         /**
         * No value to send
@@ -542,7 +589,7 @@ class TaskController extends Controller
             
             $uniqueIds = array_values($uniqueIds);
             
-            
+           
             return $uniqueIds;
         }           
         
@@ -583,6 +630,7 @@ class TaskController extends Controller
             
             $data[] = [
                 'id' => $task->id, 
+                'employee_id' => $task->employee_id,
                 'employee' =>   Employee::  findOrFail    ($task->employee_id)->name.' '.Employee::  findOrFail    ($task->employee_id)->surname,
                 'task' =>       Task::      findOrFail    ($task->task_id)->name,
                 'position' =>   Position::  findOrFail    ($task->position_id)->name,

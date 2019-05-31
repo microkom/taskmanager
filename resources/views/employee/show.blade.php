@@ -110,6 +110,8 @@
     
     {{-- Edit and Save form --}}
     <form action="/employee/update/{{ $employee->id }}" method="POST">
+
+        {{-- @php dd($employee)@endphp --}}
         <input type="hidden" name="id" value="{{ $employee->id }}">
         <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
         <input type="hidden" name="position_name" value="{{ $employee->position->name }}">

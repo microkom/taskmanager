@@ -1,26 +1,20 @@
 @extends('main')
 
-@section('title', 'Personal')
+@section('title','Personal fuera de servicio')
 
+@show
 @section('content')
 
 <div class="title py-3">
-<h4>Personal</h4>
+    <h4>Personal fuera de servicio</h4>
 </div>
 <br>
-
-
-<hr class="border border-info">
-<div class="row  justify-content-center">
-<a  href="/employee/create" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1" >Nuevo</a>
-{{-- <a  href="/employee/promote" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1">Ascender</a> --}}
-<a href="/employee/inactive" class="btn btn-outline-info btn-sm col-md-3 col-sm-12 col-xs-12 mx-1  " >Fuera de servicio</a>
-
-</div>
-<hr class="border border-info"><br><p>Para editar un empleado haga click sobre el nombre</p>
+<hr>
+{{-- Result Message  --}}
+@include('result_message')
 <div>
     
-    
+     
     <table id="tabla_hoy">
         <thead>
             <tr><th>Empleo</th><th>Nº Esc.</th><th>Nombre</th><th>DNI</th><th>Código CIP</th>{{-- <th>email</th> --}}</tr>
@@ -42,4 +36,4 @@
         
         
     </div>
-    @endsection
+@endsection

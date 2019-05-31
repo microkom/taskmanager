@@ -28,8 +28,8 @@ class Employee extends Model
     }
     public function employee_tasks()
     {
-        $this->employee_tasks = $this->hasMany(EmployeeTask::class);
-        return $this->employee_tasks;
+        return $this-> hasMany(EmployeeTask::class);
+        
     }
     public function position()
     {

@@ -116,9 +116,10 @@
       </thead><tbody>
         
         @foreach ($today_tasks as $task)
+       
         <tr>
           <td>{{$task['position']}}</td>
-          <td>{{$task['employee']}}</td>
+          <td><a href="/assignTask/show/{{$task['employee_id']}}">{{$task['employee']}}</a></td>
           <td>{{$task['task']}}</td>
           <td>{{ date('d M Y', strtotime($task['date'])) }}</td>
           <td class="text-center">

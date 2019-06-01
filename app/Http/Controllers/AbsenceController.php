@@ -23,16 +23,21 @@ class AbsenceController extends Controller
     public function index()
     {
         //Check if the end date is after today - This is the index view
-        $tdate = new Carbon(date("Y-m-d"));                
-        $absence =  DB::table('absences')->where('end_date_time','>=',$tdate)->get();
+        $tdate = new Carbon(date("Y-m-d"));  
+        
+        $absences =  DB::table('absences')->where('end_date_time','>=',$tdate)->get();
         
         
-        foreach ($absence as $person) {
-            $person->_name = Employee::find($person->employee_id)->name;
-            $person->surname = Employee::find($person->employee_id)->surname;
-            $person->name = $person->_name." ".$person->surname;
+        foreach ($absences as $key => $absentee) {
+             if(Employee::find($absentee->employee_id)->active){
+                $absentee->name = Employee::find($absentee->employee_id)->name;
+                $absentee->surname = Employee::find($absentee->employee_id)->surname;
+             }else{
+                 $absences->forget($key);
+             }
+        
         }
-        return view('absence.index', ['absences' => $absence]);
+        return view('absence.index', ['absences' => $absences]);
     }
     
     public function search(Request $request)
@@ -123,7 +128,7 @@ class AbsenceController extends Controller
         session()->flash('alert-success', 'Aunsencia anotada: '.$request->start_date.' - '.$request->end_date);
         
         /* Reprogram all assigned tasks after new absence created */
-     
+        
         
         /* Error control: there are no occurances of the user in the 'employee_tasks' table */
         if( EmployeeTask::where('employee_id', $request->employee)->get()->isEmpty()) return back();
@@ -131,94 +136,95 @@ class AbsenceController extends Controller
         /* Employee's first instance */
         $first_occurance_id = EmployeeTask::where(
             'employee_id', $request->employee)->where(            
-            'date_time','>=',$request->start_date)->where(
-            'date_time','<=',$request->end_date)->first()->id;
-        
-        /* Get all the tasks assigned during and after the date the user is absent*/
-        $arr_employee_tasks = EmployeeTask::where('id', '>=', $first_occurance_id)->get()->sortBy('date_time');
-        
-        /** Delete from the database the previously saved tasks  */
-        $res = EmployeeTask::where('id', '>=', $first_occurance_id)->delete();
-        
-        
-        foreach ($arr_employee_tasks as  $emp_task) {
-          
-            session()->put('task_exit', true);
+                'date_time','>=',$request->start_date)->where(
+                    'date_time','<=',$request->end_date)->first()->id;
+                    
+                    /* Get all the tasks assigned during and after the date the user is absent*/
+                    $arr_employee_tasks = EmployeeTask::where('id', '>=', $first_occurance_id)->get()->sortBy('date_time');
+                    
+                    /** Delete from the database the previously saved tasks  */
+                    $res = EmployeeTask::where('id', '>=', $first_occurance_id)->delete();
+                    
+                    
+                    foreach ($arr_employee_tasks as  $emp_task) {
+                        
+                        session()->put('task_exit', true);
+                        
+                        $tc = new TaskController;
+                        $request = new Request;
+                        
+                        $request->date =  $emp_task->date_time ;
+                        $request->task =  $emp_task->task_id ;
+                        $request->quantity = 1;
+                        $request->position = $emp_task->position_id ;
+                        $tc->addTask($request);
+                    }
+                    
+                    session()->forget('task_exit');
+                    
+                    return back();
+                }
+                
+                public function reassign_task_after_adding_new(){
+                    
+                }
+                
+                /**
+                * Display the specified resource.
+                *
+                * @param  int  $id
+                * @return \Illuminate\Http\Response
+                */
+                public function show($user_id)
+                {
+                    
+                    $user_absences = Absence::where('employee_id', $user_id)->get();
+                    
+                    if(count($user_absences)< 1)
+                    session()->flash('alert-success', 'El usuario no tiene ausencias registradas.');
+                    
+                    $user = Employee::find($user_id);
+                    $user->position = Position::find($user->position_id)->name;
+                    
+                    return view ('absence.show', ['user' => $user, 'absences' => $user_absences]);
+                }
+                
+                /**
+                * Show the form for editing the specified resource.
+                *
+                * @param  int  $id
+                * @return \Illuminate\Http\Response
+                */
+                public function edit($id)
+                {
+                    //
+                }
+                
+                /**
+                * Update the specified resource in storage.
+                *
+                * @param  \Illuminate\Http\Request  $request
+                * @param  int  $id
+                * @return \Illuminate\Http\Response
+                */
+                public function update(Request $request, $id)
+                {
+                    //
+                }
+                
+                /**
+                * Remove the specified resource from storage.
+                *
+                * @param  int  $id
+                * @return \Illuminate\Http\Response
+                */
+                public function destroy($id)
+                {
+                    if(Absence::find($id)->delete()){
+                        session()->flash('alert-success', 'Ausencia borrada');
+                    }
+                    
+                    return back();
+                }
+            }
             
-            $tc = new TaskController;
-            $request = new Request;
-              
-            $request->date =  $emp_task->date_time ;
-            $request->task =  $emp_task->task_id ;
-            $request->quantity = 1;
-            $request->position = $emp_task->position_id ;
-            $tc->addTask($request);
-        }
-        
-        session()->forget('task_exit');
-
-        return back();
-    }
-    
-    public function reassign_task_after_adding_new(){
-        
-    }
-    
-    /**
-    * Display the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function show($user_id)
-    {
-        
-        $user_absences = Absence::where('employee_id', $user_id)->get();
-        
-        if(count($user_absences)< 1)
-        session()->flash('alert-success', 'El usuario no tiene ausencias registradas.');
-        
-        $user = Employee::find($user_id);
-        $user->position = Position::find($user->position_id)->name;
-        
-        return view ('absence.show', ['user' => $user, 'absences' => $user_absences]);
-    }
-    
-    /**
-    * Show the form for editing the specified resource.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function edit($id)
-    {
-        //
-    }
-    
-    /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-    
-    /**
-    * Remove the specified resource from storage.
-    *
-    * @param  int  $id
-    * @return \Illuminate\Http\Response
-    */
-    public function destroy($id)
-    {
-        if(Absence::find($id)->delete()){
-            session()->flash('alert-success', 'Ausencia borrada');
-        }
-        
-        return back();
-    }
-}

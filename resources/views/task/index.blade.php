@@ -124,9 +124,5 @@
       </div>
    </div>
    
-   <script type="text/javascript">
-      
-   </script>
-   
    {{-- end of section: List of tasks from the database -------}}
    @endsection

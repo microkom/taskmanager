@@ -47,7 +47,13 @@
 
         @foreach ($absences as $absence)
         <tr>
-            <td ><a href="/absences/show/{{ $absence->employee_id}}" class="eraseable" data-toggle="tooltip" data-placement="right" title="Ver usuario">{{ $absence->name }}</a></td>
+            <td ><a href="/absences/show/{{ $absence->employee_id}}" 
+                class="eraseable" 
+                data-toggle="tooltip" 
+                data-placement="right" 
+                title="Ver usuario">{{ $absence->name }} {{ $absence->surname }}
+                </a>
+            </td>
             <td>{{ date('d M Y', strtotime($absence->start_date_time)) }}</td>
             <td>{{ date('d M Y', strtotime($absence->end_date_time)) }}</td>
             <td>{{ $absence->note }}</td>

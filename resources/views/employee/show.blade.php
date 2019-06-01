@@ -97,7 +97,7 @@
                         {{-- HTTP method --}}
                         @method('PATCH')
 
-                        <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }} onchange="this.form.submit()">
+                        <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }} >
                         <label class="form-check-label" for="exampleCheck1">Usuario activo</label>
 
                     </form>
@@ -238,14 +238,12 @@
                     }
                 });
             })
-       /*      $('#user_active').click(function(e){
-                e.preventDefault()
+
+            /* Active/Inactive user */
+            $('#user_active').click(function(){
+
                 var form = $(this).parent('form');
-                if($('#user_acvite').is('checked')){
-                    $(this).prop('')
-                }else{
-                    $(this).is('checked')
-                }
+          
                 swal({
                     title: "Servicio Activo/Inactivo",
                     text: "Confirmar?",
@@ -258,8 +256,9 @@
                         form.submit();
                     }
                 });
-            }) */
+            })
         })
+        /* onchange="this.form.submit()" */
     </script>
     
     @endsection

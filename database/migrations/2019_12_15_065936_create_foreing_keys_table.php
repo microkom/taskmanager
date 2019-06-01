@@ -32,15 +32,11 @@ class CreateForeingKeysTable extends Migration
         Schema::table('absences', function (Blueprint $table) {
             $table->foreign('employee_id')->references('id')->on('employees');
         });
+        
         Schema::table('users', function (Blueprint $table) {
-            /* $table->foreign('role_id')->references('id')->on('roles'); */
             $table->foreign('employee_id')->references('id')->on('employees');
         }); 
-        
-        /*         Schema::table('employee_exclusions', function (Blueprint $table) {
-            $table->foreign('employee_id')->references('id')->on('employees');
-            $table->foreign('task_id')->references('id')->on('tasks');
-        }); */
+
     }
     /**
     * Reverse the migrations.

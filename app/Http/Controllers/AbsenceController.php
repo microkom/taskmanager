@@ -129,30 +129,32 @@ class AbsenceController extends Controller
         if( EmployeeTask::where('employee_id', $request->employee)->get()->isEmpty()) return back();
         
         /* Employee's first instance */
-        $first_occurance_id = EmployeeTask::where('employee_id', $request->employee)->first()->id;
-
+        $first_occurance_id = EmployeeTask::where(
+            'employee_id', $request->employee)->where(            
+            'date_time','>=',$request->start_date)->where(
+            'date_time','<=',$request->end_date)->first()->id;
+        
         /* Get all the tasks assigned during and after the date the user is absent*/
         $arr_employee_tasks = EmployeeTask::where('id', '>=', $first_occurance_id)->get()->sortBy('date_time');
         
         /** Delete from the database the previously saved tasks  */
-        EmployeeTask::where('id', '>=', $first_occurance_id)->delete();
+        $res = EmployeeTask::where('id', '>=', $first_occurance_id)->delete();
         
         
         foreach ($arr_employee_tasks as  $emp_task) {
           
             session()->put('task_exit', true);
             
-            $a = new TaskController;
+            $tc = new TaskController;
             $request = new Request;
               
             $request->date =  $emp_task->date_time ;
             $request->task =  $emp_task->task_id ;
             $request->quantity = 1;
             $request->position = $emp_task->position_id ;
-            $a->addTask($request);
-        
+            $tc->addTask($request);
         }
-
+        
         session()->forget('task_exit');
 
         return back();

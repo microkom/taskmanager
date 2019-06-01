@@ -147,11 +147,11 @@
                         Configuración
                     </button>
                 </a>
-                <button class="bh3 col-xl-12 col-lg-12 col-md-12 text-left menu_item 
-                    <?php  if(request()->path() == 'archive')echo 'active-side';?>">
-                    <img src="/svg/file-directory.svg" alt="Archivo" >&ensp;
-                    Archivar
-                </button>
+                {{-- <button class="bh3 col-xl-12 col-lg-12 col-md-12 text-left menu_item  --}}
+                    <?php // if(request()->path() == 'archive')echo 'active-side';?>{{-- "> --}}
+                   {{--  <img src="/svg/file-directory.svg" alt="Archivo" >&ensp; --}}
+                   {{--  Archivar
+                </button> --}}
                 <a href="/employee" >
                     <button  class="bh3 col-xl-12 col-lg-12 col-md-12  text-left menu_item
                         <?php if( substr(request()->path(),0,8) == 'employee') echo 'active-side';?>">

@@ -73,7 +73,7 @@
                   </form>
                   
                   {{-- Form to delete a task --}}
-                  <form action="/task/delete/{{ $task->id}}" method="post">
+                  <form action="/task/delete/{{ $task->id}}" method="post" class="form_delete">
                      
                      {{-- Laravel security meassure --}}
                      @csrf
@@ -111,7 +111,7 @@
                      @csrf
                      
                      <input type="text" name="name" class="pos_input " id="pos_input_create" placeholder="Nueva tarea " disabled>
-                     <input type="submit" class="btn btn-outline-success btn-sm" style="display:none" value="Guardar">
+                     <input type="submit" class="btn btn-outline-success btn-sm save" style="display:none" value="Guardar">
                      
                   </form>
                   

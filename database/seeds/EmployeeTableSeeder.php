@@ -29,8 +29,10 @@ class EmployeeTableSeeder extends Seeder
             if ($i < 16) $pos = 1;
 
             DB::table('employees')->where('id', $i)
-                ->update(
-                    ['position_id' => $pos]
+                ->update([
+                    'position_id' => $pos,
+                    'scale_number' => $i
+                    ]
                 );
         }
         $fakeEmail = Employee::find(1);

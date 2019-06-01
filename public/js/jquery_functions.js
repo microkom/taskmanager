@@ -34,11 +34,11 @@ $(document).ready(function () {
     * Assign class 'active' to active button by capturing the current url '/assigntask'
     */
     
- /*    if ($($('span#position-index-blade').length)){
+    /*    if ($($('span#position-index-blade').length)){
         $('#btn-set-pos').addClass('active')
     }
-
-     */
+    
+    */
 });
 
 $(document).ready(function () {
@@ -49,68 +49,116 @@ $(document).ready(function () {
 /* POSITION index.blade functions for buttons and forms */
 
 /* Click to Edit the position and show SAVE and DELETE buttons */
-$(document).ready(function () {
+
+$(document).on('click', 'td.editable', function (e) {
     var count = 0
-    $('td.editable').click(function () {
+    var form = $('.form_delete')
+    if (count < 1) {
+        $(this).find('.pos_input').removeAttr('disabled').css('border', '1px solid lightgray').css('border-radius', '3px ')
+        $(this).parent().find('.btn').show();
+        count++;
+    } else {
         
-        if (count < 1) {
-            $(this).find('.pos_input').removeAttr('disabled').css('border', '1px solid lightgray').css('border-radius', '3px ')
-            $(this).parent().find('.btn').show();
-            count++;
+    }
+})
+$(document).on('click', '.save', function (e) {  
+    /* Save button, works for updating or saving a new position*/
+    
+    e.preventDefault()
+    var form = $(this).parents('form');
+    swal({
+        title: "Guardar",
+        text: "Desea guardar esta entrada?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willSave) => {
+        if (willSave) {
+            form.submit();
         } else {
-            
+            cancel()
         }
     });
     
-    /* Save button, works for updating or saving a new position*/
-    $('.save').click(function (e) {
+})    
+
+$(document).on('click', '.delete', function (e) {
+    try {
         e.preventDefault()
-        var form = $(this).parents('form');
+        var form = $(this).parent()
+        console.log(form)
         swal({
-            title: "Guardar",
-            text: "Desea guardar esta entrada?",
+            title: "ADVERTENCIA",
+            text: "Borrar esta entrada puede causar que la base de datos deje de funcionar, está seguro de querer borrarla?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
         .then((willSave) => {
-            if (willSave) {
-                form.submit();
-            } else {
-                $(this).parent().parent().parent().find('.pos_input').removeAttr('style').prop('disabled', 'disabled')
-                $(this).parent().parent().parent().find('.btn').hide();
+            try {
+                if (willSave) {
+                    form.submit()
+                    
+                } else {
+                    cancel()
+                }
+            } catch (err) {
+                console.log(err)
             }
         });
-    })
-    
-    /* Delete button */
-    $('.delete').on('click', function (e) {
-        try {
-            e.preventDefault()
-            var form = $(this).parents('form');
-            swal({
-                title: "Borrar",
-                text: "Desea borrar esta entrada?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
+    } catch (er) {
+        console.log(er)
+    }
+})
+
+function cancel() {
+    $('table').find('.pos_input').removeAttr('style').prop('disabled', 'disabled')
+    $('table').find('.save').hide();
+    $('table').find('.delete').hide();
+}
+
+$(document).on('click', '.delete_assigned_task', function (e) {
+    try {
+        e.preventDefault()
+        let id = $(this).parent().find('.task_id').val()
+        let link = "/assignTask/delete/"+id
+        console.log(link)
+       swal({
+            title: "ADVERTENCIA",
+            text: "Al borrar este registro el sistema no reasignará otra persona para dicha tarea, desea continuar?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
             .then((willSave) => {
                 try {
                     if (willSave) {
-                        form.submit();
-                        
+                        window.location.href = link
+
                     } else {
-                        $(this).parent().parent().parent().find('.pos_input').removeAttr('style').prop('disabled', 'disabled')
-                        $(this).parent().parent().parent().find('.btn').hide();
+                        cancel()
                     }
                 } catch (err) {
                     console.log(err)
                 }
             });
-        } catch (er) {
-            console.log(er)
-        }
-    })
-    
+    } catch (er) {
+        console.log(er)
+    }
 })
+/* $(document).mouseup(function (e) {
+    var container = $("#tabla_hoy"); // YOUR CONTAINER SELECTOR
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        cancel()
+    }
+}); */
+$(document).on(
+    'keydown', function (event) {
+        if (event.key == "Escape") {
+            cancel()
+        }
+    }); 

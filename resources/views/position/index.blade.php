@@ -58,7 +58,7 @@
                <td class="editable form-row   " id="pos_td_{{ $pos->id }} ">
                   
                   {{-- Form to update a position --}}
-                  <form action="/position/update/{{ $pos->id}}" method="post">
+                  <form action="/position/update/{{ $pos->id}}" method="post" class="form_update">
                      
                      {{-- Laravel security meassure --}}
                      @csrf
@@ -74,7 +74,7 @@
                   </form>
                   
                   {{-- Form to delete a position --}}
-                  <form action="/position/delete/{{ $pos->id}}" method="post">
+                  <form action="/position/delete/{{ $pos->id}}" method="post" class="form_delete">
                      
                      {{-- Laravel security meassure --}}
                      @csrf
@@ -112,7 +112,7 @@
                      @csrf
                      
                      <input type="text" name="name" class="pos_input " id="pos_input_create" placeholder="Nuevo empleo " disabled>
-                     <input type="submit" class="btn btn-outline-success btn-sm" style="display:none" value="Guardar">
+                     <input type="submit" class="btn btn-outline-success btn-sm save" style="display:none" value="Guardar">
                      
                   </form>
                   
@@ -126,7 +126,7 @@
    </div>
    
    <script type="text/javascript">
-      
+    
    </script>
    
    {{-- end of section: List of Positions from the database -------}}

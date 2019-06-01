@@ -25,12 +25,12 @@
                 <td>@php echo $n++;  @endphp. </td>
                 <td>
                     <a href="/absences/delete/{{ $abs->id}}" class="eraseable" data-toggle="tooltip" data-placement="right" title="Eliminar toda esta linea">
-                        {{ $abs->start_date_time }} 
+                         {{ date('d M Y', strtotime($abs->start_date_time)) }}
                     </a>
                 </td>
                 <td> 
                     <a href="/absences/delete/{{ $abs->id}}" class="eraseable" data-toggle="tooltip" data-placement="right" title="Eliminar toda esta línea">
-                        {{ $abs->end_date_time }}
+                        {{ date('d M Y', strtotime($abs->end_date_time)) }}
                     </a>
                 </td>
                 <td>{{ $abs->note }}  </td> 

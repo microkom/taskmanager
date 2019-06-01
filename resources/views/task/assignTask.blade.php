@@ -55,12 +55,14 @@
     
     <div class="bg-whitesmoke p-3 btn col-12">
       <div class="form-row justify-content-center ">
+
         {{-- Task option selectors --}}
-        <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
           <label for="date">Fecha</label>
           <input class="form-control " type="date" name="date" id="date" placeholder="Fecha 2015-01-31" required="required">
         </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
+
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
           <label for="task">Tarea</label>
           <select class="form-control"  id="task_assign_task" name="task" required>
             <option value="">- Tarea -</option>
@@ -74,7 +76,7 @@
         </div>
         
         {{-- Position list based on task selected previously  [upon request][task_position.js] --}}
-        <div class="col-md-3 col-sm-4 col-xs-12">
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
           <label for="position">Empleo</label>
           <select class="form-control " id="position_assign_task" name="position" required>
             <option value="">- Empleo -</option>
@@ -82,15 +84,15 @@
         </div>
         
         {{-- how many people will do the task --}}
-        <div class="col-md-2 col-sm-4 col-xs-12">
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
           <label for="quantity">PAX.</label>
           <select class="form-control " name="quantity" id="quantity" required>
             <option value="1">1</option>
-            <option value="2">2</option>
+           <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">4</option>
+             {{-- <option value="4">4</option>
             <option value="5">5</option>
-            <option value="10">10</option>
+            <option value="10">10</option> --}}
           </select> 
         </div>
       </div>  
@@ -125,8 +127,9 @@
           <td class="text-center">
             @if (!auth()->guest())                   
             
-              @if(auth()->user()->employee->role->id === 1) 
-                <a class="delete-link" href="/assignTask/delete/{{$task['id']}}"> Borrar </a>
+              @if(auth()->user()->employee->role->id === 1)
+                <input type="hidden" name="task_id" class="task_id" value="{{$task['id']}}" >
+                <a class="delete_assigned_task" href="/assignTask/delete/{{$task['id']}}"> Borrar </a>
               @endif
             @endif
           </td>
@@ -149,36 +152,6 @@
     
     
   </div>
-  <script>
-    /* Delete Link */
-    /*  $(document).ready(function(){
-      
-      $('.delete-link').on('click', function (e) {
-        console.log($(this))
-        try {
-          e.preventDefault()
-          swal({
-            title: "Borrar",
-            text: "Desea borrar esta entrada?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          })
-          .then((willSave) => {
-            try {
-              if (willSave) {
-                window.location.href ='/assignTask/delete/{{$task['id']}}'
-              }
-            } catch (err) {
-              console.log(err)
-            }
-          });
-        } catch (er) {
-          console.log(er)
-        }
-      })
-    }) */
-    
-  </script>
+ 
   @endsection
   

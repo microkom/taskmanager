@@ -48,8 +48,9 @@ Route::group(['middleware' => ['auth']], function(){
             /** Settings */
             //Route::get('/settings',                 function(){                             return view('settings');});
             Route::get('/settings/position' ,       'PositionController@index');
-            Route::get('/settings/taskposition' ,   'TaskController@index_task_position');
+            Route::get('/settings/taskposition' ,   'TaskController@index_task_position')->name('settings');
             Route::post('/taskposition/create' ,   'TaskController@create_task_position');
+            Route::delete('/taskposition/delete/{id}' ,   'TaskController@destroy_task_position');
 
             Route::get('/settings/task',            'TaskController@index_task');
             

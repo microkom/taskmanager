@@ -23,11 +23,11 @@
     
     <br>
     <p>Qué tareas puede hacer quién.</p>
-    
+    <p>Para borrar una relación haga click sobre el empleo.</p>
     <br>
     
     {{-- Table of positions assigned to tasks --}}
-    <div class="mx-auto col-xl-6 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+    <div class="mx-auto col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
         <table id="tabla_hoy" class="table  table-sm  table-setting">
             <thead >
                 <tr><th scope="col">Tarea</th><th scope="col">Empleo</th></tr>
@@ -35,9 +35,26 @@
             <tbody>
                 
                 @foreach ($task as $t)
-                <tr scope="row" >
+                <tr scope="row " >
                     <td >{{ $t->task_name }}</td>
-                    <td >{{ $t->position_name }}</td>
+                    <td class="editable ">
+                    <div class="d-inline">
+                        {{ $t->position_name }}
+                        </div>
+                        
+                     {{-- Form to delete a task --}}
+                  <form action="/taskposition/delete/{{ $t->id}}" method="post" class="form_delete d-inline">
+                     
+                     {{-- Laravel security meassure --}}
+                     @csrf
+                     
+                     {{-- HTTP method --}}
+                     @method('DELETE')
+
+                     <input type="submit" class="btn btn-outline-danger btn-sm delete"  style="display:none" value="Borrar">
+                  
+                  </form>
+                    </td>
                     
                 </tr>
                 @endforeach
@@ -46,6 +63,7 @@
     
     <br><br></div>
    <div  class="mx-auto col-12 btn ">
+       <p>Nueva Relación.</p>
          <div class="mx-auto btn border border-primary  ">
          {{-- Table for new task/position form --}}
          <table class=" mx-auto">
@@ -60,13 +78,13 @@
                      @csrf
                      <div class=" form-row">
                      <div class=" form-inline">
-                     <select name="task_id" id="task_id" class="form-control">
+                     <select name="task_id" id="task_id" class="form-control mr-1">
                          @foreach ($tasks as $tl)
                      <option value="{{$tl->id}}">{{$tl->name}}</option>      
                          @endforeach                        
 
                      </select> 
-                     <select name="position_id" id="position_id" class="form-control">
+                     <select name="position_id" id="position_id" class="form-control mr-1">
                          @foreach ($positions as $pl)
                      <option value="{{$pl->id}}">{{$pl->name}}</option>      
                          @endforeach                        

@@ -28,7 +28,7 @@ class TaskController extends Controller
         
         foreach ($task_positions as $task_p) {
             $tasks = new TaskPosition;
-            
+            $tasks->id = $task_p->id;
             $tasks->position_name = Position::find($task_p->position_id)->name;
             $tasks->task_name = Task::find($task_p->task_id)->name;
             
@@ -63,6 +63,21 @@ class TaskController extends Controller
         return view('task.index', ['tasks' => Task::all()]);
     }
     
+    
+    /**
+    * Remove the specified resource from storage.
+    * 
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy_task_position($id)
+    {
+        $task = TaskPosition::find($id);
+        $task->delete();
+        session()->flash('alert-success', 'Registro borrado.');
+        return redirect()->route('settings');
+    }
+
     /**
     * Show the form for creating a new resource.
     *

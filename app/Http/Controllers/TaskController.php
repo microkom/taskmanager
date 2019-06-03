@@ -36,13 +36,31 @@ class TaskController extends Controller
             
         }
         
-        return view('task.task_position', ['task' => $task_names]);
+        return view('task.task_position', ['task' => $task_names, 'positions' => Position::all(), 'tasks' => Task::all()]);
+    }
+
+    /* Relationship between task and position*/
+    public function create_task_position(Request $request)
+    {
+       
+        if(TaskPosition::where('task_id', $request->task_id)->where('position_id',$request->position_id)->exists()){
+            $request->session()->flash('alert-danger', 'Esa relación tarea-empleo ya existe ');
+            return back();
+        }
+        
+        $task_pos = new TaskPosition;
+        $task_pos->task_id = $request->task_id;
+        $task_pos->position_id = $request->position_id;
+        $task_pos->save();
+        
+        session()->flash('alert-success', 'Se han guardado los datos');
+        return back();
     }
     
     
     public function index_task()
     {
-        return view('task.index', ['tasks' => Task::all() ]);
+        return view('task.index', ['tasks' => Task::all()]);
     }
     
     /**

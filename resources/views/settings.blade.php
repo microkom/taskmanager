@@ -31,7 +31,7 @@
 
 <hr class="border border-info"><br>
 
-<div>
+<div class="container">
 
     @yield('setting_content')
     

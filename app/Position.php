@@ -14,4 +14,9 @@ class Position extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+     public function tasks()
+    {
+        return $this->belongsToMany('App\Task', 'task_positions' );
+    }
 }

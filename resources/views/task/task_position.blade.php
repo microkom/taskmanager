@@ -16,6 +16,8 @@
     
     @section('setting_content')
     
+    {{-- Result message --}}
+    @include('result_message')
     
     <h5>Empleos asignados a las tareas</h5>
     
@@ -41,7 +43,47 @@
                 @endforeach
             </tbody>
         </table>    
-        
-        
-    </div>
+    
+    <br><br></div>
+   <div  class="mx-auto col-12 btn ">
+         <div class="mx-auto btn border border-primary  ">
+         {{-- Table for new task/position form --}}
+         <table class=" mx-auto">
+            
+            <tr>
+               
+               <td class=" editable">
+                  
+                  {{-- Form to save a new task/position relationship --}}
+                  <form action="/taskposition/create" method="post">
+                     
+                     @csrf
+                     <div class=" form-row">
+                     <div class=" form-inline">
+                     <select name="task_id" id="task_id" class="form-control">
+                         @foreach ($tasks as $tl)
+                     <option value="{{$tl->id}}">{{$tl->name}}</option>      
+                         @endforeach                        
+
+                     </select> 
+                     <select name="position_id" id="position_id" class="form-control">
+                         @foreach ($positions as $pl)
+                     <option value="{{$pl->id}}">{{$pl->name}}</option>      
+                         @endforeach                        
+
+                     </select>
+                     
+                     <br>
+                     <input type="submit" class="btn btn-outline-success btn-sm save" style="display:none" value="Guardar">
+                     </div>
+                     </div>
+                  </form>
+                  
+               </td>
+               
+            </tr>
+            
+         </table>
+         
+      </div></div>
     @endsection

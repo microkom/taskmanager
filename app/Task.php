@@ -10,8 +10,8 @@ class Task extends Model
         'name', 
     ];
     
-     public function turns()
+     public function positions()
     {
-        return $this->hasMany(Turn::class);
+        return $this->belongsToMany('App\Position', 'task_positions' );
     }
 }

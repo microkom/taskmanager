@@ -516,9 +516,8 @@ class TaskController extends Controller
             * convert received date to Carbon format
             */
             
-            $carbonDate = (Carbon::createFromFormat('Y-m-d', $date, 'Europe/Madrid'));
-           
-            $beforeDutyDate = $carbonDate->subDay();
+            $carbonDate = (Carbon::createFromFormat('Y-m-d', $date)->startOfDay());
+            
             
             //filter inactive employees
             $inact  = Employee::where('active', 0)->get();
@@ -531,8 +530,9 @@ class TaskController extends Controller
             /**
             * Filter employees who are absent
             */
-            $abss = DB::table('absences')->where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
- 
+            $startCarbon = 
+            $abss = Absence::where('start_date_time', '<=', $carbonDate)->where('end_date_time', '>=', $carbonDate)->get();
+
             //extract employee ids
             
             foreach ($abss as $itemId) {
@@ -551,7 +551,7 @@ class TaskController extends Controller
             //filter employees who have a day off after task
             
             //  $beforeDutyDate = $carbonDate->subDay();
-            
+            $beforeDutyDate = $carbonDate->subDay();
             $afterDuty = DB::table('employee_tasks')->where( 'date_time', '=', $beforeDutyDate)->where(function ($query) {
                 
                 $query->where( 'task_id', '=', 1)->orWhere( 'task_id', '=', 2);        

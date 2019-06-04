@@ -103,7 +103,7 @@
 
 <div class="container">
     
-    <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5">
+    <div class="row inner col-xl-12 col-lg-12 col-md-12  mt-5 pb-5">
         @auth
         <div class="side col-xl-3 col-lg-3 col-md-3 col-sm-12  col-xs-12">
             <aside class="col-12">
@@ -179,8 +179,19 @@
                 @yield('content')
             </div>
         </div> 
-    </div>
     
+        <br>
+    <footer>
+       
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3 ">&reg; 2019 Copyright:
+            German Navarro 
+        </div>
+        <!-- Copyright -->
+      
+    </footer></div>
+</div>
     <script type="text/javascript" src="/js/jquery_functions.js"></script>
     
 </body>

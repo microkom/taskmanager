@@ -181,7 +181,12 @@ input{
 hr{
     filter: drop-shadow(2px 2px 2px #aaa);
 }
-
+footer{
+    bottom: 0;
+     background-color: #777;
+    color: whitesmoke;
+    border-top: 1px solid black;
+    }
 /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 700px) {
     .main {   

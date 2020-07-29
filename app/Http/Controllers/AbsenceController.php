@@ -91,7 +91,6 @@ class AbsenceController extends Controller
     */
     public function store(Request $request)
     {
-        
         session()->put('absence.create.employee', $request->employee);
         session()->put('absence.create.sdate', $request->start_date);
         session()->put('absence.create.edate', $request->end_date);

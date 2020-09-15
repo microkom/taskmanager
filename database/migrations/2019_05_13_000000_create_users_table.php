@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password',128);
            /*  $table->unsignedBigInteger('role_id')->default('5')->index(); */
+            $table->string('carnet');
             $table->unsignedBigInteger('employee_id')->index();
             $table->rememberToken();
             $table->timestamps();

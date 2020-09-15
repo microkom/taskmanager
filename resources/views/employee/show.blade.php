@@ -1,5 +1,3 @@
-
-
 {{-------------------------------------------------------------------
     Section:      Shows one specific user information
     Author:       German Navarro
@@ -27,238 +25,242 @@
 
     -------------------------------------------------------------------}}
 
-    @extends('main')
+@extends('main')
 
-    @section('title', 'Expediente personal')
+@section('title', 'Expediente personal')
 
-    @show
-    @section('content')
+@show
+@section('content')
 
-    <div class="title py-3">
-        <h4 class="text-black">{{ $employee->name}} {{ $employee->surname}}</h4>
-        <h5>Información personal</h5>
-    </div>
-    <br><br>
+<div class="title py-3">
+  <h4 class="text-black">{{ $employee->name}} {{ $employee->surname}}</h4>
+  <h5>Información personal</h5>
+</div>
+<br><br>
 
-    {{-- Result Message  --}}
-    @include('result_message')
+{{-- Result Message  --}}
+@include('result_message')
 
-    <div class="form-group">
-        <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="form-group">
+  <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-
-            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">
-
-                <a href="/employee/create"  class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">Nuevo</a>
-
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">
-
-                {{-- This button is linked to a jquery function by its id 'edit' --}}
-                <input  type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-            </div>
-            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12  "  >
-
-                {{-- Promotion form --}}
-                <form action="/employee/promote/{{ $employee->id }}" method="POST">
-
-                    <input type="hidden" name="id" value="{{ $employee->id }}">
-                    <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
-
-                    {{-- laravel security measure --}}
-                    @csrf
-
-                    {{-- HTTP method --}}
-                    @method('PATCH')
-
-                    {{-- This button is linked to a jquery function by its id 'promote' --}}
-                    <button  type="submit" name="promote" id="promote"  class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" >Ascender</button>
-
-                </form>
-
-            </div>
-
-
-            <div id="div_user_active" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 btn border-info"  >
-                {{-- This button is linked to a jquery function by its id 'promote' --}}
-                <div class="form-check">
-
-                    {{-- Active user form --}}
-                    <form action="/employee/active/{{ $employee->id }}" method="POST">
-
-                        <input type="hidden" name="id" value="{{ $employee->id }}">
-                        <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
-
-                        {{-- laravel security measure --}}
-                        @csrf
-
-                        {{-- HTTP method --}}
-                        @method('PATCH')
-
-                        <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }} >
-                        <label class="form-check-label" for="exampleCheck1">Usuario activo</label>
-
-                    </form>
-                </div>
-
-            </div>
-        </div>
+    <div id="new-emp-button" class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <a href="/employee/create" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        Nuevo
+      </a>
     </div>
 
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">
 
-    {{-- Edit and Save form --}}
-    <form action="/employee/update/{{ $employee->id }}" method="POST">
+      {{-- This button is linked to a jquery function by its id 'edit' --}}
+      <input type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-        {{-- @php dd($employee)@endphp --}}
+    </div>
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12  ">
+
+      {{-- Promotion form --}}
+      <form action="/employee/promote/{{ $employee->id }}" method="POST">
+
         <input type="hidden" name="id" value="{{ $employee->id }}">
         <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
-        <input type="hidden" name="position_name" value="{{ $employee->position->name }}">
-
 
         {{-- laravel security measure --}}
         @csrf
+
+        {{-- HTTP method --}}
         @method('PATCH')
 
+        {{-- This button is linked to a jquery function by its id 'promote' --}}
+        <button type="submit" name="promote" id="promote" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">Ascender</button>
 
-        <div class="form-row">
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <label for="position">Empleo</label>
-                <select class="form-control"    disabled>
+      </form>
 
-                    {{-- [landing] User list extracted from the database --}}
+    </div>
 
-                    <option value="{{ $employee->position_id }}">{{ $employee->position->name }} </option>
 
-                </select>
-            </div>
+    <div id="div_user_active" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12 btn border-info">
+      {{-- This button is linked to a jquery function by its id 'promote' --}}
+      <div class="form-check">
 
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <label for="scale_number">Nº Escalafón</label>
-                <input class="form-control editable" type="number" name="scale_number" value="{{ $employee->scale_number }}" id="scale_number" placeholder="Nº Escalafón" required disabled>
-            </div>
-            <div class="col-md-4 col-sm-4 col-xs-12">
-                <label for="scale_number">Rol de Usuario</label>
-                <input class="form-control editable" type="text" name="role" value="{{ $employee->role->name }}" id="role" placeholder="Rol" required disabled>
-            </div>
-        </div><br>
-        <div class="form-row">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <label for="name">Nombre</label>
-                <input class="form-control editable" type="text" name="name" id="name" value="{{ $employee->name }}" placeholder="Nombre" required disabled>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <label for="surname">Apellidos</label>
-                <input class="form-control editable" type="text" name="surname" id="surname" value="{{ $employee->surname }}" placeholder="Apellidos" required disabled>
-            </div>
-        </div><br>
-        <div class="form-row">
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <label for="dni">DNI</label>
-                <input type="text" class="form-control editable" name="dni" id="dni" value="{{ $employee->dni }}" placeholder="DNI" required disabled>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <label for="cip_code">Código CIP</label>
-                <input type="text" class="form-control editable" name="cip_code" id="cip_code" value="{{ $employee->cip_code }}" placeholder="Código CIP" required disabled>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <label for="email">Email</label>
-                <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->user->email }}" placeholder="Email" required disabled>
-            </div>
+        {{-- Active user form --}}
+        <form action="/employee/active/{{ $employee->id }}" method="POST">
 
-        </div><br>
-        <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <input type="hidden" name="id" value="{{ $employee->id }}">
+          <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
 
-            {{-- Buttons linked  by their id to a jquery function --}}
-            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 store " style="display:none">
-                <button  type="submit" name="enviar" id="store" value="Guardar" class="btn btn-primary col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12" >Guardar</button>
-                <button  type="button" id="cancel" value="Guardar" class="btn btn-dark col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12" >Cancelar</button>
+          {{-- laravel security measure --}}
+          @csrf
 
-            </div>
-        </div>
+          {{-- HTTP method --}}
+          @method('PATCH')
 
-    </form>
+          <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }}>
+          <label class="form-check-label" for="exampleCheck1">Usuario activo</label>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
+        </form>
+      </div>
 
-            /* Edit button */
-            $('#edit').on('click', function(){
-                $('.editable').removeAttr('disabled')
-                $(this).fadeOut('slow');
-                $('#promote').fadeOut('slow');
-                $('#div_user_active').fadeOut('slow');
-                $('.store').fadeIn('slow');
-            });
+    </div>
+  </div>
+</div>
 
-            /* Cancel edit button */
-            $('#cancel').on('click',function(){
-                $('.editable').prop('disabled', true)
-                $('#edit').fadeIn('slow')
-                $('#promote').fadeIn('slow');
-                $('#div_user_active').fadeIn('slow');
-                $('.store').fadeOut('slow');
-            })
 
-            /* User data save */
-            $('#store').click(function(e){
-                e.preventDefault();
-                var form = $(this).parents('form');
-                swal({
-                    title: "Confirmar",
-                    text: "Se guardaran los datos de forma permanente",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willSave) => {
-                    if (willSave) {
-                        form.submit();
-                    } else {
-                        swal("Información no guardada");
-                    }
-                });
-            })
+{{-- Edit and Save form --}}
+<form action="/employee/update/{{ $employee->id }}" method="POST">
 
-            /* Promotion */
-            $('#promote').click(function(e){
-                e.preventDefault();
-                var form = $(this).parents('form');
-                swal({
-                    title: "Ascenso",
-                    text: "Confirma el ascenso de empleo del usuario?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willSave) => {
-                    if (willSave) {
-                        form.submit();
-                    }
-                });
-            })
+  {{-- @php dd($employee)@endphp --}}
+  <input type="hidden" name="id" value="{{ $employee->id }}">
+  <input type="hidden" name="position_id" value="{{ $employee->position_id }}">
+  <input type="hidden" name="position_name" value="{{ $employee->position->name }}">
 
-            /* Active/Inactive user */
-            $('#user_active').click(function(){
 
-                var form = $(this).parent('form');
+  {{-- laravel security measure --}}
+  @csrf
+  @method('PATCH')
 
-                swal({
-                    title: "Servicio Activo/Inactivo",
-                    text: "Confirmar?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willSave) => {
-                    if (willSave) {
-                        form.submit();
-                    }
-                });
-            })
+
+  <div class="form-row">
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <label for="position">Empleo</label>
+      <select class="form-control" disabled>
+
+        {{-- [landing] User list extracted from the database --}}
+
+        <option value="{{ $employee->position_id }}">{{ $employee->position->name }} </option>
+
+      </select>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <label for="scale_number">Nº Escalafón</label>
+      <input class="form-control editable" type="number" name="scale_number" value="{{ $employee->scale_number }}" id="scale_number" placeholder="Nº Escalafón" required disabled>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-12">
+      <label for="scale_number">Rol de Usuario</label>
+      <input class="form-control editable" type="text" name="role" value="{{ $employee->role->name }}" id="role" placeholder="Rol" required disabled>
+    </div>
+  </div><br>
+  <div class="form-row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <label for="name">Nombre</label>
+      <input class="form-control editable" type="text" name="name" id="name" value="{{ $employee->name }}" placeholder="Nombre" required disabled>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <label for="surname">Apellidos</label>
+      <input class="form-control editable" type="text" name="surname" id="surname" value="{{ $employee->surname }}" placeholder="Apellidos" required disabled>
+    </div>
+  </div><br>
+  <div class="form-row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <label for="dni">DNI</label>
+      <input type="text" class="form-control editable" name="dni" id="dni" value="{{ $employee->dni }}" placeholder="DNI" required disabled>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <label for="cip_code">Código CIP</label>
+      <input type="text" class="form-control editable" name="cip_code" id="cip_code" value="{{ $employee->cip_code }}" placeholder="Código CIP" required disabled>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <label for="email">Email</label>
+      <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->user->email }}" placeholder="Email" required disabled>
+    </div>
+
+  </div><br>
+  <div class="form-row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    {{-- Buttons linked  by their id to a jquery function --}}
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 store " style="display:none">
+      <button type="submit" name="enviar" id="store" value="Guardar" class="btn btn-primary col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Guardar</button>
+      <button type="button" id="cancel" value="Guardar" class="btn btn-dark col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Cancelar</button>
+
+    </div>
+  </div>
+
+</form>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    /* Edit button */
+      $('#edit').on('click', function() {
+      $('.editable').removeAttr('disabled')
+      $(this).fadeOut('slow');
+      $('#promote').fadeOut('slow');
+      $('#div_user_active').fadeOut('slow');
+      $('#new-emp-button'). fadeOut('slow');
+      $('.store').fadeIn('slow');
+    });
+
+    /* Cancel edit button */
+    $('#cancel').on('click', function() {
+      window.location.reload()
+      // $('#new-emp-button').fadeIn('slow');
+      // $('.editable').prop('disabled', true)
+      // $('#edit').fadeIn('slow')
+      // $('#promote').fadeIn('slow');
+      // $('#div_user_active').fadeIn('slow');
+      // $('.store').fadeOut('slow');
+    })
+
+    /* User data save */
+    $('#store').click(function(e) {
+      e.preventDefault();
+      var form = $(this).parents('form');
+      swal({
+          title: "Confirmar",
+          text: "Se guardaran los datos de forma permanente",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
         })
-        /* onchange="this.form.submit()" */
-    </script>
+        .then((willSave) => {
+          if (willSave) {
+            form.submit();
+          } else {
+            swal("Información no guardada");
+          }
+        });
+    })
 
-    @endsection
+    /* Promotion */
+    $('#promote').click(function(e) {
+      e.preventDefault();
+      var form = $(this).parents('form');
+      swal({
+          title: "Ascenso",
+          text: "Confirma el ascenso de empleo del usuario?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willSave) => {
+          if (willSave) {
+            form.submit();
+          }
+        });
+    })
+
+    /* Active/Inactive user */
+    $('#user_active').click(function() {
+
+      var form = $(this).parent('form');
+
+      swal({
+          title: "Servicio Activo/Inactivo",
+          text: "Confirmar?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willSave) => {
+          if (willSave) {
+            form.submit();
+          }else{
+            window.location.reload()
+          }
+        });
+    })
+  })
+  /* onchange="this.form.submit()" */
+</script>
+
+@endsection

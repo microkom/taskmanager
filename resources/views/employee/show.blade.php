@@ -23,6 +23,8 @@
 
     Bootstrap 4. used in almost all elements.
 
+    Jquery code at the bottom of this page.
+
     -------------------------------------------------------------------}}
 
 @extends('main')
@@ -53,7 +55,8 @@
     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">
 
       {{-- This button is linked to a jquery function by its id 'edit' --}}
-      <input type="button" name="enviar" id="edit" value="Editar" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <input type="button" name="enviar" id="edit" value="Editar"
+        class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
     </div>
     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12  ">
@@ -71,10 +74,11 @@
         @method('PATCH')
 
         {{-- This button is linked to a jquery function by its id 'promote' --}}
-        <button type="submit" name="promote" id="promote" class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">Ascender</button>
-
+        <button type="submit" name="promote" id="promote"
+          class="btn btn-outline-info col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          Ascender
+        </button>
       </form>
-
     </div>
 
 
@@ -94,7 +98,8 @@
           {{-- HTTP method --}}
           @method('PATCH')
 
-          <input type="checkbox" name="active" class="form-check-input" id="user_active" {{  $employee->active ? 'checked' : '' }}>
+          <input type="checkbox" name="active" class="form-check-input" id="user_active"
+            {{  $employee->active ? 'checked' : '' }}>
           <label class="form-check-label" for="exampleCheck1">Usuario activo</label>
 
         </form>
@@ -133,35 +138,42 @@
 
     <div class="col-md-4 col-sm-4 col-xs-12">
       <label for="scale_number">Nº Escalafón</label>
-      <input class="form-control editable" type="number" name="scale_number" value="{{ $employee->scale_number }}" id="scale_number" placeholder="Nº Escalafón" required disabled>
+      <input class="form-control editable" type="number" name="scale_number" value="{{ $employee->scale_number }}"
+        id="scale_number" placeholder="Nº Escalafón" required disabled>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-12">
       <label for="scale_number">Rol de Usuario</label>
-      <input class="form-control editable" type="text" name="role" value="{{ $employee->role->name }}" id="role" placeholder="Rol" required disabled>
+      <input class="form-control editable" type="text" name="role" value="{{ $employee->role->name }}" id="role"
+        placeholder="Rol" required disabled>
     </div>
   </div><br>
   <div class="form-row">
     <div class="col-md-6 col-sm-6 col-xs-12">
       <label for="name">Nombre</label>
-      <input class="form-control editable" type="text" name="name" id="name" value="{{ $employee->name }}" placeholder="Nombre" required disabled>
+      <input class="form-control editable" type="text" name="name" id="name" value="{{ $employee->name }}"
+        placeholder="Nombre" required disabled>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
       <label for="surname">Apellidos</label>
-      <input class="form-control editable" type="text" name="surname" id="surname" value="{{ $employee->surname }}" placeholder="Apellidos" required disabled>
+      <input class="form-control editable" type="text" name="surname" id="surname" value="{{ $employee->surname }}"
+        placeholder="Apellidos" required disabled>
     </div>
   </div><br>
   <div class="form-row">
     <div class="col-md-3 col-sm-6 col-xs-12">
       <label for="dni">DNI</label>
-      <input type="text" class="form-control editable" name="dni" id="dni" value="{{ $employee->dni }}" placeholder="DNI" required disabled>
+      <input type="text" class="form-control editable" name="dni" id="dni" value="{{ $employee->dni }}"
+        placeholder="DNI" required disabled>
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12">
       <label for="cip_code">Código CIP</label>
-      <input type="text" class="form-control editable" name="cip_code" id="cip_code" value="{{ $employee->cip_code }}" placeholder="Código CIP" required disabled>
+      <input type="text" class="form-control editable" name="cip_code" id="cip_code" value="{{ $employee->cip_code }}"
+        placeholder="Código CIP" required disabled>
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
       <label for="email">Email</label>
-      <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->user->email }}" placeholder="Email" required disabled>
+      <input type="text" class="form-control editable" name="email" id="email" value="{{ $employee->user->email }}"
+        placeholder="Email" required disabled>
     </div>
 
   </div><br>
@@ -169,8 +181,10 @@
 
     {{-- Buttons linked  by their id to a jquery function --}}
     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 store " style="display:none">
-      <button type="submit" name="enviar" id="store" value="Guardar" class="btn btn-primary col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Guardar</button>
-      <button type="button" id="cancel" value="Guardar" class="btn btn-dark col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Cancelar</button>
+      <button type="submit" name="enviar" id="store" value="Guardar"
+        class="btn btn-primary col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Guardar</button>
+      <button type="button" id="cancel" value="Guardar"
+        class="btn btn-dark col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">Cancelar</button>
 
     </div>
   </div>
@@ -178,20 +192,20 @@
 </form>
 
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
 
     /* Edit button */
-      $('#edit').on('click', function() {
+    $('#edit').on('click', function () {
       $('.editable').removeAttr('disabled')
       $(this).fadeOut('slow');
       $('#promote').fadeOut('slow');
       $('#div_user_active').fadeOut('slow');
-      $('#new-emp-button'). fadeOut('slow');
+      $('#new-emp-button').fadeOut('slow');
       $('.store').fadeIn('slow');
     });
 
     /* Cancel edit button */
-    $('#cancel').on('click', function() {
+    $('#cancel').on('click', function () {
       window.location.reload()
       // $('#new-emp-button').fadeIn('slow');
       // $('.editable').prop('disabled', true)
@@ -202,7 +216,7 @@
     })
 
     /* User data save */
-    $('#store').click(function(e) {
+    $('#store').click(function (e) {
       e.preventDefault();
       var form = $(this).parents('form');
       swal({
@@ -222,7 +236,7 @@
     })
 
     /* Promotion */
-    $('#promote').click(function(e) {
+    $('#promote').click(function (e) {
       e.preventDefault();
       var form = $(this).parents('form');
       swal({
@@ -240,7 +254,7 @@
     })
 
     /* Active/Inactive user */
-    $('#user_active').click(function() {
+    $('#user_active').click(function () {
 
       var form = $(this).parent('form');
 
@@ -254,13 +268,13 @@
         .then((willSave) => {
           if (willSave) {
             form.submit();
-          }else{
+          } else {
             window.location.reload()
           }
         });
     })
   })
-  /* onchange="this.form.submit()" */
+
 </script>
 
 @endsection

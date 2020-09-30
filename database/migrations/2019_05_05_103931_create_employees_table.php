@@ -22,6 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('cip_code')->nullable();
+            $table->string('driver_license')->nullable();
              $table->unsignedBigInteger('role_id')->default('2')->index();
             $table->timestamps();
             $table->boolean('active')->default(true);
